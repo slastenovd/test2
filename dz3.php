@@ -51,6 +51,7 @@ echo '<br>';
 $date_days = array();
 while(count($date1)) $date_days[] = date('D, d M Y H:i:s',  array_shift($date1));
 print_r($date_days);
+
 ?>
 
 <?php
