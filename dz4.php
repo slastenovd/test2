@@ -35,11 +35,11 @@ function count_finish_price($prod, $prod_name = '') { // $prod - массив с
     global $bycicle_extra_discount;
     global $diskont;
     $diskont = 10*substr($prod['diskont'], -1);
-    if ($prod_name == 'игрушка детская велосипед' and $prod['количество заказано'] >= 3) {
+    if ($prod_name == 'игрушка детская велосипед' and $prod['Количество с учетом остатков'] >= 3) {
         $diskont = 30;
         $bycicle_extra_discount = true;
     }
-    return $prod['количество заказано']*$prod['цена']/100*(100-$diskont);
+    return $prod['Количество с учетом остатков']*$prod['цена']/100*(100-$diskont);
 }
 
 // Расчет  суммы всего заказа
@@ -51,7 +51,8 @@ function count_total_sum($sum = 0) {
 
 //print_r($ini_string);
 //print_r($bd);
-echo '<table><tr><td>Наименование</td><td>Цена</td><td>Кол-во</td><td>Осталось на складе</td><td>Cкидка %</td><td>Cумма</td></tr>';
+echo '<h1>Корзина товаров:</h1>';
+echo '<table border = 2><tr><td>Наименование</td><td>Цена</td><td>Кол-во заказано</td><td>Осталось на складе</td><td>Количество с учетом остатков</td><td>Cкидка %</td><td>Cумма</td></tr>';
 
 reset($bd); // Устанавливает внутренний указатель массива на его первый элемент
 $total_names = 0;
@@ -65,15 +66,20 @@ $notice = '';
 
 for ($i = 0; $i < count($bd); $i++) {
     $product = $bd[key($bd)];
-    if ($product['количество заказано'] > 0) {
+
+    if ($product['количество заказано'] > $product['осталось на складе']) {
+        $product['Количество с учетом остатков'] = $product['осталось на складе'];
+        $notice = $notice.'Из требуемых '.$product['количество заказано'].' '.key($bd).' на складе только '.$product['осталось на складе']. '<br>';
+    } else {
+        $product['Количество с учетом остатков'] = $product['количество заказано'];
+    }
+
+    if ($product['Количество с учетом остатков'] > 0) {
         $total_names++;
     }
-    $total_count += $product['количество заказано'];
+    $total_count += $product['Количество с учетом остатков'];
     $sum = count_finish_price($product, key($bd));
     count_total_sum($sum);
-    if ($product['количество заказано'] > $product['осталось на складе']) {
-        $notice = $notice.'Из требуемых '.$product['количество заказано'].' '.key($bd).' на складе только '.$product['осталось на складе']. '<br>';
-    }
 
     echo '<tr><td>';
     echo key($bd) . ' ';
@@ -84,27 +90,32 @@ for ($i = 0; $i < count($bd); $i++) {
     echo '</td><td>';
     echo $product['осталось на складе'] . ' ';
     echo '</td><td>';
+    echo $product['Количество с учетом остатков'] . ' ';
+    echo '</td><td>';
     echo $diskont . ' ';
     echo '</td><td>';
     echo $sum . ' ';
     echo '</td></tr>';
     next($bd); // Передвигает внутренний указатель массива на одну позицию вперёд
 }
+
+echo '<tr><td colspan="6">Итого</td>';
+echo '<td>'.count_total_sum().'</td>';
 echo '</table>';
 
 
-echo '<br>ИТОГО<br>';
-echo 'Всего наименований ' . $total_names . '  ';
-echo 'Общее количество товара ' . $total_count . '  ';
-echo 'Общая сумма заказа ' . count_total_sum() . '  ';
+echo '<br><h2>ИТОГО:</h2>';
+echo 'Всего наименований ' . $total_names . '<br>';
+echo 'Общее количество товара ' . $total_count . '<br>';
+echo 'Общая сумма заказа ' . count_total_sum() . '<br>';
 
 if (strlen($notice)) {
-    echo '<br><br>УВЕДОМЛЕНИЯ:<br>';
+    echo '<br><h2>УВЕДОМЛЕНИЯ:</h2>';
     echo $notice;
 }
 
 if($bycicle_extra_discount){
-    echo '<br>СКИДКИ:<br>';
+    echo '<br><h2>СКИДКИ:</h2>';
     echo 'Поздравляем! Вы заказали >= 3 штук игрушка детская велосипед и на эту позицию Вам автоматически дается скидка 30%';
     
 }
