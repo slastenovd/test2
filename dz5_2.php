@@ -31,8 +31,7 @@ function show_news($id=1){
 // Точка входа.
 // Если новость присутствует - вывести ее на сайте, иначе мы выводим весь список
 
-
-if (isset($_POST['id'])) {
+if (isset($_POST['id']) and strlen($_POST['id']) ) {
     $get_id = $_POST['id'];
     if ($get_id >= 0 and $get_id <= count($news) - 1) {
         show_news($get_id);
