@@ -46,7 +46,6 @@ else{
         header('HTTP/1.0 404 NOT FOUND');	
         echo '<h1>404</h1>';
         echo '<h2>Страница не найдена</h2>';
-
 }
     
 // Был ли передан id новости в качестве параметра?
@@ -54,3 +53,23 @@ else{
 // http://php.net/manual/ru/function.header.php
 
 //show_all_news();
+?>
+
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Тег FORM</title>
+ </head>
+ <body>
+
+ <form method="GET">
+  <p><b>Введите номер статьи</b></p>
+  <p>
+      <input type="text" name = "id" value="">
+</p>
+  <p><input type="submit"></p>
+ </form>
+
+ </body>
+</html>

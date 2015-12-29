@@ -43,6 +43,7 @@ else{
 //        header('HTTP/1.0 404 NOT FOUND');	
 //        echo '<h1>404</h1>';
 //        echo '<h2>Страница не найдена</h2>';
+//        exit;
 }
     
 
