@@ -1,6 +1,7 @@
 <?php
 
 //POST
+header('Content-type: text/html; charset=utf-8');
 
 $news='Четыре новосибирские компании вошли в сотню лучших работодателей
 Выставка университетов США: открой новые горизонты
@@ -18,7 +19,8 @@ function show_all_news() {
     global $news;
     echo '<h1>Список новостей:</h1>';
     foreach ($news as $value) {
-        echo '<a href="http://xaver.loc/dz5_1.php?id='.(key($news)-1).'">'.$value.'</a><br>';
+        echo $value.'<br>';
+//        echo '<a href="dz5_2.php?id='.(key($news)-1).'">'.$value.'</a><br>';
     }
 }
 
@@ -43,7 +45,6 @@ else{
 //        header('HTTP/1.0 404 NOT FOUND');	
 //        echo '<h1>404</h1>';
 //        echo '<h2>Страница не найдена</h2>';
-//        exit;
 }
     
 
