@@ -169,13 +169,15 @@ if (isset($_GET['del_id'])) { // Удалить объявление
     if (isset($_SESSION['AD'][$_GET['del_id']])) {
         unset($_SESSION['AD'][$_GET['del_id']]);
         echo '<h1>Удалено '.$_GET['del_id'].'</h1>';
+        echo '<h1><a href="dz6.php">Вернуться к списку объявлений<a></h1>';
+        
+        exit;
     }
     else{
         echo '<h1>Не удалось удалить. Объявление '.$_GET['del_id'].' не найдено.</h1>';
     }
         
 }
-
 ?>
 
 
@@ -291,7 +293,10 @@ if (isset($_GET['del_id'])) { // Удалить объявление
 
         <label class="myclass">Перечень поданных объявлений</label><br>
 
-<?php  AD_show();?>
+<?php  
+        AD_show();
+        echo '<br><h1><a href="dz6.php">Создать новое объявление<a></h1>';
+?>
 
 
 </body>
