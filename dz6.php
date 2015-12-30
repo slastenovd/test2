@@ -105,7 +105,7 @@ function AD_show() { // Выводит перечень всех объявле�
     if (isset( $_SESSION['AD'] )) {
         echo '<table border = 2><tr><td>Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Действие</td></tr>';
         foreach ($_SESSION['AD'] as $key => $value) {
-            echo '<tr><td>'.date('D, d M Y H:i:s',  $key). '</td><td><a href="dz6.php?id='.$key.'">' . $value['title'] . '</a></td><td>' . $value['price'] . '</td><td>' . $value['seller_name'] . '</td><td><a href="dz6.php?del_id='.$key.'">удалить</a></td></tr>';
+            echo '<tr><td>'.date('D, d M Y H:i:s',  (int)$key). '</td><td><a href="dz6.php?id='.(int)$key.'">' . $value['title'] . '</a></td><td>' . $value['price'] . '</td><td>' . $value['seller_name'] . '</td><td><a href="dz6.php?del_id='.$key.'">удалить</a></td></tr>';
         }
         echo '</table>';
     }
@@ -138,11 +138,10 @@ function AD_check_n_view_errors() { // Проверяем заполнены л�
 function get_value($value) { // Получаем значение поля (в зависимости от режима из POST или SESSION
     global $AD_flag;
     if ($AD_flag == 1 and isset($_POST[$value])) {
-        return $_POST[$value]; // Режим дозаполнения полей
+        return htmlspecialchars($_POST[$value]); // Режим дозаполнения полей
     }
-//    if ($AD_flag == 2 and isset($_SESSION['AD'][$value])) {
     if ($AD_flag == 2 and isset($_GET['id']) and isset($_SESSION['AD'][$_GET['id']][$value])) {
-        return $_SESSION['AD'][$_GET['id']][$value]; // Режим просмотра
+        return htmlspecialchars($_SESSION['AD'][(int)$_GET['id']][(string)$value]); // Режим просмотра
     }
     return ''; // Режим ввода нового
 }
@@ -157,24 +156,26 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
 }
 
 if (isset($_GET['id'])) { // Показать объявление
-    if (isset($_SESSION['AD'][$_GET['id']])) {
-        echo '<h1>Просмотр объявления ' . date('D, d M Y H:i:s',  $_GET['id']) . '</h1>';
+    $get_id = (int)$_GET['id'];
+    if (isset($_SESSION['AD'][$get_id])) {
+        echo '<h1>Просмотр объявления ' . date('D, d M Y H:i:s',  $get_id) . '</h1>';
         $AD_flag = 2;
     } else {
-        echo '<h1>Не удалось отобразить бъявление ' . $_GET['id'] . '.</h1>';
+        echo '<h1>Не удалось отобразить бъявление ' . $get_id . '.</h1>';
     }
 }
 
 if (isset($_GET['del_id'])) { // Удалить объявление
-    if (isset($_SESSION['AD'][$_GET['del_id']])) {
-        unset($_SESSION['AD'][$_GET['del_id']]);
-        echo '<h1>Удалено '.$_GET['del_id'].'</h1>';
+    $del_id = (int)$_GET['del_id'];
+    if (isset($_SESSION['AD'][$del_id])) {
+        unset($_SESSION['AD'][$del_id]);
+        echo '<h1>Удалено '.$del_id.'</h1>';
         echo '<h1><a href="dz6.php">Вернуться к списку объявлений<a></h1>';
         
         exit;
     }
     else{
-        echo '<h1>Не удалось удалить. Объявление '.$_GET['del_id'].' не найдено.</h1>';
+        echo '<h1>Не удалось удалить. Объявление '.$del_id.' не найдено.</h1>';
     }
         
 }
