@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$AD_flag = 0; // 0-новое, 1-исправление, 2-вывод
+$AD_flag = 0; // 0-новое, 1-исправление, 2-просмотр
 // ----
 $citys = array(
     '641780'=>'Новосибирск',
@@ -105,13 +105,11 @@ function AD_show() { // Выводит перечень всех объявле�
     if (isset( $_SESSION['AD'] )) {
         echo '<table border = 2><tr><td>Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Действие</td></tr>';
         foreach ($_SESSION['AD'] as $key => $value) {
-            echo '<tr><td>'.date('D, d M Y H:i:s',  (int)$key). '</td><td><a href="dz6.php?id='.(int)$key.'">' . $value['title'] . '</a></td><td>' . $value['price'] . '</td><td>' . $value['seller_name'] . '</td><td><a href="dz6.php?del_id='.$key.'">удалить</a></td></tr>';
+            echo '<tr><td>'.date('D, d M Y H:i:s',  (int)$key). '</td><td><a href="dz6.php?id='.(int)$key.'">' . $value['title'] . '</a></td><td>' . $value['price'] . '</td><td>' . $value['seller_name'] . '</td><td><a href="dz6.php?del_id='.(int)$key.'">удалить</a></td></tr>';
         }
         echo '</table>';
     }
 }
-
-
 
 function AD_check_n_view_errors() { // Проверяем заполнены ли все необходимые поля
     $error_flag = false;
@@ -141,8 +139,8 @@ function get_value($value) { // Получаем значение поля (в �
         return htmlspecialchars($_POST[$value]); // Режим дозаполнения полей
     }
     if ($AD_flag == 2 and isset($_GET['id']) and isset($_SESSION['AD'][$_GET['id']][$value])) {
-        return htmlspecialchars($_SESSION['AD'][(int)$_GET['id']][(string)$value]); // Режим просмотра
-    }
+            return htmlspecialchars($_SESSION['AD'][(int)$_GET['id']][(string)$value]); // Режим просмотра
+    } 
     return ''; // Режим ввода нового
 }
 
@@ -151,17 +149,25 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
     if (AD_check_n_view_errors()) { // Проверяем заполнены ли все необходимые поля
         $AD_flag = 1;
     } else {
-        $_SESSION['AD'][time()] = $_POST; // Добавляем новое объявление в сессию
+        if(isset($_POST['AD_ID']) and $_POST['AD_ID'] > 0){
+            
+            $_SESSION['AD'][$_POST['AD_ID']] = $_POST;
+            echo '<h2>Объявление сохранено</h2>';
+            //print_r($_SESSION);
+        }else{
+            $_SESSION['AD'][time()] = $_POST; // Добавляем новое объявление в сессию
+            echo '<h2>Объявление добавлено</h2>';
+        }
     }
 }
 
 if (isset($_GET['id'])) { // Показать объявление
-    $get_id = (int)$_GET['id'];
+    $get_id = (int) $_GET['id'];
     if (isset($_SESSION['AD'][$get_id])) {
-        echo '<h1>Просмотр объявления ' . date('D, d M Y H:i:s',  $get_id) . '</h1>';
+        echo '<h2>Просмотр объявления ' . date('D, d M Y H:i:s', $get_id) . '</h2>';
         $AD_flag = 2;
     } else {
-        echo '<h1>Не удалось отобразить бъявление ' . $get_id . '.</h1>';
+        echo '<h2>Не удалось отобразить объявление ' . $get_id . '.</h2>';
     }
 }
 
@@ -169,16 +175,15 @@ if (isset($_GET['del_id'])) { // Удалить объявление
     $del_id = (int)$_GET['del_id'];
     if (isset($_SESSION['AD'][$del_id])) {
         unset($_SESSION['AD'][$del_id]);
-        echo '<h1>Удалено '.$del_id.'</h1>';
-        echo '<h1><a href="dz6.php">Вернуться к списку объявлений<a></h1>';
-        
-        exit;
+        header ('Location: dz6.php');
+        exit();
+
     }
     else{
-        echo '<h1>Не удалось удалить. Объявление '.$del_id.' не найдено.</h1>';
+        echo '<h2>Не удалось удалить. Объявление '.$del_id.' не найдено.</h2>';
     }
-        
 }
+//    print_r($_SESSION)     ;
 ?>
 
 
@@ -188,40 +193,52 @@ if (isset($_GET['del_id'])) { // Удалить объявление
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Лаба 6 на уроке XAVER vk.com/xaverru</title>
         <link rel="stylesheet" type="text/css" href="dz6.css">        
-
     </head>
     <body>
 
 
         <form  method="post">
 
+        <table><tr><td  colspan="2">
 
-            <div class="form-row-indented"> <label class="form-label-radio">
-                    <input type="radio" checked="" value="1" name="private">
-                    Частное лицо</label> <label class="form-label-radio"><input type="radio" value="0" name="private">Компания</label> </div>
-            <div class="form-row"> 
-                <label for="fld_seller_name" class="form-label"><b id="your-name">Ваше имя</b></label>
+             <label class="form-label-radio"><input type="radio" <?=(get_value('private')==0) ? 'checked="" ' : ''?> value="0" name="private">Частное лицо</label> 
+             <label class="form-label-radio"><input type="radio" <?=(get_value('private')==1) ? 'checked="" ' : ''?> value="1" name="private">Компания</label> 
+                    
+            </td></tr>
+            <tr><td>
+                <label for="fld_seller_name" class="form-label"><b id="your-name">Ваше имя</b></label></td>
                 
-                <input type="text" maxlength="40" class="form-input-text" value="<?php echo get_value('seller_name')?>" name="seller_name" id="fld_seller_name">
+            <td><input type="text" maxlength="40" class="form-input-text" value="<?php echo get_value('seller_name')?>" name="seller_name" id="fld_seller_name"></td></tr>
+        
+            <tr><td>
+                    <label for="fld_manager" class="form-label"><b>Контактное лицо</b></label></td> 
+                <td><input type="text" class="form-input-text" maxlength="40" value="<?php echo get_value('manager')?>" name="manager" id="fld_manager">
+                    <em class="f_r_g">&nbsp;&nbsp;необязательно</em></td></tr>
+
+            <tr><td><div class="form-row"> <label for="fld_email" class="form-label">Электронная почта</label></td>
+                
+                <td><input type="text" class="form-input-text" value="<?php echo get_value('email') ?>" name="email" id="fld_email"></td></tr>
+                
             </div>
+            <tr><td colspan="2"><div class="form-row-indented"> <label class="form-label-checkbox" for="allow_mails">
             
-                <label for="fld_manager" class="form-label"><b>Контактное лицо</b></label> 
-                <input type="text" class="form-input-text" maxlength="40" value="<?php echo get_value('manager')?>" name="manager" id="fld_manager">
-                <em class="f_r_g">&nbsp;&nbsp;необязательно</em>
-
-            <div class="form-row"> <label for="fld_email" class="form-label">Электронная почта</label>
+                            
+                            
+                            <input type="checkbox" value="1" <?=(get_value('allow_mails')) ? 'checked="" ' : ''?> name="allow_mails" id="allow_mails" class="form-input-checkbox">
+                            
+                            
+                            
+                            
+                            
+            <span class="form-text-checkbox">Я не хочу получать вопросы по объявлению по e-mail</span> </label> </div></td></tr>
+            
+                        <tr><td><div class="form-row"> <label id="fld_phone_label" for="fld_phone" class="form-label">Номер телефона</label> </td>
                 
-                <input type="text" class="form-input-text" value="<?php echo get_value('email') ?>" name="email" id="fld_email">
-                
+                <td><input type="text" class="form-input-text" value="<?php echo get_value('phone') ?>" name="phone" id="fld_phone" size="30"></td></tr>
             </div>
-            <div class="form-row-indented"> <label class="form-label-checkbox" for="allow_mails"> <input type="checkbox" value="1" name="allow_mails" id="allow_mails" class="form-input-checkbox"><span class="form-text-checkbox">Я не хочу получать вопросы по объявлению по e-mail</span> </label> </div>
-            <div class="form-row"> <label id="fld_phone_label" for="fld_phone" class="form-label">Номер телефона</label> 
+            <tr><td><div id="f_location_id" class="form-row form-row-required"> <label for="region" class="form-label">Город</label> </td>
                 
-                <input type="text" class="form-input-text" value="<?php echo get_value('phone') ?>" name="phone" id="fld_phone">
-            </div>
-            <div id="f_location_id" class="form-row form-row-required"> <label for="region" class="form-label">Город</label> 
-                
-                <select title="Выберите Ваш город" name="location_id" id="region" class="form-input-select"> 
+                <td><select title="Выберите Ваш город" name="location_id" id="region" class="form-input-select"> 
                     <option value="">-- Выберите город --</option>
                     <option class="opt-group" disabled="disabled">-- Города --</option>
                     
@@ -232,8 +249,10 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                     }
                     ?>                    
                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
-                    
-                    <div id="f_metro_id"> <select title="Выберите станцию метро" name="metro_id" id="fld_metro_id" class="form-input-select"> <option value="">-- Выберите станцию метро --</option>
+                </td></tr>
+            <tr><td>
+                    <label>Метро</label></td>
+                <td><div id="f_metro_id"> <select title="Выберите станцию метро" name="metro_id" id="fld_metro_id" class="form-input-select"> <option value="">-- Выберите станцию метро --</option>
                     
                     <?php // Выводим станции метро в селектор
                     foreach ($subway_stations as $number => $subway_station) {
@@ -241,12 +260,18 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                        echo '<option '.$selected.'data-coords=",," value="'.$number.'">'.$subway_station.'</option>';  //но теперь как то сюда нужно подставить что город нужный выбран -> selected=""
                     }
                     ?>                    
-
-                        
-                        </select> </div> <div id="f_district_id"> <select title="Выберите район города" name="district_id" id="fld_district_id" class="form-input-select" style="display: none;"> <option value="">-- Выберите район города --</option></select> </div> <div id="f_road_id"> <select title="Выберите направление" name="road_id" id="fld_road_id" class="form-input-select" style="display: none;"> <option value="">-- Выберите направление --</option><option value="56">Бердское шоссе</option><option value="57">Гусинобродское шоссе</option><option value="53">Дачное шоссе</option><option value="55">Краснояровское шоссе</option><option value="54">Мочищенское шоссе</option><option value="52">Ордынское  шоссе</option><option value="58">Советское шоссе</option></select> </div> </div>
-            <div class="form-row"> <label for="fld_category_id" class="form-label">Категория</label> <select title="Выберите категорию объявления" name="category_id" id="fld_category_id" class="form-input-select"> <option value="">-- Выберите категорию --</option>
+                        </select> </div> 
+                    
+                </td></tr>
+                <tr><td>
                     
                     
+                    <div id="f_district_id"> <select title="Выберите район города" name="district_id" id="fld_district_id" class="form-input-select" style="display: none;"> <option value="">-- Выберите район города --</option></select> </div> <div id="f_road_id"> <select title="Выберите направление" name="road_id" id="fld_road_id" class="form-input-select" style="display: none;"> <option value="">-- Выберите направление --</option><option value="56">Бердское шоссе</option><option value="57">Гусинобродское шоссе</option><option value="53">Дачное шоссе</option><option value="55">Краснояровское шоссе</option><option value="54">Мочищенское шоссе</option><option value="52">Ордынское  шоссе</option><option value="58">Советское шоссе</option></select> </div> </div>
+                </td></tr>
+            <div class="form-row"> 
+                <tr><td>
+                
+                        <label for="fld_category_id" class="form-label">Категория</label></td><td> <select title="Выберите категорию объявления" name="category_id" id="fld_category_id" class="form-input-select"> <option value="">-- Выберите категорию --</option>
 
                     <?php // Выводим категории в селектор
                     foreach ($category as $cat=>$subcats) {
@@ -259,46 +284,46 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                     ?>                    
                
                 </select> </div>
+                </td></tr>
 
-            <div style="display: none;" id="params" class="form-row form-row-required"> <label class="form-label ">
-                    Выберите параметры
-                </label> <div class="form-params params" id="filters">
-                </div> </div>
-            <div id="f_map" class="form-row form-row-required hidden"> <label class="form-label c-2">Укажите местоположение объекта на&nbsp;карте</label> <div class="b-address-map j-address-map disabled"> <div class="wrapper"> <div class="map" id="address-map"></div> <div class="overlay"> <div class="modal">Сначала <span class="fill-in pseudo-link">укажите адрес</span></div> </div> </div> <div class="result c-2 hidden"> <div class="map-success">
-                            Маркер указывает на: <span class="address-line"></span>.
-                            <span class="confirm pseudo-link hidden">Это верный адрес</span> </div> <div class="map-error">Мы не смогли автоматически определить адрес.</div> </div> 
-                            <input type="hidden" disabled="disabled" value="" class="j-address-latitude" name="coords[lat]"> <input type="hidden" disabled="disabled" value="" class="j-address-longitude" name="coords[lng]"> <input type="hidden" disabled="disabled" value="" class="j-address-zoom" name="coords[zoom]"> </div> </div>
-            <div id="f_title" class="form-row f_title"> <label for="fld_title" class="form-label">Название объявления</label> 
-                
-                <input type="text" maxlength="50" class="form-input-text-long" value="<?=get_value('title'); ?>" name="title" id="fld_title">
-            </div>
-            <div class="form-row"> <label for="fld_description" class="form-label" id="js-description-label">Описание объявления</label> 
-                
-                <textarea maxlength="3000" name="description" id="fld_description" class="form-input-textarea"><?php echo get_value('description'); ?></textarea> 
+                <div id="f_title" class="form-row f_title"><tr><td> <label for="fld_title" class="form-label">Название объявления</label> </td>
+
+                        <td><input type="text" maxlength="50" class="form-input-text" value="<?= get_value('title'); ?>" name="title" id="fld_title"></td></tr>
+                </div>
+                <tr><td><div class="form-row"> <label for="fld_description" class="form-label" id="js-description-label">Описание объявления</label> </td>
+
+                    <td><textarea maxle rows="5" ngth="3000" name="description" id="fld_description" class="form-input-text"><?php echo get_value('description'); ?></textarea> </td></tr>
+
+                </div>
+                <tr><td><div id="price_rw" class="form-row rl"> <label id="price_lbl" for="fld_price" class="form-label">Цена</label> </td>
+
+                    <td><input type="text" maxlength="9" class="form-input-text" value="<?php echo get_value('price') ?>" name="price" id="fld_price"></td></tr>
+
+        <div style="display: none;" id="progress">  </div> 
+
+        <div class="form-row-indented form-row-submit b-vas-submit" id="js_additem_form_submit">
+            <div class="vas-submit-button pull-left"> <span class="vas-submit-border"></span> <span class="vas-submit-triangle"></span> 
+                <tr><td>
+                <?php 
+                    if(isset($_GET['id'])){ // Если режим исправления то внедряем в форму hidden по которому сможем распознать 
+                        echo '<input type="hidden" value="'.(int)$_GET['id'].'" name="AD_ID">';
+                    }
+                    else{
+                        echo '<input type="hidden" value="'.get_value('AD_ID').'" name="AD_ID">';
+                    }
+                ?>
+                </td><td><input type="submit" value="<?=($AD_flag==2) ? 'Сохранить' : 'Отправить'?>" id="form_submit" name="main_form_submit" class="vas-submit-input">
+            </table>
             
             </div>
-            <div id="price_rw" class="form-row rl"> <label id="price_lbl" for="fld_price" class="form-label">Цена</label> 
-                
-                <input type="text" maxlength="9" class="form-input-text-short" value="<?php echo get_value('price')?>" name="price" id="fld_price">
-
-                &nbsp;<span id="fld_price_title">руб.</span> <a class="link_plain grey right_price c-2 icon-link" id="js-price-link" href="/info/pravilnye_ceny?plain"><span>Правильно указывайте цену</span></a> </div>
-
-
-
-            <div style="display: none;" id="progress"> <table><tbody><tr><td> <div><div></div></div> </td></tr></tbody></table> </div> 
-        <div class="form-row-indented form-row-submit b-vas-submit" id="js_additem_form_submit">
-            <div class="vas-submit-button pull-left"> <span class="vas-submit-border"></span> <span class="vas-submit-triangle"></span> <input type="submit" value="Отправить" id="form_submit" name="main_form_submit" class="vas-submit-input"> </div>
         </div>
     </form>
 
-
         <label class="myclass">Перечень поданных объявлений</label><br>
 
-<?php  
+            <?php  
         AD_show();
-        echo '<br><h1><a href="dz6.php">Создать новое объявление<a></h1>';
+        echo '<br><h2><a href="dz6.php">Создать новое объявление<a></h2>';
 ?>
-
-
 </body>
 </html>

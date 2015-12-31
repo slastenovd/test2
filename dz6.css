@@ -17,6 +17,20 @@ body{
 .myclass{
 	color:red;
 	width: 600px;
-        
+}
+
+.form-input-text{
+        font-family: Verdana;
+        width: 243px; 
+}
+
+.form-label{
+        font-family: Verdana;
+        font-size: 16;
+}
+
+select { 
+    font-family: Verdana;
+    width: 243px; 
 }
 
