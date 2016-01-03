@@ -34,7 +34,7 @@
 //  Устанавливаем кодировку
     header('Content-type: text/html; charset=utf-8');
 
-//  Задание 1
+// 1 Задание 1
     $name = 'Дмитрий';
     $age  = 38;
     echo 'Меня зовут '.$name.'. ';
