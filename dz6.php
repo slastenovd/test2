@@ -106,7 +106,7 @@ function AD_show() { // Выводит перечень всех объявле�
         $row_counter=1;
         echo '<table class="table table-condensed"><tr><td>#</td><td>Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>';
         foreach ($_SESSION['AD'] as $key => $value) {
-            echo '<tr><td>'.$row_counter.'</td><td>'.trim(date('D, d M Y H:i:s',  (int)$key)). '</td><td><a href="dz6_2.php?id='.(int)$key.'">' . $value['title'] . '</a></td><td>' . (int)$value['price'] . ' руб.</td><td>' . $value['seller_name'] . '</td><td>' .$value['phone'] . '</td><td><a href="dz6_2.php?del_id='.(int)$key.'">удалить</a></td></tr>';
+            echo '<tr><td>'.$row_counter.'</td><td>'.trim(date('D, d M Y H:i:s',  (int)$key)). '</td><td><a href="dz6.php?id='.(int)$key.'">' . $value['title'] . '</a></td><td>' . (int)$value['price'] . ' руб.</td><td>' . $value['seller_name'] . '</td><td>' .$value['phone'] . '</td><td><a href="dz6.php?del_id='.(int)$key.'">удалить</a></td></tr>';
             $row_counter++;
         }
         echo '</table>';
@@ -152,7 +152,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
     $del_id = (int)$_GET['del_id'];
     if (isset($_SESSION['AD'][$del_id])) {
         unset($_SESSION['AD'][$del_id]);
-        header ('Location: dz6_2.php');
+        header ('Location: dz6.php');
         exit();
 
     }
@@ -209,7 +209,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="dz6_2.php">Новое объявление <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="dz6.php">Новое объявление <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
