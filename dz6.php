@@ -268,7 +268,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
         if (isset($_GET['id'])) { // Показать объявление
             $get_id = (int) $_GET['id'];
             if (isset($_SESSION['AD'][$get_id])) {
-                echo '<h2>Просмотр объявления ' . date('D, d M Y H:i:s', $get_id) . '</h2>';
+                //echo '<h2>Просмотр объявления ' . date('D, d M Y H:i:s', $get_id) . '</h2>';
                 $AD_flag = 2;
             } else {
                 echo '<h2>Не удалось отобразить объявление ' . $get_id . '.</h2>';
@@ -323,7 +323,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                                             echo 'Откорректируйте объявление';
                                             break;
                                         case 2:
-                                            echo 'Просмотр объявления';
+                                            echo 'Просмотр объявления '.date('D, d M Y H:i:s', (int)$_GET['id']);
                                             break;
                                         default:
                                             break;
