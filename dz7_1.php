@@ -2,39 +2,39 @@
 session_start();
 
 $AD_flag = 0; // 0-новое, 1-исправление, 2-просмотр
-// ----
+
 $citys = array(
-    '641780'=>'Новосибирск',
-    '641490'=>'Барабинск',
-    '641510'=>'Бердск',
-    '641600'=>'Искитим',
-    '641630'=>'Колывань',
-    '641680'=>'Краснообск',
-    '641710'=>'Куйбышев',
-    '641760'=>'Мошково',
-    '641790'=>'Обь',
-    '641800'=>'Ордынское',
-    '641970'=>'Бердск',
-    '641510'=>'Черепаново'
-    );
+    '641780' => 'Новосибирск',
+    '641490' => 'Барабинск',
+    '641510' => 'Бердск',
+    '641600' => 'Искитим',
+    '641630' => 'Колывань',
+    '641680' => 'Краснообск',
+    '641710' => 'Куйбышев',
+    '641760' => 'Мошково',
+    '641790' => 'Обь',
+    '641800' => 'Ордынское',
+    '641970' => 'Бердск',
+    '641510' => 'Черепаново'
+);
 
 $subway_stations = array(
-    '2028'=>'Берёзовая роща',
-    '2018'=>'Гагаринская',
-    '2017'=>'Заельцовская',
-    '2029'=>'Золотая Нива',
-    '2019'=>'Красный проспект',
-    '2027'=>'Маршала Покрышкина',
-    '2021'=>'Октябрьская',
-    '2025'=>'Площадь Гарина-Михайловского',
-    '2020'=>'Площадь Ленина',
-    '2024'=>'Площадь Маркса',
-    '2022'=>'Речной вокзал',
-    '2026'=>'Сибирская',
-    '2023'=>'Студенческая'
-    );
+    '2028' => 'Берёзовая роща',
+    '2018' => 'Гагаринская',
+    '2017' => 'Заельцовская',
+    '2029' => 'Золотая Нива',
+    '2019' => 'Красный проспект',
+    '2027' => 'Маршала Покрышкина',
+    '2021' => 'Октябрьская',
+    '2025' => 'Площадь Гарина-Михайловского',
+    '2020' => 'Площадь Ленина',
+    '2024' => 'Площадь Маркса',
+    '2022' => 'Речной вокзал',
+    '2026' => 'Сибирская',
+    '2023' => 'Студенческая'
+);
 
-$ini_string='
+$ini_string = '
 [Транспорт]
 9 = Автомобили с пробегом;
 109 = Новые автомобили;
@@ -100,17 +100,18 @@ $ini_string='
 40 = Оборудование для бизнеса;';
 
 $category = parse_ini_string($ini_string, true);
-                                    
+
 function AD_show() { // Выводит перечень всех объявлений
-    if (isset( $_SESSION['AD'] )) {
-        $row_counter=1;
-        echo '<table class="table table-condensed"><tr><td>#</td><td>Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>';
+    $AD_show_result = '';
+    if (isset($_SESSION['AD'])) {
+        $row_counter = 1;
+        $AD_show_result .= '<table class="table table-striped"><tr><td>#</td><td>Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>';
         foreach ($_SESSION['AD'] as $key => $value) {
-            echo '<tr><td>'.$row_counter.'</td><td>'.trim(date('D, d M Y H:i:s',  (int)$key)). '</td><td><a href="dz6_2.php?id='.(int)$key.'">' . $value['title'] . '</a></td><td>' . (int)$value['price'] . ' руб.</td><td>' . $value['seller_name'] . '</td><td>' .$value['phone'] . '</td><td><a href="dz6_2.php?del_id='.(int)$key.'">удалить</a></td></tr>';
-            $row_counter++;
+            $AD_show_result .= '<tr><td>' . $row_counter++ . '</td><td>' . trim(date('D, d M Y H:i:s', (int) $value['date_change'])) . '</td><td><a href="' . $_SERVER[PHP_SELF] . '?id=' . (int) $key . '">' . $value['title'] . '</a></td><td>' . (int) $value['price'] . ' руб.</td><td>' . $value['seller_name'] . '</td><td>' . $value['phone'] . '</td><td><a href="' . $_SERVER[PHP_SELF] . '?del_id=' . (int) $key . '">удалить</a></td></tr>';
         }
-        echo '</table>';
+        $AD_show_result .= '</table>';
     }
+    return $AD_show_result;
 }
 
 function AD_check_n_view_errors() { // Проверяем заполнены ли все необходимые поля
@@ -141,28 +142,58 @@ function get_value($value) { // Получаем значение поля (в �
         return htmlspecialchars($_POST[$value]); // Режим дозаполнения полей
     }
     if ($AD_flag == 2 and isset($_GET['id']) and isset($_SESSION['AD'][$_GET['id']][$value])) {
-            return htmlspecialchars($_SESSION['AD'][(int)$_GET['id']][(string)$value]); // Режим просмотра
-    } 
+        return htmlspecialchars($_SESSION['AD'][(int) $_GET['id']][(string) $value]); // Режим просмотра
+    }
     return ''; // Режим ввода нового
+}
+
+function set_ads_in_cookie() {
+    setcookie('AD', serialize($_SESSION['AD']), time() + 3600 * 24 * 7);
+//        setcookie('AD', serialize($_SESSION['AD']), time()+5    );
 }
 
 // Точка входа
 
 if (isset($_GET['del_id'])) { // Удалить объявление
-    $del_id = (int)$_GET['del_id'];
+    $del_id = (int) $_GET['del_id'];
     if (isset($_SESSION['AD'][$del_id])) {
         unset($_SESSION['AD'][$del_id]);
-        header ('Location: dz6_2.php');
+        set_ads_in_cookie();
+        header('Location: dz7_1.php');
         exit();
-
-    }
-    else{
-        echo '<h2>Не удалось удалить. Объявление '.$del_id.' не найдено.</h2>';
+    } else {
+        echo '<h2>Не удалось удалить. Объявление ' . $del_id . ' не найдено.</h2>';
+        echo '<h2><a href="' . $_SERVER['PHP_SELF'] . '">Назад<a></h2>';
+        exit;
     }
 }
 
+$msg_ad_status = ''; // Информационная строка, которая будет выводиться перед формой, и будет уведомлять пользователя о том сохранено ли его объявление
+if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' нажата?
+    if (AD_check_n_view_errors()) { // Проверяем заполнены ли все необходимые поля
+        $AD_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
+    } else {
+        $post = $_POST;
+        $post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
+        $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';
 
-//    print_r($_SESSION)     ;
+        if (isset($post['AD_ID']) and $post['AD_ID'] >= 0) { // Внесение изменений в существующее объявление
+            $_SESSION['AD'][$post['AD_ID']] = $post;
+            $msg_ad_status .= ' сохранено';
+        } else {
+            $_SESSION['AD'][] = $post; // Добавляем новое объявление
+            $msg_ad_status .= ' добавлено';
+        }
+        set_ads_in_cookie();
+    }
+} else { // Загрузка данных из cookie в $_SESSION
+    if (isset($_COOKIE['AD'])) {
+        if (isset($_SESSION['AD'])) {
+            unset($_SESSION['AD']);
+        }
+        $_SESSION['AD'] = unserialize($_COOKIE['AD']);
+    }
+}
 ?>
 
 
@@ -174,7 +205,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>Лаба №6 слегка прокаченная</title>
+        <title>Лаба №7_1 COOKIE</title>
 
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -191,144 +222,76 @@ if (isset($_GET['del_id'])) { // Удалить объявление
     <body>
 
 
-        
-        
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Лаба №6</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="dz6_2.php">Новое объявление <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Найти объявление...">
-        </div>
-        <button type="submit" class="btn btn-default">Найти</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-        
+        <!--        <div class="row">
+                    <div class="col-md-12">.<h2>Лаба №7_1 COOKIE</h2>  </div>
+                </div>        -->
+        <!--
+                <div class="row">
+                    <div class="col-md-12">.<button type="button" class="btn btn-info">Подать новое объявление</button></div>
+                </div>        -->
         <?php
 // header('Content-type: text/html; charset=utf-8');
 
-        if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' нажата?
-            if (AD_check_n_view_errors()) { // Проверяем заполнены ли все необходимые поля
-                $AD_flag = 1;
-            } else {
-                if (isset($_POST['AD_ID']) and $_POST['AD_ID'] > 0) {
-
-                    $_SESSION['AD'][$_POST['AD_ID']] = $_POST;
-                    echo '<h2>Объявление сохранено</h2>';
-                } else {
-                    $_SESSION['AD'][time()] = $_POST; // Добавляем новое объявление в сессию
-                    echo '<h2>Объявление добавлено</h2>';
-                }
-            }
-        }
 
         if (isset($_GET['id'])) { // Показать объявление
             $get_id = (int) $_GET['id'];
             if (isset($_SESSION['AD'][$get_id])) {
-                echo '<h2>Просмотр объявления ' . date('D, d M Y H:i:s', $get_id) . '</h2>';
+                //echo '<h2>Просмотр объявления ' . date('D, d M Y H:i:s', $get_id) . '</h2>';
                 $AD_flag = 2;
             } else {
                 echo '<h2>Не удалось отобразить объявление ' . $get_id . '.</h2>';
             }
         }
+
+        if (strlen(trim($msg_ad_status)) > 0) {
+            echo "<h2>$msg_ad_status</h2>";
+        }
         ?>
 
-
-
-
-
+        <?php
+        if ($AD_flag) {
+            echo '<h3><a href="' . $_SERVER[PHP_SELF] . '">Подать новое объявление</a></h3>';
+        }
+        ?>
 
         <?php
         if (isset($_SESSION['AD']) and count($_SESSION['AD'])) {
             ?>
-        <label>Перечень поданных объявлений</label><br>
+            <!--        <h3>Перечень поданных объявлений</h3>-->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 col-sm-10 col-md-8">
 
-
-                        <?php AD_show(); ?>
-
-
+                        <?php echo AD_show(); ?>
                     </div>
                 </div>
             </div>
-
-    <?php
-}
-?>
+            <?php
+        }
+        ?>
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 col-sm-10 col-md-8">
 
-
-
-
-
-
-
                     <form  class="form-horizontal" method="post">
                         <div class="form-group">
                             <div class="col-sm-offset-2">
-                                <h1><?php
-                                    switch ($AD_flag) {
-                                        case 0:
-                                            echo 'Новое объявление';
-                                            break;
-                                        case 1:
-                                            echo 'Откорректируйте объявление';
-                                            break;
-                                        case 2:
-                                            echo 'Просмотр объявления';
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    ?> </h1>
+                                <h2><?php
+        switch ($AD_flag) {
+            case 0:
+                echo 'Новое объявление';
+                break;
+            case 1:
+                echo 'Откорректируйте объявление';
+                break;
+            case 2:
+                echo 'Просмотр объявления ' . date('D, d M Y H:i:s', (int) get_value('date_change'));
+                break;
+            default:
+                break;
+        }
+        ?> </h2>
                             </div>
                         </div>
 
@@ -386,10 +349,10 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                                     <option disabled="disabled">-- Города --</option>
 
                                     <?php
-                                    // Выводим города в селектор
+// Выводим города в селектор
                                     foreach ($citys as $number => $city) {
                                         $selected = ($number == get_value('location_id')) ? 'selected="" ' : '';
-                                        echo '<option ' . $selected . 'data-coords=",," value="' . $number . '">' . $city . '</option>'; 
+                                        echo '<option ' . $selected . 'data-coords=",," value="' . $number . '">' . $city . '</option>';
                                     }
                                     ?>                    
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
@@ -402,7 +365,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                                 <select title="Выберите станцию метро" name="metro_id" class="form-control" id="fld_metro_id"> <option value="">-- Выберите станцию метро --</option>
 
                                     <?php
-                                    // Выводим станции метро в селектор
+// Выводим станции метро в селектор
                                     foreach ($subway_stations as $number => $subway_station) {
                                         $selected = ($number == get_value('metro_id')) ? 'selected="" ' : '';
                                         echo '<option ' . $selected . 'data-coords=",," value="' . $number . '">' . $subway_station . '</option>';  //но теперь как то сюда нужно подставить что город нужный выбран -> selected=""
@@ -417,7 +380,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                             <div class="col-sm-10">
                                 <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
                                     <?php
-                                    // Выводим категории в селектор
+// Выводим категории в селектор
                                     foreach ($category as $cat => $subcats) {
                                         echo '<optgroup label="' . $cat . '">';
                                         foreach ($subcats as $subcat => $cat_subscr) {
@@ -462,7 +425,8 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                         if (isset($_GET['id'])) { // Если режим исправления то внедряем в форму hidden по которому сможем распознать 
                             echo '<input type="hidden" value="' . (int) $_GET['id'] . '" name="AD_ID">';
                         } else {
-                            echo '<input type="hidden" value="' . get_value('AD_ID') . '" name="AD_ID">';
+//    echo '<input type="hidden" value="' . get_value('AD_ID') . '" name="AD_ID">';
+                            echo '<input type="hidden" value="' . get_value('date_change') . '" name="date_change">';
                         }
                         ?>
 
@@ -476,5 +440,6 @@ if (isset($_GET['del_id'])) { // Удалить объявление
                 </div>
             </div>
         </div>
+
     </body>
 </html>
