@@ -16,5 +16,9 @@
 //$s['AD'][3] = $post;
 //
 //echo '<br>'.  max($s['AD'][]);
+if (!file_put_contents("ads.xvr", "123456") ){
+    echo 'Не удалось охранить файл';
+}
 
-print_r($_SERVER);
+echo file_get_contents("ads.xvr");
+//print_r($_SERVER);

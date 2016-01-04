@@ -147,9 +147,8 @@ function get_value($value) { // Получаем значение поля (в �
     return ''; // Режим ввода нового
 }
 
-function set_ads_in_cookie() {
-    setcookie('AD', serialize($_SESSION['AD']), time() + 3600 * 24 * 7);
-//        setcookie('AD', serialize($_SESSION['AD']), time()+5    );
+function send_ads_in_file() {
+    file_put_contents("ads.dat", serialize($_SESSION['AD']));
 }
 
 // Точка входа
@@ -158,7 +157,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
     $del_id = (int) $_GET['del_id'];
     if (isset($_SESSION['AD'][$del_id])) {
         unset($_SESSION['AD'][$del_id]);
-        set_ads_in_cookie();
+        send_ads_in_file();
         header('Location: dz7_2.php');
         exit();
     } else {
@@ -184,14 +183,16 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
             $_SESSION['AD'][] = $post; // Добавляем новое объявление
             $msg_ad_status .= ' добавлено';
         }
-        set_ads_in_cookie();
+        send_ads_in_file();
     }
-} else { // Загрузка данных из cookie в $_SESSION
+} else { // Загрузка данных из файла в $_SESSION
     if (isset($_COOKIE['AD'])) {
         if (isset($_SESSION['AD'])) {
             unset($_SESSION['AD']);
         }
-        $_SESSION['AD'] = unserialize($_COOKIE['AD']);
+        if(file_exists("ads.dat")){
+            $_SESSION['AD'] = unserialize(file_get_contents("ads.dat"));
+        }
     }
 }
 ?>

@@ -191,7 +191,10 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
         if (isset($_SESSION['AD'])) {
             unset($_SESSION['AD']);
         }
-        $_SESSION['AD'] = unserialize($_COOKIE['AD']);
+
+        if (isset($_COOKIE['AD'])) {
+            $_SESSION['AD'] = unserialize($_COOKIE['AD']);
+        }
     }
 }
 ?>
