@@ -186,13 +186,11 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
         send_ads_in_file();
     }
 } else { // Загрузка данных из файла в $_SESSION
-    if (isset($_COOKIE['AD'])) {
+    if (file_exists("ads.dat")) {
         if (isset($_SESSION['AD'])) {
             unset($_SESSION['AD']);
         }
-        if(file_exists("ads.dat")){
-            $_SESSION['AD'] = unserialize(file_get_contents("ads.dat"));
-        }
+        $_SESSION['AD'] = unserialize(file_get_contents("ads.dat"));
     }
 }
 ?>
