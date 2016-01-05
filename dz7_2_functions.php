@@ -14,7 +14,9 @@ function send_ads_in_file() {
 
 function receive_ads_from_file() {
     global $ads;
-    $ads = unserialize(file_get_contents("ads.dat"));
+    if( file_exists ("ads.dat") ){
+        $ads = unserialize(file_get_contents("ads.dat"));
+    }
 }
 
 ?>
