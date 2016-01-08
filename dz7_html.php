@@ -60,30 +60,30 @@
         }
         ?>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-md-8">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 col-md-8">
 
-                    <form  class="form-horizontal" method="post">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2">
-                                <h2><?php
-        switch ($AD_flag) {
-            case 0:
-                echo 'Новое объявление';
-                break;
-            case 1:
-                echo 'Откорректируйте объявление';
-                break;
-            case 2:
-                echo 'Просмотр объявления ' . date('D, d M Y H:i:s', (int) get_value('date_change'));
-                break;
-            default:
-                break;
-        }
-        ?> </h2>
+                        <form  class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <h2><?php
+                                        switch ($AD_flag) {
+                                            case 0:
+                                                echo 'Новое объявление';
+                                                break;
+                                            case 1:
+                                                echo 'Откорректируйте объявление';
+                                                break;
+                                            case 2:
+                                                echo 'Просмотр объявления ' . date('D, d M Y H:i:s', (int) get_value('date_change'));
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        ?> </h2>
+                                </div>
                             </div>
-                        </div>
 
 
                         <div class="form-group">

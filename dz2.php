@@ -29,7 +29,7 @@
  *  - Выведите следующую строку на экран, следуя шаблону: "Недавно я прочитал книги 'title1' и 'title2', 
  *  написанные соответственно авторами author1 и author2, я осилил в сумме pages1+pages2 страниц, не ожидал от себя подобного"
 
- */
+*/
     error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
 //  Устанавливаем кодировку
     header('Content-type: text/html; charset=utf-8');

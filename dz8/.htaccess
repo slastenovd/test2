@@ -1,0 +1,3 @@
+php_flag display_erros on
+php_value error_reporting 8
+
