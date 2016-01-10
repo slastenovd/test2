@@ -43,10 +43,12 @@ function get_value($value) { // Получаем значение поля (в �
     global $AD_flag;
     global $ads;
     if ($AD_flag == 1 and isset($_POST[$value])) {
-        return htmlspecialchars($_POST[$value]); // Режим дозаполнения полей
+//        return htmlspecialchars($_POST[$value]); // Режим дозаполнения полей
+        return $_POST[$value]; // Режим дозаполнения полей
     }
     if ($AD_flag == 2 and isset($_GET['id']) and isset($ads[$_GET['id']][$value])) {
-        return htmlspecialchars($ads[(int) $_GET['id']][(string) $value]); // Режим просмотра
+//        return htmlspecialchars($ads[(int) $_GET['id']][(string) $value]); // Режим просмотра
+        return $ads[(int) $_GET['id']][(string) $value]; // Режим просмотра
     }
     return ''; // Режим ввода нового
 }

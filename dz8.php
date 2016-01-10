@@ -93,19 +93,35 @@ $smarty->assign('category',$category);
 
 $smarty->assign('href_self',$_SERVER['PHP_SELF']);
 
-$smarty->assign('private',get_value('private'));
-$smarty->assign('seller_name',get_value('seller_name'));
-$smarty->assign('manager',get_value('manager'));
-$smarty->assign('email',get_value('email'));
-$smarty->assign('allow_mails',get_value('allow_mails'));
-$smarty->assign('phone',get_value('phone'));
-$smarty->assign('location_id',get_value('location_id'));
-$smarty->assign('metro_id',get_value('metro_id'));
-$smarty->assign('category_id',get_value('category_id'));
-$smarty->assign('title',get_value('title'));
-$smarty->assign('description',get_value('description'));
-$smarty->assign('price',get_value('price'));
-$smarty->assign('date_change',get_value('date_change'));
+//$smarty->assign('private',get_value('private'));
+//$smarty->assign('seller_name',get_value('seller_name'));
+//$smarty->assign('manager',get_value('manager'));
+//$smarty->assign('email',get_value('email'));
+//$smarty->assign('allow_mails',get_value('allow_mails'));
+//$smarty->assign('phone',get_value('phone'));
+//$smarty->assign('location_id',get_value('location_id'));
+//$smarty->assign('metro_id',get_value('metro_id'));
+//$smarty->assign('category_id',get_value('category_id'));
+//$smarty->assign('title',get_value('title'));
+//$smarty->assign('description',get_value('description'));
+//$smarty->assign('price',get_value('price'));
+//$smarty->assign('date_change',get_value('date_change'));
+
+$smarty->assign('ad',array(
+                    'private'       =>get_value('private') ,
+                    'seller_name'   =>get_value('seller_name') ,
+                    'manager'       =>get_value('manager') ,
+                    'email'         =>get_value('email') ,
+                    'allow_mails'   =>get_value('allow_mails') ,
+                    'phone'         =>get_value('phone') ,
+                    'location_id'   =>get_value('location_id') ,
+                    'metro_id'      =>get_value('metro_id') ,
+                    'category_id'   =>get_value('category_id') ,
+                    'title'         =>get_value('title') ,
+                    'description'   =>get_value('description') ,
+                    'price'         =>get_value('price') ,
+                    'date_change'   =>get_value('date_change'))
+                );
 
 $smarty->display('dz8.tpl');
 ?>

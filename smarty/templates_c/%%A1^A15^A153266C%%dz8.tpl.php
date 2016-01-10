@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-08 18:03:40
+<?php /* Smarty version 2.6.28, created on 2016-01-10 21:00:19
          compiled from dz8.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'dz8.tpl', 38, false),array('function', 'html_options', 'dz8.tpl', 135, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'dz8.tpl', 38, false),array('modifier', 'htmlspecialchars', 'dz8.tpl', 39, false),array('modifier', 'escape', 'dz8.tpl', 93, false),array('function', 'html_options', 'dz8.tpl', 134, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -50,13 +50,13 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
 </td>
                             <td><a href="<?php echo $this->_tpl_vars['href_self']; ?>
 ?id=<?php echo $this->_tpl_vars['k']; ?>
-"><?php echo $this->_tpl_vars['v']['title']; ?>
+"><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['title'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 </a></td>
-                            <td><?php echo $this->_tpl_vars['v']['price']; ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['price'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
  руб.</td>
-                            <td><?php echo $this->_tpl_vars['v']['seller_name']; ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['seller_name'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 </td>
-                            <td><?php echo $this->_tpl_vars['v']['phone']; ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['phone'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 </td>
                             <td><a href="<?php echo $this->_tpl_vars['href_self']; ?>
 ?del_id=<?php echo $this->_tpl_vars['k']; ?>
@@ -81,8 +81,8 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
             Откорректируйте объявление
         <?php elseif ($this->_tpl_vars['AD_flag'] == 2): ?>
             Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['date_change'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
-<br>о продаже <?php echo $this->_tpl_vars['title']; ?>
- за <?php echo $this->_tpl_vars['price']; ?>
+<br>о продаже <?php echo ((is_array($_tmp=$this->_tpl_vars['title'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
+ за <?php echo ((is_array($_tmp=$this->_tpl_vars['price'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
  руб.
         <?php else: ?>
             Обнаружена неконсистентность данных
@@ -95,14 +95,14 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                        <?php if ($this->_tpl_vars['private'] == 0): ?> 
+                                        <?php if ($this->_tpl_vars['ad']['private'] == 0): ?> 
                                             checked="" 
                                         <?php endif; ?>
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                        <?php if ($this->_tpl_vars['private'] == 1): ?> 
+                                        <?php if ($this->_tpl_vars['ad']['private'] == 1): ?> 
                                             checked="" 
                                         <?php endif; ?>
                                                   value="1" name="private">Компания</label> 
@@ -113,7 +113,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         <div class="form-group">
                             <label for="fld_seller_name" id="your-name" class="col-sm-2 control-label">Ваше имя</label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control"  value="<?php echo $this->_tpl_vars['seller_name']; ?>
+                                <input type="text" maxlength="40" class="form-control"  value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['seller_name'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 " name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
                             </div>            
                         </div>            
@@ -121,7 +121,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         <div class="form-group">
                             <label for="fld_manager" class="col-sm-2 control-label"><b>Контактное лицо</b></label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control" value="<?php echo $this->_tpl_vars['manager']; ?>
+                                <input type="text" maxlength="40" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['manager'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 " name="manager" placeholder = "Петр Иванов" id="fld_manager">
                             </div>            
                         </div>            
@@ -129,14 +129,14 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         <div class="form-group">
                             <label for="fld_email" class="col-sm-2 control-label">Электронная почта</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" value="<?php echo $this->_tpl_vars['email']; ?>
+                                <input type="email" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['email'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 " name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
 
                             <div class="checkbox col-sm-offset-2 col-sm-10">
                                 <label for="allow_mails"  class=" control-label">
                                     <input type="checkbox" value="1" 
-                                           <?php if ($this->_tpl_vars['allow_mails'] > 0): ?> 
+                                           <?php if ($this->_tpl_vars['ad']['allow_mails'] > 0): ?> 
                                              checked="" 
                                            <?php endif; ?>
                                            name="allow_mails" id="allow_mails">
@@ -147,7 +147,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         <div class="form-group">
                             <label id="fld_phone_label"  class="col-sm-2 control-label" for="fld_phone">Номер телефона</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" value="<?php echo $this->_tpl_vars['phone']; ?>
+                                <input type="text" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['phone'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 " name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
                             </div>            
                         </div>            
@@ -158,11 +158,8 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['citys'],'selected' => $this->_tpl_vars['location_id']), $this);?>
+                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['citys'],'selected' => $this->_tpl_vars['ad']['location_id']), $this);?>
 
-                                    
-                                    
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
                         </div>            
@@ -171,8 +168,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                             <label for="fld_metro_id" class="col-sm-2 control-label">Метро</label>
                             <div class="col-sm-10">
                                 <select title="Выберите станцию метро" name="metro_id" class="form-control" id="fld_metro_id"> <option value="">-- Выберите станцию метро --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['subway_stations'],'selected' => $this->_tpl_vars['metro_id']), $this);?>
-
+                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['subway_stations'],'selected' => $this->_tpl_vars['ad']['metro_id']), $this);?>
 
                                 </select> 
                             </div>            
@@ -182,18 +178,16 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                             <label for="fld_category_id" class="col-sm-2 control-label">Категория</label> 
                             <div class="col-sm-10">
                                 <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['category'],'selected' => $this->_tpl_vars['category_id']), $this);?>
+                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['category'],'selected' => $this->_tpl_vars['ad']['category_id']), $this);?>
 
-
-                                    
-                                                                    </select>
+                                </select>
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_title" class="col-sm-2 control-label">Название объявления</label> 
                             <div class="col-sm-10">
-                                <input type="text" maxlength="50" class="form-control" value="<?php echo $this->_tpl_vars['title']; ?>
+                                <input type="text" maxlength="50" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['title'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 " name="title" id="fld_title" placeholder="Porsche Cayenne">
                             </div>            
                         </div>            
@@ -201,7 +195,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         <div class="form-group">
                             <label for="fld_description" id="js-description-label" class="col-sm-2 control-label">Описание объявления</label> 
                             <div class="col-sm-10">
-                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description"><?php echo $this->_tpl_vars['description']; ?>
+                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description"><?php echo ((is_array($_tmp=$this->_tpl_vars['description'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 </textarea> 
                             </div>            
                         </div>            
@@ -211,7 +205,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <div class="input-group-addon">руб.</div>
-                                    <input type="text" maxlength="9" class="form-control" value="<?php echo $this->_tpl_vars['price']; ?>
+                                    <input type="text" maxlength="9" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['price'])) ? $this->_run_mod_handler('htmlspecialchars', true, $_tmp) : htmlspecialchars($_tmp)); ?>
 " name="price" id="fld_price" placeholder="00">
                                     <div class="input-group-addon">.00</div>
                                 </div>            
@@ -222,7 +216,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                             <input type="hidden" value="<?php echo $_GET['id']; ?>
 " name="AD_ID">
                         <?php endif; ?>
-                            <input type="hidden" value="<?php echo $this->_tpl_vars['date_change']; ?>
+                            <input type="hidden" value="<?php echo $this->_tpl_vars['ad']['date_change']; ?>
 " name="date_change">                                
                         
                         <div class="form-group">

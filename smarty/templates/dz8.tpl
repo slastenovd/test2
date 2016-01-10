@@ -36,10 +36,10 @@
                         <tr>
                             <td>{$smarty.foreach.foreach_ads.index+1}</td>
                             <td>{$v.date_change|date_format:"%H:%M:%S %d.%m.%Y"}</td>
-                            <td><a href="{$href_self}?id={$k}">{$v.title}</a></td>
-                            <td>{$v.price} руб.</td>
-                            <td>{$v.seller_name}</td>
-                            <td>{$v.phone}</td>
+                            <td><a href="{$href_self}?id={$k}">{$v.title|htmlspecialchars}</a></td>
+                            <td>{$v.price|htmlspecialchars} руб.</td>
+                            <td>{$v.seller_name|htmlspecialchars}</td>
+                            <td>{$v.phone|htmlspecialchars}</td>
                             <td><a href="{$href_self}?del_id={$k}">удалить</a></td>
                         </tr>
                     {/foreach}        
@@ -60,7 +60,7 @@
         {elseif $AD_flag eq 1}
             Откорректируйте объявление
         {elseif $AD_flag eq 2}
-            Просмотр объявления от {$date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$title} за {$price} руб.
+            Просмотр объявления от {$date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$title|htmlspecialchars} за {$price|htmlspecialchars} руб.
         {else}
             Обнаружена неконсистентность данных
         {/if}
@@ -72,14 +72,14 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                        {if $private eq 0} 
+                                        {if $ad.private eq 0} 
                                             checked="" 
                                         {/if}
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                        {if $private eq 1} 
+                                        {if $ad.private eq 1} 
                                             checked="" 
                                         {/if}
                                                   value="1" name="private">Компания</label> 
@@ -90,27 +90,27 @@
                         <div class="form-group">
                             <label for="fld_seller_name" id="your-name" class="col-sm-2 control-label">Ваше имя</label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control"  value="{$seller_name}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
+                                <input type="text" maxlength="40" class="form-control"  value="{$ad.seller_name|escape}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_manager" class="col-sm-2 control-label"><b>Контактное лицо</b></label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control" value="{$manager}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
+                                <input type="text" maxlength="40" class="form-control" value="{$ad.manager|htmlspecialchars}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_email" class="col-sm-2 control-label">Электронная почта</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" value="{$email}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
+                                <input type="email" class="form-control" value="{$ad.email|htmlspecialchars}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
 
                             <div class="checkbox col-sm-offset-2 col-sm-10">
                                 <label for="allow_mails"  class=" control-label">
                                     <input type="checkbox" value="1" 
-                                           {if $allow_mails gt 0} 
+                                           {if $ad.allow_mails gt 0} 
                                              checked="" 
                                            {/if}
                                            name="allow_mails" id="allow_mails">
@@ -121,7 +121,7 @@
                         <div class="form-group">
                             <label id="fld_phone_label"  class="col-sm-2 control-label" for="fld_phone">Номер телефона</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" value="{$phone}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
+                                <input type="text" class="form-control" value="{$ad.phone|htmlspecialchars}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
                             </div>            
                         </div>            
 
@@ -131,7 +131,7 @@
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    {html_options options=$citys selected=$location_id}
+                                    {html_options options=$citys selected=$ad.location_id}
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
                         </div>            
@@ -140,7 +140,7 @@
                             <label for="fld_metro_id" class="col-sm-2 control-label">Метро</label>
                             <div class="col-sm-10">
                                 <select title="Выберите станцию метро" name="metro_id" class="form-control" id="fld_metro_id"> <option value="">-- Выберите станцию метро --</option>
-                                    {html_options options=$subway_stations selected=$metro_id}
+                                    {html_options options=$subway_stations selected=$ad.metro_id}
                                 </select> 
                             </div>            
                         </div>            
@@ -149,7 +149,7 @@
                             <label for="fld_category_id" class="col-sm-2 control-label">Категория</label> 
                             <div class="col-sm-10">
                                 <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
-                                    {html_options options=$category selected=$category_id}
+                                    {html_options options=$category selected=$ad.category_id}
                                 </select>
                             </div>            
                         </div>            
@@ -157,14 +157,14 @@
                         <div class="form-group">
                             <label for="fld_title" class="col-sm-2 control-label">Название объявления</label> 
                             <div class="col-sm-10">
-                                <input type="text" maxlength="50" class="form-control" value="{$title}" name="title" id="fld_title" placeholder="Porsche Cayenne">
+                                <input type="text" maxlength="50" class="form-control" value="{$ad.title|htmlspecialchars}" name="title" id="fld_title" placeholder="Porsche Cayenne">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_description" id="js-description-label" class="col-sm-2 control-label">Описание объявления</label> 
                             <div class="col-sm-10">
-                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$description}</textarea> 
+                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$description|htmlspecialchars}</textarea> 
                             </div>            
                         </div>            
 
@@ -173,7 +173,7 @@
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <div class="input-group-addon">руб.</div>
-                                    <input type="text" maxlength="9" class="form-control" value="{$price}" name="price" id="fld_price" placeholder="00">
+                                    <input type="text" maxlength="9" class="form-control" value="{$ad.price|htmlspecialchars}" name="price" id="fld_price" placeholder="00">
                                     <div class="input-group-addon">.00</div>
                                 </div>            
                             </div>            
@@ -182,7 +182,7 @@
                         {if isset($smarty.get.id)}
                             <input type="hidden" value="{$smarty.get.id}" name="AD_ID">
                         {/if}
-                            <input type="hidden" value="{$date_change}" name="date_change">                                
+                            <input type="hidden" value="{$ad.date_change}" name="date_change">                                
                         
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
