@@ -36,10 +36,10 @@
                         <tr>
                             <td>{$smarty.foreach.foreach_ads.index+1}</td>
                             <td>{$v.date_change|date_format:"%H:%M:%S %d.%m.%Y"}</td>
-                            <td><a href="{$href_self}?id={$k}">{$v.title|htmlspecialchars}</a></td>
-                            <td>{$v.price|htmlspecialchars} руб.</td>
-                            <td>{$v.seller_name|htmlspecialchars}</td>
-                            <td>{$v.phone|htmlspecialchars}</td>
+                            <td><a href="{$href_self}?id={$k}">{$v.title|escape}</a></td>
+                            <td>{$v.price|escape} руб.</td>
+                            <td>{$v.seller_name|escape}</td>
+                            <td>{$v.phone|escape}</td>
                             <td><a href="{$href_self}?del_id={$k}">удалить</a></td>
                         </tr>
                     {/foreach}        
@@ -60,7 +60,7 @@
         {elseif $AD_flag eq 1}
             Откорректируйте объявление
         {elseif $AD_flag eq 2}
-            Просмотр объявления от {$date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$title|htmlspecialchars} за {$price|htmlspecialchars} руб.
+            Просмотр объявления от {$date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$title|escape} за {$price|escape} руб.
         {else}
             Обнаружена неконсистентность данных
         {/if}
@@ -97,14 +97,14 @@
                         <div class="form-group">
                             <label for="fld_manager" class="col-sm-2 control-label"><b>Контактное лицо</b></label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control" value="{$ad.manager|htmlspecialchars}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
+                                <input type="text" maxlength="40" class="form-control" value="{$ad.manager|escape}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_email" class="col-sm-2 control-label">Электронная почта</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" value="{$ad.email|htmlspecialchars}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
+                                <input type="email" class="form-control" value="{$ad.email|escape}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
 
                             <div class="checkbox col-sm-offset-2 col-sm-10">
@@ -121,7 +121,7 @@
                         <div class="form-group">
                             <label id="fld_phone_label"  class="col-sm-2 control-label" for="fld_phone">Номер телефона</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" value="{$ad.phone|htmlspecialchars}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
+                                <input type="text" class="form-control" value="{$ad.phone|escape}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
                             </div>            
                         </div>            
 
@@ -157,14 +157,14 @@
                         <div class="form-group">
                             <label for="fld_title" class="col-sm-2 control-label">Название объявления</label> 
                             <div class="col-sm-10">
-                                <input type="text" maxlength="50" class="form-control" value="{$ad.title|htmlspecialchars}" name="title" id="fld_title" placeholder="Porsche Cayenne">
+                                <input type="text" maxlength="50" class="form-control" value="{$ad.title|escape}" name="title" id="fld_title" placeholder="Porsche Cayenne">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_description" id="js-description-label" class="col-sm-2 control-label">Описание объявления</label> 
                             <div class="col-sm-10">
-                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$description|htmlspecialchars}</textarea> 
+                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$description|escape}</textarea> 
                             </div>            
                         </div>            
 
@@ -173,7 +173,7 @@
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <div class="input-group-addon">руб.</div>
-                                    <input type="text" maxlength="9" class="form-control" value="{$ad.price|htmlspecialchars}" name="price" id="fld_price" placeholder="00">
+                                    <input type="text" maxlength="9" class="form-control" value="{$ad.price|escape}" name="price" id="fld_price" placeholder="00">
                                     <div class="input-group-addon">.00</div>
                                 </div>            
                             </div>            
