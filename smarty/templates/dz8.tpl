@@ -60,7 +60,7 @@
         {elseif $AD_flag eq 1}
             Откорректируйте объявление
         {elseif $AD_flag eq 2}
-            Просмотр объявления от {$date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$title|escape} за {$price|escape} руб.
+            Просмотр объявления от {$ad.date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad.title|escape} за {$ad.price|escape} руб.
         {else}
             Обнаружена неконсистентность данных
         {/if}
