@@ -7,13 +7,67 @@ $AD_flag = 0;        // 0-новое, 1-исправление, 2-просмот
 $ads     = array();  // Массив объявлений
 $err_msg = false;
 
-require( 'dz8_model.php' );     // данные для загрузки в селекторы
-require( 'dz8_functions.php' ); 
+$ad_fields = array( // Перечень полей для внесения в БД
+    'private', 
+    'seller_name', 
+    'manager', 
+    'email', 
+    'allow_mails', 
+    'phone', 
+    'location_id', 
+    'metro_id', 
+    'subcategory_id', 
+    'title', 
+    'description', 
+    'price', 
+    'date_change');
 
-$category = parse_ini_string($ini_string, true);
 
-receive_ads_from_file(); // Загрузка данных из файла
-print_r($ads);
+
+//require( 'dz8_model.php' );     // данные для загрузки в селекторы
+require( 'dz9_functions.php' ); 
+
+$conn = mysql_connect('localhost', 'test','123') or die("Невозможно установить соединение: ". mysql_error());
+mysql_select_db('test') or die("Невозможно подключиться к БД: ". mysql_error());
+
+$ini_string = 'SET NAMES utf8';
+mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+
+// Загружаем данные для селектора "Города"
+$ini_string = 'SELECT * FROM cities';
+$result = mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+
+while($row = mysql_fetch_assoc($result)){
+    $citys[$row[city_id]] = $row[city_name];
+}
+
+// Загружаем данные для селектора "Метро"
+$ini_string = 'SELECT * FROM metro_stations';
+$result = mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+while($row = mysql_fetch_assoc($result)){
+    $metro_stations[$row[metro_station_id]] = $row[metro_station_name];
+}
+// Загружаем данные для селектора "Категории"
+$ini_string = 'SELECT category_name, subcategory_id, subcategory_name '
+        . 'FROM categories '
+        . 'left outer join subcategories '
+        . 'on (categories.category_id = subcategories.category_id) '
+        . 'order by subcategory_id';
+$result = mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+while($row = mysql_fetch_assoc($result)){
+    $category[$row[category_name]][$row[subcategory_id]] = $row[subcategory_name];
+}
+
+// Загружаем объявления в массив для вывода на странице в виде таблицы
+$ini_string = 'SELECT ad_id, date_change, title, price, seller_name, phone '
+        . 'FROM ads '
+        . 'order by date_change desc';
+$result = mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+while($row = mysql_fetch_assoc($result)){
+    foreach ($row as $key => $value) {
+        $ads[$row[ad_id]][$key] = $value;
+    }
+}
 
 $msg_ad_status = ''; // Информационная строка, которая будет выводиться перед формой, и будет уведомлять пользователя о том сохранено ли его объявление
 if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' нажата?
@@ -21,18 +75,49 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
     if ($err_msg) { // Проверяем заполнены ли все необходимые поля
         $AD_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
     } else {
-        $post = $_POST;
+
+        foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранируем содержимое POST и пишем его в post[]
+            $post[$key] = mysql_real_escape_string($value);
+        }
+
         $post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
         $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';
+        
+        foreach ($ad_fields as $key => $value) { // Проверяем наличие необходимых полей
+            if( !isset($post[$value]) ){
+                $post[$value] = '';             // Если нужного поля нет - добиваем его пустым значением
+            }
+        }
 
-        if (isset($post['AD_ID']) and $post['AD_ID'] >= 0) { // Внесение изменений в существующее объявление
-            $ads[$post['AD_ID']] = $post;
+        if (isset($post['ad_id']) and $post['ad_id'] >= 0) { // Внесение изменений в существующее объявление
+//            $ini_string = "INSERT INTO ads (private, seller_name, manager, email, allow_mails, phone, location_id, metro_id, "
+//                    . "subcategory_id, title, description, price, date_create, date_change) "
+//                    . "VALUES (";
+            
+            
+            
+//                    . "'" . $post['private'] . "',"
+//                    . "'" . $post['seller_name'] . "',"
+//                    . "'" . $post['manager'] . "',"
+//                    . "'" . $post['email'] . "',"
+//                    . "'" . $post['allow_mails'] . "',"
+//                    . "'" . $post['phone'] . "',"
+//                    . "'" . $post['location_id'] . "',"
+//                    . "'" . $post['metro_id'] . "',"
+//                    . "'" . $post['subcategory_id'] . "',"
+//                    . "'" . $post['title'] . "',"
+//                    . "'" . $post['metro_id'] . "',"
+//                    . "'" . $post['metro_id'] . "',"
+//                    . "'" . $post['metro_id'] . "',"
+//                    . "'" . $post['metro_id'] . "',"
+//                    .")";
+            $ads[$post['ad_id']] = $post;
             $msg_ad_status .= ' сохранено';
         } else {
             $ads[] = $post; // Добавляем новое объявление
             $msg_ad_status .= ' добавлено';
         }
-        send_ads_in_file();
+//        send_ads_in_file();
     }
 }
 
@@ -64,7 +149,7 @@ if (isset($_GET['del_id'])) { // Удалить объявление
             echo "<h2>$msg_ad_status</h2>";
         }
 
-        
+mysql_close($conn);         
 ///////////////////
 //require( 'dz8_html.php' );
 $project_root=$_SERVER['DOCUMENT_ROOT'];
@@ -124,5 +209,5 @@ $smarty->assign('ad',array(
                     'date_change'   =>get_value('date_change'))
                 );
 
-$smarty->display('dz8.tpl');
+$smarty->display('dz9.tpl');
 ?>
