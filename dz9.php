@@ -22,9 +22,6 @@ $ad_fields = array( // Перечень полей для внесения в Б
     'price', 
     'date_change');
 
-
-
-//require( 'dz8_model.php' );     // данные для загрузки в селекторы
 require( 'dz9_functions.php' ); 
 
 $conn = mysql_connect('localhost', 'test','123') or die("Невозможно установить соединение: ". mysql_error());
@@ -76,26 +73,36 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
         $AD_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
     } else {
 
-        foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранируем содержимое POST и пишем его в post[]
+        foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранируем содержимое _POST и пишем его в post[]
             $post[$key] = mysql_real_escape_string($value);
         }
 
         $post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
         $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';
         
+        $fields_for_insert= '';
+        $values_for_insert= '';
+        
         foreach ($ad_fields as $key => $value) { // Проверяем наличие необходимых полей
-            if( !isset($post[$value]) ){
-                $post[$value] = '';             // Если нужного поля нет - добиваем его пустым значением
+            $fields_for_insert .= $value;
+            if( isset($post[$value]) ){
+                $values_for_insert .= "'".$post[$value]."'";
             }
+            else{
+                $values_for_insert .= "''";
+            }
+            if( $key < count($ad_fields) ){
+                $fields_for_insert .= ', ';
+                $values_for_insert .= ', ';
+            }
+                
         }
 
         if (isset($post['ad_id']) and $post['ad_id'] >= 0) { // Внесение изменений в существующее объявление
+
 //            $ini_string = "INSERT INTO ads (private, seller_name, manager, email, allow_mails, phone, location_id, metro_id, "
 //                    . "subcategory_id, title, description, price, date_create, date_change) "
 //                    . "VALUES (";
-            
-            
-            
 //                    . "'" . $post['private'] . "',"
 //                    . "'" . $post['seller_name'] . "',"
 //                    . "'" . $post['manager'] . "',"
