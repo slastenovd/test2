@@ -3,8 +3,9 @@ error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
 ini_set('display_errors', 1);
 header("Content-Type: text/html; charset=utf-8");
 
-$AD_flag = 0;        // 0-новое, 1-исправление, 2-просмотр
+$ad_flag = 0;        // 0-новое, 1-исправление, 2-просмотр
 $ads     = array();  // Массив объявлений
+$ad      = array();  // Массив с объявлением для отображения
 $err_msg = false;
 
 $ad_fields = array( // Перечень полей для внесения в БД
@@ -44,6 +45,7 @@ $result = mysql_query($ini_string) or die("Невозможно выполнит
 while($row = mysql_fetch_assoc($result)){
     $metro_stations[$row[metro_station_id]] = $row[metro_station_name];
 }
+
 // Загружаем данные для селектора "Категории"
 $ini_string = 'SELECT category_name, subcategory_id, subcategory_name '
         . 'FROM categories '
@@ -54,6 +56,84 @@ $result = mysql_query($ini_string) or die("Невозможно выполнит
 while($row = mysql_fetch_assoc($result)){
     $category[$row[category_name]][$row[subcategory_id]] = $row[subcategory_name];
 }
+
+
+$msg_ad_status = ''; // Информационная строка, которая будет выводиться перед формой, и будет уведомлять пользователя о том сохранено ли его объявление
+
+if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' нажата?
+    $err_msg = ad_check_n_view_errors();
+    if ($err_msg) { // Проверяем заполнены ли все необходимые поля
+        $ad = $_POST;        
+        $ad_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
+    } else {
+
+        foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранируем содержимое _POST и пишем его в post[]
+            $post[$key] = mysql_real_escape_string($value);
+        }
+
+        $post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
+        $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';
+        
+        // Конструирование SQL инструкции
+        $fields_for_insert = '';
+        $values_for_insert = '';
+        $values_for_update = '';
+        
+        foreach ($ad_fields as $key => $value) { // Проверяем наличие необходимых полей
+            $fields_for_insert .= $value;
+            if( isset($post[$value]) ){
+                $values_for_insert .= "'".$post[$value]."'";
+                $values_for_update .= $value." = '".$post[$value]."'";
+            }
+            else{
+                $values_for_insert .= "''";
+            }
+            if( $key < count($ad_fields) ){
+                $fields_for_insert .= ', ';
+                $values_for_insert .= ', ';
+                $values_for_update .= ', ';
+            }
+        }
+        
+        if (isset($post['ad_id']) and $post['ad_id'] >= 0) { // Внесение изменений в существующее объявление
+            $ini_string = 'UPDATE ads SET '.$values_for_update.' WHERE ad_id = '.(int)$post['ad_id'];
+            $msg_ad_status .= ' сохранено';
+        } else { // Добавление нового объявления
+            $ini_string = 'INSERT INTO ads ('.$fields_for_insert.') VALUES ('.$values_for_insert.')';
+            $msg_ad_status .= ' добавлено';
+        }
+        mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+    }
+    
+} elseif (isset($_GET['del_id'])) { // Удалить объявление
+    $del_id = (int) $_GET['del_id'];
+
+    $ini_string = 'DELETE FROM ads WHERE ad_id = '.$del_id;
+    mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+    if( mysql_affected_rows() === 1 ){
+        header('Location: '. $_SERVER['PHP_SELF']);
+        exit();
+    }
+    else{
+        echo '<h2>Не удалось удалить. Объявление ' . $del_id . ' не найдено.</h2>';
+        echo '<h2><a href="' . $_SERVER['PHP_SELF'] . '">Назад<a></h2>';
+        exit;
+    }
+
+} elseif (isset($_GET['id'])) { // Показать объявление
+    $get_id = (int) $_GET['id'];
+    $ini_string = 'SELECT * FROM ads WHERE ad_id = '.$get_id;
+    $result = mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
+    if( mysql_affected_rows() === 1 ){
+            $ad = mysql_fetch_assoc($result);
+    } else {
+        echo '<h2>Не удалось отобразить объявление ' . $get_id . '.</h2>';
+    }
+}
+
+    if (strlen(trim($msg_ad_status)) > 0) {
+        echo "<h2>$msg_ad_status</h2>";
+    }
 
 // Загружаем объявления в массив для вывода на странице в виде таблицы
 $ini_string = 'SELECT ad_id, date_change, title, price, seller_name, phone '
@@ -66,99 +146,9 @@ while($row = mysql_fetch_assoc($result)){
     }
 }
 
-$msg_ad_status = ''; // Информационная строка, которая будет выводиться перед формой, и будет уведомлять пользователя о том сохранено ли его объявление
-if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' нажата?
-    $err_msg = AD_check_n_view_errors();
-    if ($err_msg) { // Проверяем заполнены ли все необходимые поля
-        $AD_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
-    } else {
-
-        foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранируем содержимое _POST и пишем его в post[]
-            $post[$key] = mysql_real_escape_string($value);
-        }
-
-        $post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
-        $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';
-        
-        $fields_for_insert= '';
-        $values_for_insert= '';
-        
-        foreach ($ad_fields as $key => $value) { // Проверяем наличие необходимых полей
-            $fields_for_insert .= $value;
-            if( isset($post[$value]) ){
-                $values_for_insert .= "'".$post[$value]."'";
-            }
-            else{
-                $values_for_insert .= "''";
-            }
-            if( $key < count($ad_fields) ){
-                $fields_for_insert .= ', ';
-                $values_for_insert .= ', ';
-            }
-                
-        }
-
-        if (isset($post['ad_id']) and $post['ad_id'] >= 0) { // Внесение изменений в существующее объявление
-
-//            $ini_string = "INSERT INTO ads (private, seller_name, manager, email, allow_mails, phone, location_id, metro_id, "
-//                    . "subcategory_id, title, description, price, date_create, date_change) "
-//                    . "VALUES (";
-//                    . "'" . $post['private'] . "',"
-//                    . "'" . $post['seller_name'] . "',"
-//                    . "'" . $post['manager'] . "',"
-//                    . "'" . $post['email'] . "',"
-//                    . "'" . $post['allow_mails'] . "',"
-//                    . "'" . $post['phone'] . "',"
-//                    . "'" . $post['location_id'] . "',"
-//                    . "'" . $post['metro_id'] . "',"
-//                    . "'" . $post['subcategory_id'] . "',"
-//                    . "'" . $post['title'] . "',"
-//                    . "'" . $post['metro_id'] . "',"
-//                    . "'" . $post['metro_id'] . "',"
-//                    . "'" . $post['metro_id'] . "',"
-//                    . "'" . $post['metro_id'] . "',"
-//                    .")";
-            $ads[$post['ad_id']] = $post;
-            $msg_ad_status .= ' сохранено';
-        } else {
-            $ads[] = $post; // Добавляем новое объявление
-            $msg_ad_status .= ' добавлено';
-        }
-//        send_ads_in_file();
-    }
-}
-
-if (isset($_GET['del_id'])) { // Удалить объявление
-    $del_id = (int) $_GET['del_id'];
-    if (isset($ads[$del_id])) {
-        unset($ads[$del_id]);
-        send_ads_in_file();
-        header('Location: '. $_SERVER['PHP_SELF']);
-        exit();
-    } else {
-        echo '<h2>Не удалось удалить. Объявление ' . $del_id . ' не найдено.</h2>';
-        echo '<h2><a href="' . $_SERVER['PHP_SELF'] . '">Назад<a></h2>';
-        exit;
-    }
-}
-
-/////////////
-        if (isset($_GET['id'])) { // Показать объявление
-            $get_id = (int) $_GET['id'];
-            if (isset($ads[$get_id])) {
-                $AD_flag = 2;
-            } else {
-                echo '<h2>Не удалось отобразить объявление ' . $get_id . '.</h2>';
-            }
-        }
-
-        if (strlen(trim($msg_ad_status)) > 0) {
-            echo "<h2>$msg_ad_status</h2>";
-        }
-
 mysql_close($conn);         
-///////////////////
-//require( 'dz8_html.php' );
+
+
 $project_root=$_SERVER['DOCUMENT_ROOT'];
 $smarty_dir=$project_root.'/smarty/';
 
@@ -176,7 +166,7 @@ $smarty->config_dir = $smarty_dir.'configs';
 
 $smarty->assign('ads',$ads);
 $smarty->assign('err_msg',$err_msg);
-$smarty->assign('AD_flag',$AD_flag);
+$smarty->assign('ad_flag',$ad_flag);
 
 $smarty->assign('citys',$citys);
 $smarty->assign('subway_stations',$subway_stations);
@@ -200,21 +190,23 @@ $smarty->assign('href_self',$_SERVER['PHP_SELF']);
 //$smarty->assign('price',get_value('price'));
 //$smarty->assign('date_change',get_value('date_change'));
 
-$smarty->assign('ad',array(
-                    'private'       =>get_value('private') ,
-                    'seller_name'   =>get_value('seller_name') ,
-                    'manager'       =>get_value('manager') ,
-                    'email'         =>get_value('email') ,
-                    'allow_mails'   =>get_value('allow_mails') ,
-                    'phone'         =>get_value('phone') ,
-                    'location_id'   =>get_value('location_id') ,
-                    'metro_id'      =>get_value('metro_id') ,
-                    'category_id'   =>get_value('category_id') ,
-                    'title'         =>get_value('title') ,
-                    'description'   =>get_value('description') ,
-                    'price'         =>get_value('price') ,
-                    'date_change'   =>get_value('date_change'))
-                );
+$smarty->assign('ad',$ad);
+
+//$smarty->assign('ad',array(
+//                    'private'       =>get_value('private') ,
+//                    'seller_name'   =>get_value('seller_name') ,
+//                    'manager'       =>get_value('manager') ,
+//                    'email'         =>get_value('email') ,
+//                    'allow_mails'   =>get_value('allow_mails') ,
+//                    'phone'         =>get_value('phone') ,
+//                    'location_id'   =>get_value('location_id') ,
+//                    'metro_id'      =>get_value('metro_id') ,
+//                    'category_id'   =>get_value('category_id') ,
+//                    'title'         =>get_value('title') ,
+//                    'description'   =>get_value('description') ,
+//                    'price'         =>get_value('price') ,
+//                    'date_change'   =>get_value('date_change'))
+//                );
 
 $smarty->display('dz9.tpl');
 ?>

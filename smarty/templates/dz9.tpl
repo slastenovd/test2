@@ -21,11 +21,11 @@
         <![endif]-->
     </head>
     <body>
-        {if $AD_flag eq 1}
+        {if $ad_flag eq 1}
             {$err_msg}  
         {/if}   
 
-        {if $AD_flag gt 0}
+        {if $ad_flag gt 0}
             <h3><a href="{$href_self}">Подать новое объявление</a></h3>
         {/if}   
 
@@ -55,11 +55,11 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-2">
                                     <h2>
-        {if     $AD_flag eq 0}
+        {if     $ad_flag eq 0}
             Новое объявление
-        {elseif $AD_flag eq 1}
+        {elseif $ad_flag eq 1}
             Откорректируйте объявление
-        {elseif $AD_flag eq 2}
+        {elseif $ad_flag eq 2}
             Просмотр объявления от {$ad.date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad.title|escape} за {$ad.price|escape} руб.
         {else}
             Обнаружена неконсистентность данных
@@ -186,7 +186,7 @@
                         
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-success" value="{if $AD_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit" name="main_form_submit">
+                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit" name="main_form_submit">
                             </div>            
                         </div>            
 
