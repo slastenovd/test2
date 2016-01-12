@@ -23,5 +23,5 @@ function ad_check_n_view_errors() { // Проверяем заполнены л�
         return false;
     }
     return $error_flag;
-}
+} 
 ?>
