@@ -26,7 +26,11 @@ $ad_fields = array(  // Перечень полей для внесения в �
 require( 'functions.php' ); 
 
 $conn = mysql_connect('localhost', 'test','123') or die("Невозможно установить соединение: ". mysql_error());
-mysql_select_db('test') or die("Невозможно подключиться к БД: ". mysql_error());
+//mysql_select_db('test') or die("Невозможно подключиться к БД: ". mysql_error());
+if ( !mysql_select_db('test') ){
+    echo 'БД не найдена. Перейдите к <a href="install.php">установке</a>';
+    exit();
+}
 
 $ini_string = 'SET NAMES utf8';
 mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());

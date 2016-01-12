@@ -193,6 +193,7 @@
                     </form>
                 </div>
             </div>
+                    <h3><a href="install.php">Установка</a></h3>
         </div>
         
     </body>

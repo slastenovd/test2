@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-12 07:31:35
+<?php /* Smarty version 2.6.28, created on 2016-01-12 23:32:05
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 38, false),array('modifier', 'escape', 'index.tpl', 39, false),array('function', 'html_options', 'index.tpl', 134, false),)), $this); ?>
@@ -227,6 +227,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                     </form>
                 </div>
             </div>
+                    <h3><a href="install.php">Установка</a></h3>
         </div>
         
     </body>
