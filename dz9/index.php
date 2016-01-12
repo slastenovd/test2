@@ -8,7 +8,7 @@ $ads     = array();  // Массив объявлений
 $ad      = array();  // Массив с объявлением для отображения
 $err_msg = false;
 
-$ad_fields = array( // Перечень полей для внесения в БД
+$ad_fields = array(  // Перечень полей для внесения в БД
     'private', 
     'seller_name', 
     'manager', 
@@ -23,7 +23,7 @@ $ad_fields = array( // Перечень полей для внесения в Б
     'price', 
     'date_change');
 
-require( 'dz9_functions.php' ); 
+require( 'functions.php' ); 
 
 $conn = mysql_connect('localhost', 'test','123') or die("Невозможно установить соединение: ". mysql_error());
 mysql_select_db('test') or die("Невозможно подключиться к БД: ". mysql_error());
@@ -110,7 +110,6 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
             $ini_string = 'INSERT INTO ads ('.$fields_for_insert.') VALUES ('.$values_for_insert.')';
             $msg_ad_status .= ' добавлено';
         }
-//        echo $ini_string;
         mysql_query($ini_string) or die("Невозможно выполнить $ini_string запрос: ". mysql_error());
         header('Location: '. $_SERVER['PHP_SELF']);
         exit();
@@ -162,7 +161,7 @@ while($row = mysql_fetch_assoc($result)){
 mysql_close($conn);  // Закрытие соединения с mysql       
 
 $project_root=$_SERVER['DOCUMENT_ROOT'];
-$smarty_dir=$project_root.'/smarty/';
+$smarty_dir=$project_root.'/dz9/smarty/';
 
 require($smarty_dir.'/libs/Smarty.class.php');
 $smarty = new Smarty();
@@ -185,5 +184,5 @@ $smarty->assign('href_self',$_SERVER['PHP_SELF']);
 $smarty->assign('ad',$ad);
 $smarty->assign('msg_ad_status',$msg_ad_status);
 
-$smarty->display('dz9.tpl');
+$smarty->display('index.tpl');
 ?>
