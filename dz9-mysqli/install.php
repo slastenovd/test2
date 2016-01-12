@@ -5,21 +5,27 @@ ini_set('display_errors', 1);
 header("Content-Type: text/html; charset=utf-8");
 
 if (isset($_POST['ServerName'])) { // Кнопка нажата?
-    $conn = mysql_connect($_POST['ServerName'], $_POST['UserName'], $_POST['Password']) or die("Невозможно установить соединение: " . mysql_error());
-    $ini_string = 'SET NAMES utf8';
-    mysql_query($ini_string) or die("Невозможно выполнить запрос: " . mysql_error());
+    $mysqli = new mysqli($_POST['ServerName'], $_POST['UserName'], $_POST['Password']); 
+
+    if (mysqli_connect_errno()) { 
+        die('Подключение к серверу MySQL невозможно. '. mysqli_connect_error()); 
+    } 
+
     if (file_exists("install.sql")) {
         $ini_string = file_get_contents("install.sql");
         $ini_array = explode(';', $ini_string);
         foreach ($ini_array as $value) {
-            mysql_query($value) or die("Невозможно выполнить установку БД: " . mysql_error());
+            if ( !$mysqli->query($value) ){
+               die('Ошибка при выполении инструкции. '.$value.' '.mysqli_connect_error()); 
+            }
         }
         echo 'Успешно. Перейти к <a href="index.php">объявлениям.</a>';
     } else {
         die("Отсутствует файл дампа install.sql");
     }
-    mysql_close($conn);  // Закрытие соединения с mysql       
+     $mysqli->close(); 
 } else {
+
     $project_root = $_SERVER['DOCUMENT_ROOT'];
     $smarty_dir = $project_root . '/dz9/smarty/';
     require($smarty_dir . '/libs/Smarty.class.php');
