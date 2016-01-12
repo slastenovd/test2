@@ -114,7 +114,7 @@ $ini_string = 'SELECT * FROM cities';
 $result = mysql_query($ini_string) or die("Невозможно выполнить запрос: ". mysql_error());
 
 while($row = mysql_fetch_assoc($result)){
-    $citys[$row[city_id]] = $row[city_name];
+    $citys[$row['city_id']] = $row['city_name'];
 }
 
 // Загружаем данные для селектора "Метро"

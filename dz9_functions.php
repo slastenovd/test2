@@ -31,7 +31,7 @@ function ad_check_n_view_errors() { // Проверяем заполнены л�
         $error_flag = true;
     }
     if (strlen($error_msg)) {
-        $error_msg .=  '<h4>Пожалуйста, заполните необходимые поля</h4><br>';
+//        $error_msg .=  '<label>Пожалуйста, заполните необходимые поля</label><br>';
         return $error_msg;
     }else{
         return false;
