@@ -13,12 +13,17 @@ if (isset($_POST['ServerName'])) { // Кнопка нажата?
 
     if (file_exists("install.sql")) {
         $ini_string = file_get_contents("install.sql");
+        $ini_array = explode(';', $ini_string);
+        foreach ($ini_array as $value) {
+            mysql_query($value) or die("Невозможно выполнить установку БД: " . mysql_error());
+        }
+        echo 'Успешно. Перейти к <a href="index.php">объявлениям.</a>';
     } else {
         die("Отсутствует файл дампа install.sql");
     }
-    echo $ini_string;
-    $result = mysql_query($ini_string) or die("Невозможно выполнить установку БД: " . mysql_error());
-    echo 'Успешно. Перейти к <a href="index.php">объявлениям.</a>';
+//    echo $ini_string;
+//    $result = mysql_query($ini_string) or die("Невозможно выполнить установку БД: " . mysql_error());
+//    echo 'Успешно. Перейти к <a href="index.php">объявлениям.</a>';
 
 //    while ($row = mysql_fetch_assoc($result)) {
 //        print_r($row);
@@ -26,14 +31,6 @@ if (isset($_POST['ServerName'])) { // Кнопка нажата?
 
     mysql_close($conn);  // Закрытие соединения с mysql       
 } else {
-
-
-
-
-
-
-
-
 
     $project_root = $_SERVER['DOCUMENT_ROOT'];
     $smarty_dir = $project_root . '/dz9/smarty/';
