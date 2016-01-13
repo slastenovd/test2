@@ -10,6 +10,7 @@ if (isset($_POST['ServerName'])) { // Кнопка нажата?
     mysql_query($ini_string) or die("Невозможно выполнить запрос: " . mysql_error());
     if (file_exists("install.sql")) {
         $ini_string = file_get_contents("install.sql");
+        $ini_string = str_replace('%database_name%', $_POST['Database'], $ini_string);
         $ini_array = explode(';', $ini_string);
         foreach ($ini_array as $value) {
             mysql_query($value) or die("Невозможно выполнить установку БД: " . mysql_error());
