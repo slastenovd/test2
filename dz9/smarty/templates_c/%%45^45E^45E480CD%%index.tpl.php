@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-12 23:32:05
+<?php /* Smarty version 2.6.28, created on 2016-01-13 23:21:25
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 38, false),array('modifier', 'escape', 'index.tpl', 39, false),array('function', 'html_options', 'index.tpl', 134, false),)), $this); ?>
@@ -159,7 +159,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['citys'],'selected' => $this->_tpl_vars['ad']['location_id']), $this);?>
+                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['cities'],'selected' => $this->_tpl_vars['ad']['location_id']), $this);?>
 
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
@@ -220,14 +220,14 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-success" value="<?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?>" id="form_submit" name="main_form_submit">
+                                <input type="submit" class="btn btn-success" value="<?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?>" id="form_submit">
                             </div>            
                         </div>            
 
                     </form>
                 </div>
             </div>
-                    <h3><a href="install.php">Установка</a></h3>
+            <h3><a href="install.php">Установка</a></h3>
         </div>
         
     </body>

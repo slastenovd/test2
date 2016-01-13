@@ -186,7 +186,7 @@
                         
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit" name="main_form_submit">
+                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit">
                             </div>            
                         </div>            
 

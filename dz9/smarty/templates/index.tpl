@@ -131,7 +131,7 @@
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    {html_options options=$citys selected=$ad.location_id}
+                                    {html_options options=$cities selected=$ad.location_id}
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
                         </div>            
@@ -186,14 +186,14 @@
                         
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit" name="main_form_submit">
+                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit">
                             </div>            
                         </div>            
 
                     </form>
                 </div>
             </div>
-                    <h3><a href="install.php">Установка</a></h3>
+            <h3><a href="install.php">Установка</a></h3>
         </div>
         
     </body>

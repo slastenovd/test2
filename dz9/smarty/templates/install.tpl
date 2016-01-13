@@ -38,7 +38,7 @@
                             <label for="Database">Database:</label>
                             <input type="text" class="form-control" id="Database" name="Database" placeholder="Database" value="test">
                         </div>
-                        <button type="submit" class="btn btn-default" id="form_submit"  name="main_form_submit">Install</button>
+                        <button type="submit" class="btn btn-default" id="form_submit" >Install</button>
                     </form>      
                 </div>
             </div>

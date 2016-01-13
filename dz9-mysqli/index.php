@@ -7,178 +7,86 @@ $ad_flag = 0;        // 0-новое, 1-исправление, 2-просмот
 $ads     = array();  // Массив объявлений
 $ad      = array();  // Массив с объявлением для отображения
 $err_msg = false;
-
-$ad_fields = array(  // Перечень полей для внесения в БД
-    'private', 
-    'seller_name', 
-    'manager', 
-    'email', 
-    'allow_mails', 
-    'phone', 
-    'location_id', 
-    'metro_id', 
-    'subcategory_id', 
-    'title', 
-    'description', 
-    'price', 
-    'date_change');
+$ini_file_name = 'dz9.ini';
 
 require( 'functions.php' ); 
 
-$mysqli = new mysqli('localhost', 'test','123'); 
+$ini_array = array();
+if (file_exists($ini_file_name)) {
+    foreach (explode(';', file_get_contents($ini_file_name)) as $value) {
+            $ini_array[trim(substr($value, 0, strpos($value,'=')))]=trim(substr($value, strpos($value,'=')+1));
+    }
+}
+
+$mysqli = new mysqli($ini_array['ServerName'], $ini_array['UserName'],$ini_array['Password']); 
 
 if (mysqli_connect_errno()) { 
-    die('Подключение к серверу MySQL невозможно. '. mysqli_connect_error()); 
+    echo 'Невозможно установить соединение. Перейдите к <a href="install.php">установке</a>';
+    $mysqli->close();
+    exit;
 } 
 
-if ( !$mysqli->select_db('test') ){
+if ( !$mysqli->select_db($ini_array['Database']) ){
     echo 'БД не найдена. Перейдите к <a href="install.php">установке</a>';
     $mysqli->close();
-    exit();
+    exit;
 }
 
 $ini_string = 'SET NAMES utf8';
 if ( !$mysqli->query($ini_string) ){
-               die('Ошибка при выполении инструкции. '.$ini_string.' '.mysqli_connect_error()); 
+    die('Ошибка при выполении инструкции. '.$ini_string.' '.mysqli_connect_error()); 
+    
 }
 
-// Загрузка данных для селектора "Города"
-$ini_string = 'SELECT * FROM cities';
-$result = $mysqli->query($ini_string) or die("Невозможно выполнить запрос: ". mysqli_connect_error());
-
-while($row = mysqli_fetch_assoc($result)){
-    $citys[$row['city_id']] = $row['city_name'];
-}
-
-// Загрузка данных для селектора "Метро"
-$ini_string = 'SELECT * FROM metro_stations';
-$result = $mysqli->query($ini_string) or die("Невозможно выполнить запрос: ". mysqli_connect_error());
-while($row = mysqli_fetch_assoc($result)){
-    $metro_stations[$row['metro_station_id']] = $row['metro_station_name'];
-}
-
-// Загрузка данных для селектора "Категории"
-$ini_string = 'SELECT category_name, subcategory_id, subcategory_name '
-        . 'FROM categories '
-        . 'left outer join subcategories '
-        . 'on (categories.category_id = subcategories.category_id) '
-        . 'order by subcategory_id';
-$result = $mysqli->query($ini_string) or die("Невозможно выполнить запрос: ". mysqli_connect_error());
-while($row = mysqli_fetch_assoc($result)){
-    $subcategory[$row['category_name']][$row['subcategory_id']] = $row['subcategory_name'];
-}
-
-$msg_ad_status = ''; // Информационная строка, которая будет выводиться перед формой, и будет уведомлять пользователя о том сохранено ли его объявление
+$cities = get_cities($mysqli);             // Загрузка данных для селектора "Города"
+$metro_stations = get_metro($mysqli);      // Загрузка данных для селектора "Метро"
+$subcategory = get_subcategories($mysqli); // Загрузка данных для селектора "Категории"
+$msg_ad_status = '';                // Информационная строка, которая будет выводиться перед формой, и будет уведомлять пользователя о том сохранено ли его объявление
 
 if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' нажата?
     $err_msg = ad_check_n_view_errors();
-    if ($err_msg) { // Заполнены ли все необходимые поля?
+    if ($err_msg) {                 // Заполнены ли все необходимые поля?
         $ad = $_POST;        
-        $ad_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
+        $ad_flag = 1;               // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
     } else {
-        foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранирование содержимого _POST и запись его в post[]
-            $post[mysqli_real_escape_string($key)] = mysqli_real_escape_string($value);
-        }
-
-        //$post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
+        $post = escape_POST($mysqli);
         $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';
-        
-        // Конструирование SQL инструкции
-        $fields_for_insert = '';
-        $values_for_insert = '';
-        $values_for_update = '';
-        
-        foreach ($ad_fields as $key => $value) { // Проверка наличия необходимых полей
-            $fields_for_insert .= $value;
-            $values_for_update .= $value;
-            if( isset($post[$value]) ){
-                $values_for_insert .= "'".$post[$value]."'";
-                $values_for_update .= " = '".$post[$value]."'";
-            }
-            else{
-                if($value==='date_change'){
-                    $values_for_insert .= "now()";
-                    $values_for_update .= "=now()";
-                }else{
-                    $values_for_insert .= "''";
-                    $values_for_update .= "=''";
-                }
-            }
-            if( $key < (count($ad_fields)-1) ){
-                $fields_for_insert .= ', ';
-                $values_for_insert .= ', ';
-                $values_for_update .= ', ';
-            }
-        }
-//        $fields_for_insert .= 'date_change';
-//        $values_for_insert .= 'now()';
-//        $values_for_update .= ', date_change = now()';
-        
         if (isset($post['ad_id']) and $post['ad_id'] >= 0) { // Внесение изменений в существующее объявление
-            $ini_string = 'UPDATE ads SET '.$values_for_update.' WHERE ad_id = '.(int)$post['ad_id'];
+            update_ad($post, $mysqli);
             $msg_ad_status .= ' сохранено';
         } else { // Добавление нового объявления
-            $ini_string = 'INSERT INTO ads ('.$fields_for_insert.') VALUES ('.$values_for_insert.')';
+            insert_ad($post, $mysqli);
             $msg_ad_status .= ' добавлено';
         }
-        $mysqli->query($ini_string) or die("Невозможно выполнить $ini_string запрос: ". mysqli_connect_error());
         header('Location: '. $_SERVER['PHP_SELF']);
         exit();
     }
     
 } elseif (isset($_GET['del_id'])) { // Удаление объявления
-    $del_id = (int) $_GET['del_id'];
-
-    $ini_string = 'DELETE FROM ads WHERE ad_id = '.$del_id;
-    $mysqli->query($ini_string) or die("Невозможно выполнить запрос: ". mysqli_connect_error());
-    if( $mysqli->affected_rows === 1 ){
+    if( delete_ad((int) $_GET['del_id'], $mysqli) === 1 ){
         header('Location: '. $_SERVER['PHP_SELF']);
         exit();
-    }
-    else{
-        echo '<h2>Не удалось удалить. Объявление ' . $del_id . ' не найдено.</h2>';
+    } else{
+        echo '<h2>Не удалось удалить. Объявление ' . (int)$_GET['del_id'] . ' не найдено.</h2>';
         echo '<h2><a href="' . $_SERVER['PHP_SELF'] . '">Назад<a></h2>';
         exit;
     }
-
 } elseif (isset($_GET['id'])) { // Показать объявление
-    $get_id = (int) $_GET['id'];
-    $ini_string = 'SELECT * FROM ads WHERE ad_id = '.$get_id;
-    $result = $mysqli->query($ini_string) or die("Невозможно выполнить запрос: ". mysqli_connect_error());
-    if( $mysqli->affected_rows === 1 ){
-            $ad = mysqli_fetch_assoc($result);
+        $ad = get_ad((int) $_GET['id'], $mysqli);
+        if( $ad ){
             $ad_flag = 2;
-    } else {
-//        echo '<h2>Не удалось отобразить объявление ' . $get_id . '.</h2>';
-        $msg_ad_status .= 'Не удалось отобразить объявление ' . $get_id;
-    }
+        } else {
+            $msg_ad_status .= 'Не удалось отобразить объявление ' . (int) $_GET['id'];
+        }
 }
-//if (strlen(trim($msg_ad_status)) > 0) {
-//    echo "<h2>$msg_ad_status</h2>";
-//}
 
 // Загрузка объявлений в массив для вывода на странице в виде таблицы
-$ini_string = 'SELECT ad_id, date_change, title, price, seller_name, phone '
-        . 'FROM ads '
-        . 'order by date_change desc';
-$result = $mysqli->query($ini_string) or die("Невозможно выполнить запрос: ". mysqli_connect_error());
-while($row = mysqli_fetch_assoc($result)){
-    foreach ($row as $key => $value) {
-        $ads[$row['ad_id']][$key] = $value;
-    }
-}
+$ads = get_ads($mysqli);
 
-//print_r($ads);
-$mysqli->close();  // Закрытие соединения с mysql       
-
-//$project_root=$_SERVER['DOCUMENT_ROOT'];
-//$smarty_dir=$project_root.'/dz9/smarty/';
-
+$mysqli->close();   // Закрытие соединения с mysql       
 $smarty_dir='smarty/';
-
 require($smarty_dir.'/libs/Smarty.class.php');
 $smarty = new Smarty();
-
 $smarty->compile_check = true;
 //$smarty->debugging = true;
 
@@ -190,7 +98,7 @@ $smarty->config_dir = $smarty_dir.'configs';
 $smarty->assign('ads',$ads);
 $smarty->assign('err_msg',$err_msg);
 $smarty->assign('ad_flag',$ad_flag);
-$smarty->assign('citys',$citys);
+$smarty->assign('cities',$cities);
 $smarty->assign('metro_stations',$metro_stations);
 $smarty->assign('subcategory',$subcategory);
 $smarty->assign('href_self',$_SERVER['PHP_SELF']);
