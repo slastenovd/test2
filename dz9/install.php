@@ -15,14 +15,21 @@ if (isset($_POST['ServerName'])) { // Кнопка нажата?
         foreach ($ini_array as $value) {
             mysql_query($value) or die("Невозможно выполнить установку БД: " . mysql_error());
         }
+        // Конфигурация - в файл
+        $str_post = '';
+        foreach($_POST as $key => $val)
+        {
+           $str_post .= $key.'='.$val."; \n";
+        }
+        if( !file_put_contents('dz9.ini', $str_post) ){ echo "Ошибка создания конфигурационного файла"; exit; }
         echo 'Успешно. Перейти к <a href="index.php">объявлениям.</a>';
     } else {
         die("Отсутствует файл дампа install.sql");
     }
     mysql_close($conn);  // Закрытие соединения с mysql       
 } else {
-    $project_root = $_SERVER['DOCUMENT_ROOT'];
-    $smarty_dir = $project_root . '/dz9/smarty/';
+    
+    $smarty_dir='smarty/';    
     require($smarty_dir . '/libs/Smarty.class.php');
     $smarty = new Smarty();
     $smarty->compile_check = true;

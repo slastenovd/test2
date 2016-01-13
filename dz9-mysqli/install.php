@@ -27,8 +27,7 @@ if (isset($_POST['ServerName'])) { // Кнопка нажата?
      $mysqli->close(); 
 } else {
 
-    $project_root = $_SERVER['DOCUMENT_ROOT'];
-    $smarty_dir = $project_root . '/dz9/smarty/';
+    $smarty_dir='smarty/';
     require($smarty_dir . '/libs/Smarty.class.php');
     $smarty = new Smarty();
     $smarty->compile_check = true;

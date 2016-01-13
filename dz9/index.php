@@ -25,6 +25,14 @@ $ad_fields = array(  // Перечень полей для внесения в �
 
 require( 'functions.php' ); 
 
+//$str_post = '';
+//foreach($_POST as $key => $val)
+//{
+//   $str_post .= $key.'='.$val."; \n";
+//}
+//if( !file_put_contents('dz9.ini', $str_post) ){ echo "Ошибка создания конфигурационного файла"; exit; }
+
+
 $conn = mysql_connect('localhost', 'test','123') or die("Невозможно установить соединение: ". mysql_error());
 //mysql_select_db('test') or die("Невозможно подключиться к БД: ". mysql_error());
 if ( !mysql_select_db('test') ){
@@ -70,7 +78,7 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
         $ad_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
     } else {
         foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранирование содержимого _POST и запись его в post[]
-            $post[$key] = mysql_real_escape_string($value);
+            $post[mysql_real_escape_string($key)] = mysql_real_escape_string($value);
         }
 
         //$post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
@@ -164,8 +172,9 @@ while($row = mysql_fetch_assoc($result)){
 //print_r($ads);
 mysql_close($conn);  // Закрытие соединения с mysql       
 
-$project_root=$_SERVER['DOCUMENT_ROOT'];
-$smarty_dir=$project_root.'/dz9/smarty/';
+//$project_root=$_SERVER['DOCUMENT_ROOT'];
+//$smarty_dir=$project_root.'/dz9/smarty/';
+$smarty_dir='smarty/';
 
 require($smarty_dir.'/libs/Smarty.class.php');
 $smarty = new Smarty();

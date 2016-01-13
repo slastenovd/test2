@@ -77,7 +77,7 @@ if (isset($_POST['seller_name'])) { // Кнопка 'Отправить' наж�
         $ad_flag = 1; // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
     } else {
         foreach ($_POST as $key => $value) { // В целях защиты от инъекций экранирование содержимого _POST и запись его в post[]
-            $post[$key] = mysql_real_escape_string($value);
+            $post[mysqli_real_escape_string($key)] = mysqli_real_escape_string($value);
         }
 
         //$post['date_change'] = time(); // Добавление временной метки последнего внесения изменений в объявление
@@ -171,8 +171,10 @@ while($row = mysqli_fetch_assoc($result)){
 //print_r($ads);
 $mysqli->close();  // Закрытие соединения с mysql       
 
-$project_root=$_SERVER['DOCUMENT_ROOT'];
-$smarty_dir=$project_root.'/dz9/smarty/';
+//$project_root=$_SERVER['DOCUMENT_ROOT'];
+//$smarty_dir=$project_root.'/dz9/smarty/';
+
+$smarty_dir='smarty/';
 
 require($smarty_dir.'/libs/Smarty.class.php');
 $smarty = new Smarty();
