@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-14 00:18:14
+<?php /* Smarty version 2.6.28, created on 2016-01-17 15:39:50
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 38, false),array('modifier', 'escape', 'index.tpl', 39, false),array('function', 'html_options', 'index.tpl', 134, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 36, false),array('modifier', 'escape', 'index.tpl', 37, false),array('function', 'html_options', 'index.tpl', 132, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -10,7 +10,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>Лаба №9</title>
+        <title>Лаба №10</title>
 
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -34,8 +34,6 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                     <h3><?php echo $this->_tpl_vars['msg_ad_status']; ?>
 </h3>
                 <?php endif; ?>   
-                
-                
 
                 <table class="table table-striped"><tr><td>#</td><td>Время и Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>                                
                     <?php $_from = $this->_tpl_vars['ads']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['foreach_ads'] = array('total' => count($_from), 'iteration' => 0);
@@ -159,7 +157,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['citys'],'selected' => $this->_tpl_vars['ad']['location_id']), $this);?>
+                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['cities'],'selected' => $this->_tpl_vars['ad']['location_id']), $this);?>
 
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
@@ -176,10 +174,10 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         </div>            
 
                         <div class="form-group">
-                            <label for="fld_subcategory_id" class="col-sm-2 control-label">Категория</label> 
+                            <label for="fld_category_id" class="col-sm-2 control-label">Категория</label> 
                             <div class="col-sm-10">
-                                <select title="Выберите категорию объявления" class="form-control" name="subcategory_id" id="fld_subcategory_id"> <option value="">-- Выберите категорию --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['subcategory'],'selected' => $this->_tpl_vars['ad']['subcategory_id']), $this);?>
+                                <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
+                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['categories'],'selected' => $this->_tpl_vars['ad']['category_id']), $this);?>
 
                                 </select>
                             </div>            

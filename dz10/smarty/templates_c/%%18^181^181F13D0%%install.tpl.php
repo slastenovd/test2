@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-12 08:12:59
+<?php /* Smarty version 2.6.28, created on 2016-01-17 17:13:10
          compiled from install.tpl */ ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +40,7 @@
                             <label for="Database">Database:</label>
                             <input type="text" class="form-control" id="Database" name="Database" placeholder="Database" value="test">
                         </div>
-                        <button type="submit" class="btn btn-default" id="form_submit"  name="main_form_submit">Install</button>
+                        <button type="submit" class="btn btn-default" id="form_submit">Install</button>
                     </form>      
                 </div>
             </div>

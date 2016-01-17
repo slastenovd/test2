@@ -3,7 +3,7 @@
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 ini_set('display_errors', 1);
 header("Content-Type: text/html; charset=utf-8");
-$ini_file_name  = 'dz9.ini';
+$ini_file_name = 'db.ini';
 $dump_file_name = 'install.sql';
 
 

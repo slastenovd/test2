@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>Лаба №9</title>
+        <title>Лаба №10</title>
 
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -28,8 +28,6 @@
                 {if strlen($msg_ad_status) gt 0}
                     <h3>{$msg_ad_status}</h3>
                 {/if}   
-                
-                
 
                 <table class="table table-striped"><tr><td>#</td><td>Время и Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>                                
                     {foreach from=$ads key=k item=v name=foreach_ads}
@@ -131,7 +129,7 @@
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    {html_options options=$citys selected=$ad.location_id}
+                                    {html_options options=$cities selected=$ad.location_id}
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
                         </div>            
@@ -146,10 +144,10 @@
                         </div>            
 
                         <div class="form-group">
-                            <label for="fld_subcategory_id" class="col-sm-2 control-label">Категория</label> 
+                            <label for="fld_category_id" class="col-sm-2 control-label">Категория</label> 
                             <div class="col-sm-10">
-                                <select title="Выберите категорию объявления" class="form-control" name="subcategory_id" id="fld_subcategory_id"> <option value="">-- Выберите категорию --</option>
-                                    {html_options options=$subcategory selected=$ad.subcategory_id}
+                                <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
+                                    {html_options options=$categories selected=$ad.category_id}
                                 </select>
                             </div>            
                         </div>            
