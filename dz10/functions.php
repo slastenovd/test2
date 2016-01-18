@@ -25,10 +25,9 @@ function get_metro($db){
 
 function get_categories($db){ // Загрузка данных для селектора "Категории"
     
-    $ini_string = 'SELECT a.category_name AS ARRAY_KEY_1, b.category_id AS ARRAY_KEY_2, b.category_name '
+    return $db->selectCol('SELECT a.category_name AS ARRAY_KEY_1, b.category_id AS ARRAY_KEY_2, b.category_name '
             . 'FROM categories a left join categories b on a.category_id = b.parent_id '
-            . 'WHERE a.parent_id is NULL';
-    return $db->selectCol($ini_string);
+            . 'WHERE a.parent_id is NULL');
 }
 
 function update_ad($post, $db){
@@ -64,6 +63,14 @@ function databaseErrorHandler($message, $info)
 //    global $firePHP;
 //    $firePHP->log($message);
 //    $firePHP->log($info);
+    
+    if ( isset($info['code']) and ($info['code'] === 1044 or $info['code'] === 1045 or $info['code'] === 1049 or $info['code'] === 2005)) {
+        // 1045 Access denied 
+        // 1044 Access denied 
+        // 2005 Unknown MySQL server host 'localhost1' (34)        
+        echo 'Невозможно подключиться к БД. Перейдите к <a href="install.php">установке</a><br>';
+//        exit;
+    }
 
     echo "SQL Error: $message<br><pre>"; 
     print_r($info);

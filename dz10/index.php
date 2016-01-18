@@ -8,16 +8,14 @@
  * Задание dz9.php (mysqli) переделать с помощью DbSimple, все запросы к БД должны выводиться отладочным механизмом через FirePHP и видны в консоли Firebug
 
  */
-error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
-ini_set('display_errors', 1);
+//error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
+//ini_set('display_errors', 1);
 //header("Content-Type: text/html; charset=utf-8");
 
 require_once "FirePHPCore/FirePHP.class.php";
 require_once "dbsimple/DbSimple/Generic.php";
 require_once "dbsimple/config.php";
 require_once "functions.php";
-
-//$db = DbSimple_Generic::connect("mysqli://test:123@localhost/test");
 
 $firePHP = FirePHP::getInstance(true);
 $firePHP->setEnabled(true);
@@ -34,6 +32,7 @@ if (! $ini_array = get_params_from_ini_file($ini_file_name) ){
 }
 
 $db = DbSimple_Generic::connect('mysqli://'.$ini_array['UserName'].':'.$ini_array['Password'].'@'.$ini_array['ServerName'].'/'.$ini_array['Database']);
+//$db = DbSimple_Generic::connect('mysqli://test:123@localhost/tet');
 $db->setErrorHandler('databaseErrorHandler');
 $db->setLogger('myLogger');
 
@@ -45,12 +44,7 @@ $msg_ad_status = '';                   // Информационная стро�
 if (isset($_POST['seller_name'])) {    // Кнопка 'Отправить' нажата?
     $post = $_POST;        
     $err_msg = ad_check_n_view_errors($post);
-//    print_r($err_msg);
     if ($err_msg) {                    // Заполнены ли все необходимые поля?
-//    print_r($_POST);
-//        $ad = $_POST;        
-//        print_r($ad);
-//        $post = $_POST;        
         $ad_flag = 1;                  // Установка флага в значение 1: не заполнены нужные поля, пользователь должен внести все необходимые данные
     } else {
 //        $msg_ad_status = 'Объявление ' . trim(htmlspecialchars($post['title'])) . ' за ' . (int) $post['price'] . ' руб.';

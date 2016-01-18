@@ -6,8 +6,8 @@ SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP DATABASE IF EXISTS `test`;
-CREATE DATABASE `test` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `test`;
+CREATE DATABASE `%database_name%` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `%database_name%`;
 
 DROP TABLE IF EXISTS `ads`;
 CREATE TABLE `ads` (
