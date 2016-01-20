@@ -19,10 +19,9 @@
         <![endif]-->
     </head>
     <body>
-        {if count($ads)>0}
         <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-sm-10 col-md-8">
-                    <button type="button" class="btn btn-link"><a href="{$href_self}">Новое объявление</a></button> <button type="button" class="btn btn-link"><a href="install.php">Установка</a></button>
-
+                <button type="button" class="btn btn-link"><a href="{$href_self}">Новое объявление</a></button> <button type="button" class="btn btn-link"><a href="install.php">Установка</a></button>
+               {if count($ads)>0}
                 <table class="table table-striped"><tr><td>#</td><td>Время и Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>                                
                     {foreach from=$ads key=k item=v name=foreach_ads}
                         <tr>
@@ -36,8 +35,8 @@
                         </tr>
                     {/foreach}        
                 </table>
+                {/if}   
             </div> </div> </div>
-        {/if}   
         
             <div class="container-fluid">
                 <div class="row">

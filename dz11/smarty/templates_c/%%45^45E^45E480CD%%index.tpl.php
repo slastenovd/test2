@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-20 07:09:37
+<?php /* Smarty version 2.6.28, created on 2016-01-20 07:32:04
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 30, false),array('modifier', 'escape', 'index.tpl', 31, false),array('function', 'html_options', 'index.tpl', 126, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 29, false),array('modifier', 'escape', 'index.tpl', 30, false),array('function', 'html_options', 'index.tpl', 125, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -23,11 +23,10 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
         <![endif]-->
     </head>
     <body>
-        <?php if (count ( $this->_tpl_vars['ads'] ) > 0): ?>
         <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-sm-10 col-md-8">
-                    <button type="button" class="btn btn-link"><a href="<?php echo $this->_tpl_vars['href_self']; ?>
+                <button type="button" class="btn btn-link"><a href="<?php echo $this->_tpl_vars['href_self']; ?>
 ">Новое объявление</a></button> <button type="button" class="btn btn-link"><a href="install.php">Установка</a></button>
-
+               <?php if (count ( $this->_tpl_vars['ads'] ) > 0): ?>
                 <table class="table table-striped"><tr><td>#</td><td>Время и Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>                                
                     <?php $_from = $this->_tpl_vars['ads']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['foreach_ads'] = array('total' => count($_from), 'iteration' => 0);
 if ($this->_foreach['foreach_ads']['total'] > 0):
@@ -55,8 +54,8 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         </tr>
                     <?php endforeach; endif; unset($_from); ?>        
                 </table>
+                <?php endif; ?>   
             </div> </div> </div>
-        <?php endif; ?>   
         
             <div class="container-fluid">
                 <div class="row">
