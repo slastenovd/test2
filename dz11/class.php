@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
-ini_set('display_errors', 1);
-header("Content-Type: text/html; charset=utf-8");
 
 require_once "FirePHPCore/FirePHP.class.php";
 require_once "dbsimple/DbSimple/Generic.php";
@@ -27,26 +24,30 @@ class ad {
     public $price;
     public $date_change;
     
+    public $CheckResult = false;
+    
 
     public function ArrayToAd($ad_array){ 
-        $this->ad_id=$ad_array['ad_id'];
-        $this->private=$ad_array['private'];
-        $this->seller_name=$ad_array['seller_name'];
-        $this->manager=$ad_array['manager'];
-        $this->email=$ad_array['email'];
-        $this->allow_mails=$ad_array['allow_mails'];
-        $this->phone=$ad_array['phone'];
-        $this->location_id=$ad_array['location_id'];
-        $this->metro_id=$ad_array['metro_id'];
-        $this->category_id=$ad_array['category_id'];
-        $this->title=$ad_array['title'];
-        $this->description=$ad_array['description'];
-        $this->price=$ad_array['price'];
-        $this->date_change=$ad_array['date_change'];
+        if ( isset($ad_array['ad_id']) )        $this->ad_id=$ad_array['ad_id'];
+        if ( isset($ad_array['private']) )      $this->private=$ad_array['private'];
+        if ( isset($ad_array['seller_name']) )  $this->seller_name=$ad_array['seller_name'];
+        if ( isset($ad_array['manager']) )      $this->manager=$ad_array['manager'];
+        if ( isset($ad_array['email']) )        $this->email=$ad_array['email'];
+        if ( isset($ad_array['allow_mails']) )  $this->allow_mails=$ad_array['allow_mails']; else $this->allow_mails = 0;
+        if ( isset($ad_array['phone']) )        $this->phone=$ad_array['phone'];
+        if ( isset($ad_array['location_id']) )  $this->location_id=$ad_array['location_id'];
+        if ( isset($ad_array['metro_id']) )     $this->metro_id=$ad_array['metro_id'];
+        if ( isset($ad_array['category_id']) )  $this->category_id=$ad_array['category_id'];
+        if ( isset($ad_array['title']) )        $this->title=$ad_array['title'];
+        if ( isset($ad_array['description']) )  $this->description=$ad_array['description'];
+        if ( isset($ad_array['price']) )        $this->price=$ad_array['price'];
+        if ( isset($ad_array['date_change']) )  $this->date_change=$ad_array['date_change'];
+//        if ( !isset($ad_array['allow_mails']) ) $this->allow_mails = 0; // Если чекбокс не нажат то в POST не отправляется никакого значения. В этом случае установка значения в 0
+        
     }
 
     public function AdToArray(){
-        $ad = Array();
+        $ad_array = Array();
         $ad_array['ad_id'] = $this->ad_id;
         $ad_array['private'] = $this->private;
         $ad_array['seller_name'] = $this->seller_name;
@@ -61,10 +62,23 @@ class ad {
         $ad_array['description'] = $this->description;
         $ad_array['price'] = $this->price;
         $ad_array['date_change'] = $this->date_change;
-        return $ad;
-    }
-    public function ReadFromDatabase( $id ){
         
+        return $ad_array;
+    }
+    public function Check(){
+        $this->CheckResult = false;
+        if (isset($this->title) and ! strlen($this->title)) { // Если значение приянто, однако оно пустое
+            $this->CheckResult .= 'Не заполнено поле Название объявления<br>';
+        }
+
+        if (isset($this->seller_name) and ! strlen($this->seller_name)) { // Если значение приянто, однако оно пустое
+            $this->CheckResult .= 'Не заполнено поле Ваше имя<br>';
+        }
+
+        if (isset($this->price) and $this->price == 0) { // Если значение приянто, однако оно пустое
+            $this->CheckResult .= 'Не заполнено поле Цена<br>';
+        }
+        return $this->CheckResult;
     }
 }
 
@@ -75,7 +89,7 @@ class ads {
 
     function __construct() {
         $this->Connect();
-        $this->ReadFromDatabase();
+//        $this->ReadFromDatabase();
     }
     public function Connect(){
         if (! $ini_array = $this->get_params_from_ini_file() ){
@@ -83,20 +97,28 @@ class ads {
             exit;
         }
         $this->db = DbSimple_Generic::connect('mysqli://'.$ini_array['UserName'].':'.$ini_array['Password'].'@'.$ini_array['ServerName'].'/'.$ini_array['Database']);
+        $this->db->setErrorHandler('databaseErrorHandler');
+        $this->db->setLogger('myLogger');
+        
     }
 
-    public function AddNewAd(ad $ad){
-        $this->ads[] = $ad;
+    public function SaveAd(ad $ad){ 
+        if( isset($ad->ad_id) and $ad->ad_id ){
+            $this->db->query('UPDATE ads SET ?a WHERE ad_id=?',$ad->AdToArray(),$ad->ad_id);
+        }else{
+            $this->db->query('INSERT ads SET ?a',$ad->AdToArray());
+        }        
     }
 
-    protected function ReadFromDatabase(){
+    protected function ReadFromDatabase(){ // Считывает объявления из БД
         $ads_from_db = $this->db->select('SELECT * '
                 . 'FROM ads '
                 . 'order by date_change desc');
+        unset ($this->ads);
         foreach ($ads_from_db as $key => $value) {
             $ad = new ad();
             $ad->ArrayToAd($value);
-            $this->AddNewAd($ad);
+            $this->ads[$ad->ad_id] = $ad;
         }
     }
     
@@ -131,20 +153,43 @@ class ads {
                 . 'WHERE a.parent_id is NULL');
     }
     
-    protected function GetAdsArray(){
+    protected function GetAdsArray(){ // Возвращает объявления в виде ассоциативного массива
         $ads = Array();
+        if ( isset($this->ads) ) 
         foreach ($this->ads as $key => $value) {
-            $ads[] = $value->AdToArray();
+            $ads[$value->ad_id] = $value->AdToArray();
         }
         return $ads;
     }
+    
+    public function delete_ad($ad_id){
+        $this->db->query('DELETE FROM ads WHERE ad_id = ?',(int)$ad_id);
+        unset( $this->ads[$ad_id] );
+        return $this->db->affected_rows;
+    }
 
-    public function ShowForm(){
+    public function ShowForm($param = -1){ // Открывает web форму
+        // $param = -1 Новое объявление
+        // $param >= 0 Показать объявление
+        // $param является объектом класса ad : отредактировать объявление
+        
+        $this->ReadFromDatabase();
+        $ad = Array();
         $err_msg = '';
         $ad_flag = 0;
-        $msg_ad_status = '';
-        $ad = $this->ads[0]->AdToArray();
+//        $msg_ad_status = '';
         
+        if( isset($param) and ($param instanceof ad) ){ // Если в качестве параметра передано объявление 
+            $ad = $param->AdToArray();
+            $err_msg = $param->CheckResult;
+            $ad_flag = 1;
+        } elseif( isset($this->ads[(int)$param]) ){     // Если в качестве параметра передан номер объявления
+            $ad = $this->ads[(int)$param]->AdToArray(); 
+            $ad_flag = 2;
+        }
+
+        
+
         $smarty_dir='smarty/';
         require($smarty_dir.'/libs/Smarty.class.php');
         $smarty = new Smarty();
@@ -164,12 +209,8 @@ class ads {
         $smarty->assign('categories',$this->GetCategories());
         $smarty->assign('href_self',$_SERVER['PHP_SELF']);
         $smarty->assign('ad',$ad);
-        $smarty->assign('msg_ad_status',$msg_ad_status);
-
+//        $smarty->assign('msg_ad_status',$msg_ad_status);
         $smarty->display('index.tpl');
     }
 }
 
-$aaa = new ads();
-$aaa->ShowForm();
-//print_r($aaa);

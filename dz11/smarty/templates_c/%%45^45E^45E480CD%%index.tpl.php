@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-17 15:39:50
+<?php /* Smarty version 2.6.28, created on 2016-01-20 07:09:37
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 36, false),array('modifier', 'escape', 'index.tpl', 37, false),array('function', 'html_options', 'index.tpl', 132, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 30, false),array('modifier', 'escape', 'index.tpl', 31, false),array('function', 'html_options', 'index.tpl', 126, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -10,7 +10,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>Лаба №10</title>
+        <title>Лаба №11</title>
 
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -25,15 +25,8 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
     <body>
         <?php if (count ( $this->_tpl_vars['ads'] ) > 0): ?>
         <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-sm-10 col-md-8">
-                <?php if ($this->_tpl_vars['ad_flag'] > 0): ?>
-                    <h3><a href="<?php echo $this->_tpl_vars['href_self']; ?>
-">Подать новое объявление</a></h3>
-                <?php endif; ?>   
-
-                <?php if (strlen ( $this->_tpl_vars['msg_ad_status'] ) > 0): ?>
-                    <h3><?php echo $this->_tpl_vars['msg_ad_status']; ?>
-</h3>
-                <?php endif; ?>   
+                    <button type="button" class="btn btn-link"><a href="<?php echo $this->_tpl_vars['href_self']; ?>
+">Новое объявление</a></button> <button type="button" class="btn btn-link"><a href="install.php">Установка</a></button>
 
                 <table class="table table-striped"><tr><td>#</td><td>Время и Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>                                
                     <?php $_from = $this->_tpl_vars['ads']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }$this->_foreach['foreach_ads'] = array('total' => count($_from), 'iteration' => 0);
@@ -67,7 +60,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
         
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-10 col-md-8">
+                    <div class="col-xs-12 col-sm-8 col-md-6">
 
                         <form  class="form-horizontal" method="post">
                             <div class="form-group">
@@ -76,8 +69,8 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
         <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
             Новое объявление
         <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
-            Откорректируйте объявление<h4><?php echo $this->_tpl_vars['err_msg']; ?>
-</h4>
+            Откорректируйте объявление<blockquote><?php echo $this->_tpl_vars['err_msg']; ?>
+</blockquote>
         <?php elseif ($this->_tpl_vars['ad_flag'] == 2): ?>
             Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['date_change'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
 <br>о продаже <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']['title'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
@@ -225,7 +218,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                     </form>
                 </div>
             </div>
-                    <h3><a href="install.php">Установка</a></h3>
+                    
         </div>
         
     </body>
