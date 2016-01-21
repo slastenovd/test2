@@ -19,9 +19,12 @@
         <![endif]-->
     </head>
     <body>
+        {if count($ads)>0}
         <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-sm-10 col-md-8">
-                <button type="button" class="btn btn-link"><a href="{$href_self}">Новое объявление</a></button> <button type="button" class="btn btn-link"><a href="install.php">Установка</a></button>
-               {if count($ads)>0}
+                {if $ad_flag gt 0}
+                    <h3><a href="{$href_self}">Подать новое объявление</a></h3>
+                {/if}   
+
                 <table class="table table-striped"><tr><td>#</td><td>Время и Дата</td><td>Название</td><td>Цена</td><td>Имя</td><td>Телефон</td><td>Действие</td></tr>                                
                     {foreach from=$ads key=k item=v name=foreach_ads}
                         <tr>
@@ -35,12 +38,12 @@
                         </tr>
                     {/foreach}        
                 </table>
-                {/if}   
             </div> </div> </div>
+        {/if}   
         
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-8 col-md-6">
+                    <div class="col-xs-12 col-sm-10 col-md-8">
 
                         <form  class="form-horizontal" method="post">
                             <div class="form-group">
@@ -49,7 +52,7 @@
         {if     $ad_flag eq 0}
             Новое объявление
         {elseif $ad_flag eq 1}
-            Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
+            Откорректируйте объявление<h4>{$err_msg}</h4>
         {elseif $ad_flag eq 2}
             Просмотр объявления от {$ad.date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad.title|escape} за {$ad.price|escape} руб.
         {else}
@@ -184,7 +187,7 @@
                     </form>
                 </div>
             </div>
-                    
+                    <h3><a href="install.php">Установка</a></h3>
         </div>
         
     </body>
