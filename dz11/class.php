@@ -122,20 +122,16 @@ class ads {
         }
     }
     
-    public function getAd ($ad_id){
-        return $ads[$ad_id];
-    }
-
     public function get_params_from_ini_file() { // Возвращает ассоциативный массив с параметрами подключения к БД
         $ini_array = array();
         if ( file_exists($this->ini_file_name) ) {
             foreach (explode(';', file_get_contents($this->ini_file_name)) as $value) {
                 $ini_array[trim(substr($value, 0, strpos($value, '=')))] = trim(substr($value, strpos($value, '=') + 1));
             }
+            return $ini_array;
         } else{
             return false;
         }
-        return $ini_array;
     }
     
     protected function GetCities(){ // Загрузка данных для селектора "Города"
