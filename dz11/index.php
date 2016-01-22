@@ -8,10 +8,10 @@ $ads = new ads();
 
 if (isset($_POST['seller_name'])) {     // Кнопка 'Отправить' нажата?
     
-    $ad = new ad();
-    $ad->ArrayToAd($_POST);
-    if ( $ad->Check() ){                // Проверка на заполнение полей
-        $ads->ShowForm($ad);            // Если не пройдена - на корректировку
+    $ad = new ad($_POST);
+    $AdChecker = new AdChecker($ad);
+    if ( $AdChecker->ErrorMessage ){    // Проверка на заполнение полей
+        $ads->ShowForm($ad, $AdChecker->ErrorMessage);            // Если не пройдена - на корректировку
     } else {
         $ads->SaveAd($ad);              // Иначе - сохранение
         $ads->ShowForm(); 
