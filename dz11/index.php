@@ -1,19 +1,30 @@
 <?php
 error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
+require_once "settings.php";
 require_once "class.php";
 
-$ads = new ads();
+require_once(MY_SMARTY_DIR_CLASS_PHP);
+$smarty = new Smarty();
+$smarty->compile_check = true;
+//$smarty->debugging = true;
+$smarty->template_dir   = MY_SMARTY_DIR_TEMPLATES;
+$smarty->compile_dir    = MY_SMARTY_DIR_TEMPLATES_C;
+$smarty->cache_dir      = MY_SMARTY_DIR_CACHE;
+$smarty->config_dir     = MY_SMARTY_DIR_CONFIGS;
+
+$Connect = new adsDBConnect(INI_FILE_NAME);
+$ads = new ads($Connect);
 
 if (isset($_POST['seller_name'])) {     // Кнопка 'Отправить' нажата?
     
     $ad = new ad($_POST);
     $AdChecker = new AdChecker($ad);
     if ( $AdChecker->ErrorMessage ){    // Проверка на заполнение полей
-        $ads->ShowForm($ad, $AdChecker->ErrorMessage);            // Если не пройдена - на корректировку
+        $ads->ShowForm($smarty, $ad, $AdChecker->ErrorMessage);            // Если не пройдена - на корректировку
     } else {
-        $ads->SaveAd($ad);              // Иначе - сохранение
+        $ads->SaveAd($smarty, $ad);              // Иначе - сохранение
         $ads->ShowForm(); 
     }
     
@@ -24,10 +35,10 @@ if (isset($_POST['seller_name'])) {     // Кнопка 'Отправить' н�
     
 } elseif (isset($_GET['id'])) {         // Ссылка на объявление нажата?
     
-    $ads->ShowForm( $_GET['id'] ); 
+    $ads->ShowForm( $smarty, $_GET['id'] ); 
     
 } else {                                // Ничего не нажато - значит новое объявление
     
-    $ads->ShowForm(); 
+    $ads->ShowForm($smarty); 
     
 }

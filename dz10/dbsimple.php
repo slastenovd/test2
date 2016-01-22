@@ -23,6 +23,10 @@ $db = DbSimple_Generic::connect('mysqli://'.$ini_array['UserName'].':'.$ini_arra
 $db->setErrorHandler('databaseErrorHandler');
 $db->setLogger('myLogger');
 
+
+print_r($db->selectCol("SELECT city_id AS ARRAY_KEY, city_name FROM cities "));
+
+
 $cities = get_cities($db);             // Загрузка данных для селектора "Города"
 $metro_stations = get_metro($db);      // Загрузка данных для селектора "Метро"
 $subcategory = get_categories($db); // Загрузка данных для селектора "Категории"
