@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-22 02:58:17
+<?php /* Smarty version 2.6.28, created on 2016-01-24 01:40:08
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 29, false),array('modifier', 'escape', 'index.tpl', 30, false),array('function', 'html_options', 'index.tpl', 126, false),)), $this); ?>
@@ -36,17 +36,17 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                         <tr>
                             <td><?php echo ($this->_foreach['foreach_ads']['iteration']-1)+1; ?>
 </td>
-                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['date_change'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']->date_change)) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
 </td>
                             <td><a href="<?php echo $this->_tpl_vars['href_self']; ?>
 ?id=<?php echo $this->_tpl_vars['k']; ?>
-"><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['title'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+"><?php echo ((is_array($_tmp=$this->_tpl_vars['v']->title)) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 </a></td>
-                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['price'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']->price)) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
  руб.</td>
-                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['seller_name'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']->seller_name)) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 </td>
-                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']['phone'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+                            <td><?php echo ((is_array($_tmp=$this->_tpl_vars['v']->phone)) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 </td>
                             <td><a href="<?php echo $this->_tpl_vars['href_self']; ?>
 ?del_id=<?php echo $this->_tpl_vars['k']; ?>
@@ -55,7 +55,7 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                     <?php endforeach; endif; unset($_from); ?>        
                 </table>
                 <?php endif; ?>   
-            </div> </div> 
+                </div> </div> 
         </div>
         
             <div class="container-fluid">
@@ -66,19 +66,19 @@ if ($this->_foreach['foreach_ads']['total'] > 0):
                             <div class="form-group">
                                 <div class="col-sm-offset-2">
                                     <h2>
-        <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
-            Новое объявление
-        <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
-            Откорректируйте объявление<blockquote><?php echo $this->_tpl_vars['err_msg']; ?>
+                                    <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
+                                        Новое объявление
+                                    <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
+                                        Откорректируйте объявление<blockquote><?php echo $this->_tpl_vars['err_msg']; ?>
 </blockquote>
-        <?php elseif ($this->_tpl_vars['ad_flag'] == 2): ?>
-            Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->date_change)) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
+                                    <?php elseif ($this->_tpl_vars['ad_flag'] == 2): ?>
+                                        Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->date_change)) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
 <br>о продаже <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->title)) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
  за <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->price)) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
  руб.
-        <?php else: ?>
-            Обнаружена неконсистентность данных
-        <?php endif; ?>
+                                    <?php else: ?>
+                                        Обнаружена неконсистентность данных
+                                    <?php endif; ?>
                                     </h2>
                                 </div>
                             </div>

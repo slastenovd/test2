@@ -26,17 +26,17 @@
                     {foreach from=$ads key=k item=v name=foreach_ads}
                         <tr>
                             <td>{$smarty.foreach.foreach_ads.index+1}</td>
-                            <td>{$v.date_change|date_format:"%H:%M:%S %d.%m.%Y"}</td>
-                            <td><a href="{$href_self}?id={$k}">{$v.title|escape}</a></td>
-                            <td>{$v.price|escape} руб.</td>
-                            <td>{$v.seller_name|escape}</td>
-                            <td>{$v.phone|escape}</td>
+                            <td>{$v->date_change|date_format:"%H:%M:%S %d.%m.%Y"}</td>
+                            <td><a href="{$href_self}?id={$k}">{$v->title|escape}</a></td>
+                            <td>{$v->price|escape} руб.</td>
+                            <td>{$v->seller_name|escape}</td>
+                            <td>{$v->phone|escape}</td>
                             <td><a href="{$href_self}?del_id={$k}">удалить</a></td>
                         </tr>
                     {/foreach}        
                 </table>
                 {/if}   
-            </div> </div> 
+                </div> </div> 
         </div>
         
             <div class="container-fluid">
@@ -47,15 +47,15 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-2">
                                     <h2>
-        {if     $ad_flag eq 0}
-            Новое объявление
-        {elseif $ad_flag eq 1}
-            Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
-        {elseif $ad_flag eq 2}
-            Просмотр объявления от {$ad->date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->title|escape} за {$ad->price|escape} руб.
-        {else}
-            Обнаружена неконсистентность данных
-        {/if}
+                                    {if     $ad_flag eq 0}
+                                        Новое объявление
+                                    {elseif $ad_flag eq 1}
+                                        Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
+                                    {elseif $ad_flag eq 2}
+                                        Просмотр объявления от {$ad->date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->title|escape} за {$ad->price|escape} руб.
+                                    {else}
+                                        Обнаружена неконсистентность данных
+                                    {/if}
                                     </h2>
                                 </div>
                             </div>

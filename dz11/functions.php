@@ -25,4 +25,11 @@ function myLogger($db, $sql, $caller) {
     $firePHP->groupEnd();
 }
 
+spl_autoload_register(function ($class) { // автолоадер для классов 
+    $class_file_name = MY_CLASSES_DIR. $class . '.class.php';
+    if ( ! class_exists($class) and file_exists($class_file_name) ) {
+        require_once $class_file_name;
+    }
+});
+
 ?>
