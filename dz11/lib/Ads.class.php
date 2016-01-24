@@ -9,11 +9,14 @@ class Ads {
     }
 
     public function SaveAd(ad $ad){ 
-        if( isset($ad->ad_id) and $ad->ad_id ){
-            $this->Connect->db->query('UPDATE ads SET ?a WHERE ad_id=?',get_object_vars($ad),$ad->ad_id);
-        }else{
-            $this->Connect->db->query('INSERT ads SET ?a',get_object_vars($ad));
-        }        
+//        REPLACE INTO ads(?#) VALUES(?a)
+        $this->Connect->db->query('REPLACE INTO ads(?#) VALUES(?a)', array_keys(get_object_vars($ad)), array_values(get_object_vars($ad)));
+                
+//        if( isset($ad->ad_id) and $ad->ad_id ){
+//            $this->Connect->db->query('UPDATE ads SET ?a WHERE ad_id=?',get_object_vars($ad),$ad->ad_id);
+//        }else{
+//            $this->Connect->db->query('INSERT ads SET ?a',get_object_vars($ad));
+//        }        
     }
 
     protected function ReadFromDatabase(){ // Считывает объявления из БД
@@ -64,6 +67,8 @@ class Ads {
         } else {
             $ad = new Ad(Array());
         }
+        
+        if( !isset($this->ads) ) $this->ads = Array();
 
         $smarty->assign('ads',$this->ads);
         $smarty->assign('err_msg',$ErrorMessage);

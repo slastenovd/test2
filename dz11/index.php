@@ -7,7 +7,7 @@ require_once "functions.php";
 require_once "FirePHPCore/FirePHP.class.php";
 require_once MY_DBSIMPLE_DIR."DbSimple/Generic.php";
 require_once MY_DBSIMPLE_DIR."config.php";
-require_once(MY_SMARTY_DIR.'/libs/Smarty.class.php');
+require_once MY_SMARTY_DIR.'/libs/Smarty.class.php';
 
 $firePHP = FirePHP::getInstance(true);
 $firePHP->setEnabled(true);

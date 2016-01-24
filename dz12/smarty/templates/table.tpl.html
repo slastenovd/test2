@@ -1,0 +1,25 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Время и Дата</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+
+    {foreach from=$ads key=k item=v name=foreach_ads}
+        <tr>
+            <td>{$smarty.foreach.foreach_ads.index+1}</td>
+            <td>{$v->date_change|date_format:"%H:%M:%S %d.%m.%Y"}</td>
+            <td><a href="{$href_self}?id={$k}">{$v->title|escape}</a></td>
+            <td>{$v->price|escape} руб.</td>
+            <td>{$v->seller_name|escape}</td>
+            <td>{$v->phone|escape}</td>
+            <td><a href="{$href_self}?del_id={$k}">удалить</a></td>
+        </tr>
+    {/foreach}        
+</table>

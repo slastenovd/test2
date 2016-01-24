@@ -32,4 +32,16 @@ spl_autoload_register(function ($class) { // автолоадер для кла�
     }
 });
 
+function getParamsFromIniFile($ini_file_name) { // Возвращает ассоциативный массив с параметрами подключения к БД
+    $ini_array = array();
+    if ( file_exists($ini_file_name) ) {
+        foreach (explode(';', file_get_contents($ini_file_name)) as $value) {
+            $ini_array[trim(substr($value, 0, strpos($value, '=')))] = trim(substr($value, strpos($value, '=') + 1));
+        }
+        return $ini_array;
+    } else{
+        return false;
+    }
+}
+
 ?>
