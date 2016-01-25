@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-25 22:13:31
+<?php /* Smarty version 2.6.28, created on 2016-01-25 22:38:04
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 128, false),array('modifier', 'escape', 'index.tpl', 128, false),array('function', 'html_options', 'index.tpl', 199, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 131, false),array('modifier', 'escape', 'index.tpl', 131, false),array('function', 'html_options', 'index.tpl', 202, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -113,6 +113,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
 
                     <a name="Ads"></a>
 
+<div class="well">                        
 
                         <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Перечень объявлений</button>
                         <div class="collapse" id="collapseAds" aria-expanded="true">
@@ -122,6 +123,8 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
                         </div>  
+                        
+                        </div>
                     <?php endif; ?>  
                                         <a name="NewAd"></a>
                     <form  class="form-horizontal" method="post">

@@ -107,11 +107,14 @@
 
                     <a name="Ads"></a>
 
+<div class="well">                        
 
                         <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Перечень объявлений</button>
                         <div class="collapse" id="collapseAds" aria-expanded="true">
                             {include file='table.tpl.html'}
                         </div>  
+                        
+                        </div>
                     {/if}  
                     {*<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Block level button</button>*}
 {*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">123</button>*}
