@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-25 19:57:20
+<?php /* Smarty version 2.6.28, created on 2016-01-25 22:42:57
          compiled from carousel_items.tpl.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'carousel_items.tpl.html', 4, false),)), $this); ?>
@@ -7,7 +7,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'escape', 'c
     <div class="carousel-caption">
         <a href='<?php echo $this->_tpl_vars['href_self']; ?>
 ?id=<?php echo $this->_tpl_vars['ad']->ad_id; ?>
-#Ads'><h1 class='text-center'><?php echo ((is_array($_tmp=$this->_tpl_vars['CarouselMsg'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+#NewAd'><h1 class='text-center'><?php echo ((is_array($_tmp=$this->_tpl_vars['CarouselMsg'])) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 </h1></a>
     </div>
 </div>
