@@ -1,0 +1,8 @@
+<tr>
+    <td>{$ad->date_change|date_format:"%H:%M %d.%m.%Y"}</td>
+    <td><a href="{$href_self}?id={$ad->ad_id}">{$ad->title|escape}</a></td>
+    <td>{$ad->price|escape} руб.</td>
+    <td>{$ad->seller_name|escape}</td>
+    <td>{$ad->phone|escape}</td>
+    <td><a href="{$href_self}?del_id={$ad->ad_id}">удалить</a></td>
+</tr>

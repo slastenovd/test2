@@ -1,7 +1,7 @@
 <?php
 
 class Ads {
-    protected $ads = Array();
+    public $ads = Array();
     public $Connect;
 
     function __construct($Connect) {

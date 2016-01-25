@@ -28,58 +28,27 @@ $db = DbSimple_Generic::connect('mysqli://'.$iniArray['UserName'].':'.$iniArray[
 $db->setErrorHandler('databaseErrorHandler');    
 $db->setLogger('myLogger');
 
-class AdsCompany extends Ads{
-    public $CompanyAttribute; // Некое свойство, характерное только для компании
+if (isset($_POST['seller_name']) and isset($_POST['price'])) {     // Кнопка 'Отправить' нажата?
+    if( $_POST['private'] ){
+        $ad = new AdsCompany($_POST);    
+    }else{
+        $ad = new AdsPrivatePerson($_POST);    
+    }
     
+    $CheckResult = AdChecker::check($ad);
+    if ( $CheckResult ){    // Проверка на заполнение полей
+        AdsStore::instance()->getAllAdsFromDb()->prepareForOut($ad, $CheckResult)->display(); // Если не пройдена - на корректировку
+    } else {
+        $ad->save();              // Иначе - сохранение
+        AdsStore::instance()->getAllAdsFromDb()->prepareForOut()->display(); // Если не пройдена - на корректировку
+    }
+} elseif (isset($_GET['del_id'])) {     // Ссылка "удалить" нажата?
+    Ads::delete($_GET['del_id']); 
+    header('Location: '. $_SERVER['PHP_SELF']);
+    
+} elseif (isset($_GET['id'])) {         // Ссылка на объявление нажата?
+    AdsStore::instance()->getAllAdsFromDb()->prepareForOut($_GET['id'])->display(); // Если не пройдена - на корректировку
+} else {                                // Ничего не нажато - значит новое объявление
+
+    AdsStore::instance()->getAllAdsFromDb()->prepareForOut()->display(); // Если не пройдена - на корректировку
 }
-
-class AdsPrivatePerson extends Ads{
-    public $PrivateAttribute; // Некое свойство, характерное только для частного лица
-}
-
-
-$abc = new AdsCompany(Array(
-    'seller_name' => 'Evgen',
-    'private' => '1',
-    'manager' => 'Ivan',
-    'title' => 'Carpet',
-    'price' => '10'
-));
-//$db->query("SET NAMES UTF8");
-//var_dump($abc);
-$abc->save();
-
-
-
-//
-//$Connect = new AdsDBConnect(INI_FILE_NAME);
-//
-//
-//
-//
-//$ads = new Ads($Connect);
-//
-//if (isset($_POST['seller_name'])) {     // Кнопка 'Отправить' нажата?
-//    $ad = new Ad($_POST);
-//    $AdChecker = new AdChecker($ad);
-//    if ( $AdChecker->ErrorMessage ){    // Проверка на заполнение полей
-//        $ads->ShowForm($smarty, $ad, $AdChecker->ErrorMessage);            // Если не пройдена - на корректировку
-//    } else {
-//        $ads->SaveAd($ad);              // Иначе - сохранение
-//        $ads->ShowForm($smarty); 
-//    }
-//    
-//} elseif (isset($_GET['del_id'])) {     // Ссылка "удалить" нажата?
-//    
-//    $ads->delete_ad( $_GET['del_id'] );
-//    header('Location: '. $_SERVER['PHP_SELF']);
-//    
-//} elseif (isset($_GET['id'])) {         // Ссылка на объявление нажата?
-//    
-//    $ads->ShowForm( $smarty, $_GET['id'] ); 
-//    
-//} else {                                // Ничего не нажато - значит новое объявление
-//    
-//    $ads->ShowForm($smarty); 
-//    
-//}
