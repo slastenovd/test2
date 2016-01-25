@@ -29,21 +29,21 @@ $db->setErrorHandler('databaseErrorHandler');
 $db->setLogger('myLogger');
 
 class AdsCompany extends Ads{
-//    public $CompanyAddress; // Юр.адрес - типа свойство характерное только для компании
+    public $CompanyAttribute; // Некое свойство, характерное только для компании
     
 }
 
 class AdsPrivatePerson extends Ads{
-    public $PrivateProperty; // Юр.адрес - типа свойство характерное только для частного лица
+    public $PrivateAttribute; // Некое свойство, характерное только для частного лица
 }
 
 
 $abc = new AdsCompany(Array(
-    'seller_name' => 'Egor',
+    'seller_name' => 'Evgen',
     'private' => '1',
     'manager' => 'Ivan',
-    'title' => 'Car',
-    'price' => '120'
+    'title' => 'Carpet',
+    'price' => '10'
 ));
 //$db->query("SET NAMES UTF8");
 //var_dump($abc);

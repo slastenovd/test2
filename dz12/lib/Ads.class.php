@@ -2,19 +2,19 @@
 
 class Ads{
     protected $ad_id;
-//    protected $private;
+    protected $private;
     protected $seller_name;
     protected $manager;
-//    protected $email;
-//    protected $allow_mails;
-//    protected $phone;
-//    protected $location_id;
-//    protected $metro_id;
-//    protected $category_id;
+    protected $email;
+    protected $allow_mails;
+    protected $phone;
+    protected $location_id;
+    protected $metro_id;
+    protected $category_id;
     protected $title;
-//    protected $description;
+    protected $description;
     protected $price;
-//    protected $date_change;
+    protected $date_change;
     
     
     
@@ -39,6 +39,9 @@ class Ads{
     public function save() {
         global $db;
         $vars = get_object_vars($this);
+        foreach ($vars as $key => $value) {
+            if( is_null($value) ) unset($vars[$key]);
+        }
         $db->query('REPLACE INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
     }
     
