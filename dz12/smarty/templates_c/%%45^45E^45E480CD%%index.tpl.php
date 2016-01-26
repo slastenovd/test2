@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-26 18:50:19
+<?php /* Smarty version 2.6.28, created on 2016-01-26 22:41:00
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 131, false),array('modifier', 'escape', 'index.tpl', 131, false),array('function', 'html_options', 'index.tpl', 202, false),)), $this); ?>
@@ -57,13 +57,6 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                                         </ul>
                                     </li>
                                 </ul>
-                                <form class="navbar-form navbar-left" role="search">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Найти объявление...">
-                                    </div>
-                                    <button  type='submit'>Поиск</button>
-                                </form>
-
                             </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  
