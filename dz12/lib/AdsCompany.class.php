@@ -1,7 +1,7 @@
 <?php
 
 class AdsCompany extends Ads{
-    public $CompanyAttribute; // Некое свойство, характерное только для компании
+    protected $CompanyAttribute; // Некое свойство, характерное только для компании
     
 }
 

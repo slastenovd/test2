@@ -1,22 +1,20 @@
 <?php
 
 class Ads{
-    public $ad_id;
-    public $private;
-    public $seller_name;
-    public $manager;
-    public $email;
-    public $allow_mails;
-    public $phone;
-    public $location_id;
-    public $metro_id;
-    public $category_id;
-    public $title;
-    public $description;
-    public $price;
-    public $date_change;
-    
-    
+    protected $ad_id;
+//    protected $private;
+    protected $seller_name;
+    protected $manager;
+    protected $email;
+    protected $allow_mails;
+    protected $phone;
+    protected $location_id;
+    protected $metro_id;
+    protected $category_id;
+    protected $title;
+    protected $description;
+    protected $price;
+    protected $date_change;
     
     public function __construct( $ad=Array() ) {
         foreach ($ad as $key => $value) {
@@ -36,6 +34,10 @@ class Ads{
         $db->query('REPLACE INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
     }
     
+    public function getAdArray(){
+        return get_class_vars($this);
+    }
+    
     public static function delete($ad_id) {
         global $db;
         $db->query('DELETE FROM ads WHERE ad_id = ?',(int)$ad_id);
@@ -44,7 +46,57 @@ class Ads{
     public function getId() {
         return $this->ad_id;
     }
+    
+    public function getPrivate() {
+        return $this->private;
+    }
+    
+    public function getSeller_name() {
+        return $this->seller_name;
+    }
+    
+    public function getManager() {
+        return $this->manager;
+    }
+    
+    public function getEmail() {
+        return $this->email;
+    }
+    
+    public function getAllow_mails() {
+        return $this->allow_mails;
+    }
+    
+    public function getPhone() {
+        return $this->phone;
+    }
+    
+    public function getLocation_id() {
+        return $this->location_id;
+    }
+    
+    public function getMetro_id() {
+        return $this->metro_id;
+    }
+    
+    public function getCategory_id() {
+        return $this->category_id;
+    }
+    
+    public function getTitle() {
+        return $this->title;
+    }
+    
+    public function getDescription() {
+        return $this->description;
+    }
+    
+    public function getPrice() {
+        return $this->price;
+    }
 
+    public function getDate_change() {
+        return $this->date_change;
+    }
 }
-
 ?>

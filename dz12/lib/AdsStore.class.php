@@ -21,11 +21,23 @@ class AdsStore{
         global $db;
         $all = $db->select('select * from ads order by date_change desc');
         foreach ($all as $value){
-            $ad = new Ads($value);
-            self::addAds($ad); //помещаем объекты в хранилище
+            if( $value['private'] == 1 ){ //помещаем объекты в хранилище
+                $ad = new AdsCompany($value);
+                self::addAds($ad); // Если компания
+            } else {
+                $ad = new AdsPrivatePerson($value);
+                self::addAds($ad); // Если частное лицо
+            }
         }
         return self::$instance;
     }
+    
+    public static function deleteAds($ad_id) {
+        global $db;
+        $db->query("DELETE FROM ads WHERE ad_id = ?",(int)$ad_id);
+        unset(self::instance()->ads[$ad_id]);
+        return self::$instance;
+    }    
     
     protected function GetCities(){ // Загрузка данных для селектора "Города"
         global $db;
@@ -53,9 +65,11 @@ class AdsStore{
         
         if( isset($param) and ($param instanceof Ads) ){ // Если в качестве параметра передано объявление 
             $ad = $param;
+//            $ad = $param->getAdArray();
             $ad_flag = 1;
         } elseif( isset($this->ads[(int)$param]) ){     // Если в качестве параметра передан номер объявления
             $ad = $this->ads[(int)$param]; 
+//            $ad = $this->ads[(int)$param]->getAdArray(); 
             $ad_flag = 2;
         } else {
             $ad = new Ads(Array());
@@ -75,10 +89,10 @@ class AdsStore{
             $smarty->assign('ad',$value);
             $row.=$smarty->fetch('table_row.tpl.html');
 
-            if( $value->private == 1 and $SliderItemNumber < 5){
+            if( ($value instanceof AdsCompany) and $SliderItemNumber < 4){
             // так компании - классные ребята и платят много денег, поместим объявления компаний в слайдер
                 $smarty->assign('SliderItemNumber',$SliderItemNumber);
-                $smarty->assign('CarouselMsg',$value->title.' за '.$value->price.' руб');
+                $smarty->assign('CarouselMsg',$value->getTitle().' за '.$value->getPrice().' руб');
                 $smarty->assign('ad',$value);
                 
                 $SliderIndicators.=$smarty->fetch('carousel_indicators.tpl.html');
@@ -86,6 +100,11 @@ class AdsStore{
                 $SliderItemNumber++;
             }
         }
+        
+        if($value instanceof AdsPrivatePerson)  $smarty->assign('private',0);
+        if($value instanceof AdsCompany)        $smarty->assign('private',1);
+        $smarty->assign('private',$value->getPrivate());
+        
         $smarty->assign('ads_rows',$row);
         $smarty->assign('SliderIndicators',$SliderIndicators);
         $smarty->assign('SliderItems',$SliderItems);
@@ -98,20 +117,9 @@ class AdsStore{
         $smarty->assign('metro_stations',$this->GetMetro());
         $smarty->assign('categories',$this->GetCategories());
 
-
         $smarty->assign('ad',$ad);       
-
-        
-        
-  
-
-        
-        
         
         return self::$instance;    
-        
-        
-
     }
     public function display() {
         global $smarty;

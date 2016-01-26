@@ -28,6 +28,9 @@ $db = DbSimple_Generic::connect('mysqli://'.$iniArray['UserName'].':'.$iniArray[
 $db->setErrorHandler('databaseErrorHandler');    
 $db->setLogger('myLogger');
 
+
+
+
 if (isset($_POST['seller_name']) and isset($_POST['price'])) {     // Кнопка 'Отправить' нажата?
     if( $_POST['private'] ){
         $ad = new AdsCompany($_POST);    
@@ -43,8 +46,8 @@ if (isset($_POST['seller_name']) and isset($_POST['price'])) {     // Кнопк
         AdsStore::instance()->getAllAdsFromDb()->prepareForOut()->display(); // Если не пройдена - на корректировку
     }
 } elseif (isset($_GET['del_id'])) {     // Ссылка "удалить" нажата?
-    Ads::delete($_GET['del_id']); 
-    header('Location: '. $_SERVER['PHP_SELF']);
+//    AdsStore::instance()->deleteAds($_GET['del_id'])->getAllAdsFromDb()->prepareForOut()->display(); 
+    AdsStore::instance()->getAllAdsFromDb()->deleteAds($_GET['del_id'])->prepareForOut()->display(); 
     
 } elseif (isset($_GET['id'])) {         // Ссылка на объявление нажата?
     AdsStore::instance()->getAllAdsFromDb()->prepareForOut($_GET['id'])->display(); // Если не пройдена - на корректировку

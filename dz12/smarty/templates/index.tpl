@@ -23,7 +23,7 @@
     </head>
     <body>
         <!-- Small modal -->
-        <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+        <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-sm-12 col-md-10 col-lg-7">
                     <nav class="navbar navbar-default">
                         <div class="container-fluid">
                             <!-- Brand and toggle get grouped for better mobile display -->
@@ -128,7 +128,7 @@
                                     {elseif $ad_flag eq 1}
                                         Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
                                     {elseif $ad_flag eq 2}
-                                        Просмотр объявления от {$ad->date_change|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->title|escape} за {$ad->price|escape} руб.
+                                        Просмотр объявления от {$ad->getDate_change()|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->getTitle()|escape} за {$ad->getPrice()|escape} руб.
                                     {else}
                                         Обнаружена неконсистентность данных
                                     {/if}
@@ -140,14 +140,14 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  {if $ad->private eq 0} 
+                                                  {if $private eq 0} 
                                                       checked="" 
                                                   {/if}
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  {if $ad->private eq 1} 
+                                                  {if $private eq 1} 
                                                       checked="" 
                                                   {/if}
                                                   value="1" name="private">Компания</label> 
@@ -158,27 +158,27 @@
                         <div class="form-group">
                             <label for="fld_seller_name" id="your-name" class="col-sm-2 control-label">Ваше имя</label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control"  value="{$ad->seller_name|escape}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
+                                <input type="text" maxlength="40" class="form-control"  value="{$ad->getSeller_name()|escape}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_manager" class="col-sm-2 control-label"><b>Контактное лицо</b></label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control" value="{$ad->manager|escape}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
+                                <input type="text" maxlength="40" class="form-control" value="{$ad->getManager()|escape}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_email" class="col-sm-2 control-label">Электронная почта</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" value="{$ad->email|escape}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
+                                <input type="email" class="form-control" value="{$ad->getEmail()|escape}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
 
                             <div class="checkbox col-sm-offset-2 col-sm-10">
                                 <label for="allow_mails"  class=" control-label">
                                     <input type="checkbox" value="1" 
-                                           {if $ad->allow_mails gt 0} 
+                                           {if $ad->getAllow_mails() gt 0} 
                                                checked="" 
                                            {/if}
                                            name="allow_mails" id="allow_mails">
@@ -189,7 +189,7 @@
                         <div class="form-group">
                             <label id="fld_phone_label"  class="col-sm-2 control-label" for="fld_phone">Номер телефона</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" value="{$ad->phone|escape}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
+                                <input type="text" class="form-control" value="{$ad->getPhone()|escape}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
                             </div>            
                         </div>            
 
@@ -199,7 +199,7 @@
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    {html_options options=$cities selected=$ad->location_id}
+                                    {html_options options=$cities selected=$ad->getLocation_id()}
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
                         </div>            
@@ -208,7 +208,7 @@
                             <label for="fld_metro_id" class="col-sm-2 control-label">Метро</label>
                             <div class="col-sm-10">
                                 <select title="Выберите станцию метро" name="metro_id" class="form-control" id="fld_metro_id"> <option value="">-- Выберите станцию метро --</option>
-                                    {html_options options=$metro_stations selected=$ad->metro_id}
+                                    {html_options options=$metro_stations selected=$ad->getMetro_id()}
                                 </select> 
                             </div>            
                         </div>            
@@ -217,7 +217,7 @@
                             <label for="fld_category_id" class="col-sm-2 control-label">Категория</label> 
                             <div class="col-sm-10">
                                 <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
-                                    {html_options options=$categories selected=$ad->category_id}
+                                    {html_options options=$categories selected=$ad->getCategory_id()}
                                 </select>
                             </div>            
                         </div>            
@@ -225,14 +225,14 @@
                         <div class="form-group">
                             <label for="fld_title" class="col-sm-2 control-label">Название объявления</label> 
                             <div class="col-sm-10">
-                                <input type="text" maxlength="50" class="form-control" value="{$ad->title|escape}" name="title" id="fld_title" placeholder="Porsche Cayenne">
+                                <input type="text" maxlength="50" class="form-control" value="{$ad->getTitle()|escape}" name="title" id="fld_title" placeholder="Porsche Cayenne">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_description" id="js-description-label" class="col-sm-2 control-label">Описание объявления</label> 
                             <div class="col-sm-10">
-                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$ad->description|escape}</textarea> 
+                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$ad->getDescription()|escape}</textarea> 
                             </div>            
                         </div>            
 
@@ -241,7 +241,7 @@
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <div class="input-group-addon">руб.</div>
-                                    <input type="text" maxlength="9" class="form-control" value="{$ad->price|escape}" name="price" id="fld_price" placeholder="00">
+                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price" id="fld_price" placeholder="00">
                                     <div class="input-group-addon">.00</div>
                                 </div>            
                             </div>            
