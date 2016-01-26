@@ -2,7 +2,7 @@
 
 class Ads{
     protected $ad_id;
-//    protected $private;
+    protected $private;
     protected $seller_name;
     protected $manager;
     protected $email;
