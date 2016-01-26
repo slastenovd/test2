@@ -52,14 +52,14 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                <form class="navbar-form navbar-left" role="search">
+{*                                <form class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Найти объявление...">
                                     </div>
-{*                                    <button  class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Поиск</button>*}
+                                    <button  class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Поиск</button>
                                     <button  type='submit'>Поиск</button>
                                 </form>
-
+*}
                             </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  

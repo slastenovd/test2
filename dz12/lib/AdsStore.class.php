@@ -65,11 +65,9 @@ class AdsStore{
         
         if( isset($param) and ($param instanceof Ads) ){ // Если в качестве параметра передано объявление 
             $ad = $param;
-//            $ad = $param->getAdArray();
             $ad_flag = 1;
         } elseif( isset($this->ads[(int)$param]) ){     // Если в качестве параметра передан номер объявления
             $ad = $this->ads[(int)$param]; 
-//            $ad = $this->ads[(int)$param]->getAdArray(); 
             $ad_flag = 2;
         } else {
             $ad = new Ads(Array());
@@ -103,7 +101,6 @@ class AdsStore{
         
         if($value instanceof AdsPrivatePerson)  $smarty->assign('private',0);
         if($value instanceof AdsCompany)        $smarty->assign('private',1);
-        $smarty->assign('private',$value->getPrivate());
         
         $smarty->assign('ads_rows',$row);
         $smarty->assign('SliderIndicators',$SliderIndicators);

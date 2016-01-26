@@ -3,7 +3,7 @@
 class AdChecker { // Сервисный класс - проверяет ad на ошибки
     public static function check($ad) {
         $CheckResult = false;
-        if( ($ad instanceof Ads) ){ // Если в качестве параметра передано объявление 
+        if( ($ad instanceof Ads) or ($ad instanceof AdsCompany) or ($ad instanceof AdsPrivatePerson) ){ // Если в качестве параметра передано объявление 
             if ( ! isset($ad->title) or (isset($ad->title) and ! strlen($ad->title)) ) { // Если значение не приянто, или принято пустое
                 $CheckResult .= 'Не заполнено поле Название объявления<br>';
             }

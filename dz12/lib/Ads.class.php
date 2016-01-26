@@ -18,6 +18,7 @@ class Ads{
     
     public function __construct( $ad=Array() ) {
         foreach ($ad as $key => $value) {
+
             $this->$key = $value;
         }
         if (!isset($this->allow_mails)) {
