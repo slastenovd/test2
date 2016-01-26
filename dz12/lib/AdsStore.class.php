@@ -63,6 +63,8 @@ class AdsStore{
         
         $ad_flag = 0;
         
+
+
         if( isset($param) and ($param instanceof Ads) ){ // Если в качестве параметра передано объявление 
             $ad = $param;
             $ad_flag = 1;
@@ -72,12 +74,17 @@ class AdsStore{
         } else {
             $ad = new Ads(Array());
         }
+
+        $priv = 0;
+        if($ad instanceof AdsPrivatePerson)  $priv = 0;
+        if($ad instanceof AdsCompany)        $priv = 1;
         
         if( !isset($this->ads) ) $this->ads = Array();
         
         
         global $smarty;
         $smarty->assign('href_self',$_SERVER['PHP_SELF']);
+        $smarty->assign('private',$priv);
 
         $row='';
         $SliderIndicators='';
@@ -99,8 +106,6 @@ class AdsStore{
             }
         }
         
-        if($value instanceof AdsPrivatePerson)  $smarty->assign('private',0);
-        if($value instanceof AdsCompany)        $smarty->assign('private',1);
         
         $smarty->assign('ads_rows',$row);
         $smarty->assign('SliderIndicators',$SliderIndicators);
