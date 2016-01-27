@@ -76,15 +76,15 @@ class AdsStore{
         }
 
         $priv = 0;
-        if($ad instanceof AdsPrivatePerson)  $priv = 0;
-        if($ad instanceof AdsCompany)        $priv = 1;
+//        if($ad instanceof AdsPrivatePerson)  $priv = 0;
+//        if($ad instanceof AdsCompany)        $priv = 1;
         
         if( !isset($this->ads) ) $this->ads = Array();
         
         
         global $smarty;
         $smarty->assign('href_self',$_SERVER['PHP_SELF']);
-        $smarty->assign('private',$priv);
+//        $smarty->assign('private',$priv);
 
         $row='';
         $SliderIndicators='';

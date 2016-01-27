@@ -141,14 +141,14 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  {if $private eq 0} 
+                                                  {if $ad->getPrivate() eq 0} 
                                                       checked="" 
                                                   {/if}
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  {if $private eq 1} 
+                                                  {if $ad->getPrivate() eq 1} 
                                                       checked="" 
                                                   {/if}
                                                   value="1" name="private">Компания</label> 

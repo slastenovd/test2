@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-27 16:38:44
+<?php /* Smarty version 2.6.28, created on 2016-01-28 09:51:23
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 132, false),array('modifier', 'escape', 'index.tpl', 132, false),array('function', 'html_options', 'index.tpl', 203, false),)), $this); ?>
@@ -114,14 +114,14 @@ unset($_smarty_tpl_vars);
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  <?php if ($this->_tpl_vars['private'] == 0): ?> 
+                                                  <?php if ($this->_tpl_vars['ad']->getPrivate() == 0): ?> 
                                                       checked="" 
                                                   <?php endif; ?>
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  <?php if ($this->_tpl_vars['private'] == 1): ?> 
+                                                  <?php if ($this->_tpl_vars['ad']->getPrivate() == 1): ?> 
                                                       checked="" 
                                                   <?php endif; ?>
                                                   value="1" name="private">Компания</label> 
