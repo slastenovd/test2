@@ -13,7 +13,7 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-        
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -52,72 +52,73 @@
                                         </ul>
                                     </li>
                                 </ul>
-{*                                <form class="navbar-form navbar-left" role="search">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Найти объявление...">
-                                    </div>
-                                    <button  class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Поиск</button>
-                                    <button  type='submit'>Поиск</button>
+                                {*                                <form class="navbar-form navbar-left" role="search">
+                                <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Найти объявление...">
+                                </div>
+                                <button  class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Поиск</button>
+                                <button  type='submit'>Поиск</button>
                                 </form>
-*}
+                                *}
                             </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  
 
- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-     <div class="modal-dialog modal-sm">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                 <h4 class="modal-title" id="gridSystemModalLabel">Ууупс....!</h4>
-             </div>
+                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="gridSystemModalLabel">Ууупс....!</h4>
+                                </div>
 
 
-             Еще не реализовал.<br> Сделаю завтра.
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-             </div>
-         </div>
-     </div>
- </div>                    
+                                Еще не реализовал.<br> Сделаю завтра.
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
 
                     {if count($ads)>0 and $ad_flag <> 1} 
 
-                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        {*                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
-                            {$SliderIndicators}
+                        {$SliderIndicators}
                         </ol>
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
-                            {$SliderItems}
+                        {$SliderItems}
                         </div>
 
                         <!-- Controls -->
                         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
                         </a>
                         <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
                         </a>
-                    </div>                    
+                        </div>                    
+                        *}
+                        <a name="Ads"></a>
 
-                    <a name="Ads"></a>
+{*                        <div class="well">                        
 
-<div class="well">                        
+                            <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Перечень объявлений</button>
+                            <div class="collapse" id="collapseAds" aria-expanded="true">
+                                {include file='table.tpl.html'}
+                            </div>  
 
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Перечень объявлений</button>
-                        <div class="collapse" id="collapseAds" aria-expanded="true">
-                            {include file='table.tpl.html'}
-                        </div>  
-                        
                         </div>
+*}                                {include file='table.tpl.html'}
                     {/if}  
                     {*<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Block level button</button>*}
-{*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">123</button>*}
+                    {*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">123</button>*}
                     <a name="NewAd"></a>
                     <form  class="form-horizontal" method="post">
                         <div class="form-group">

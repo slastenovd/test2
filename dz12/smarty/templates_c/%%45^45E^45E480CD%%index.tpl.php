@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-01-26 22:41:00
+<?php /* Smarty version 2.6.28, created on 2016-01-27 16:38:44
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 131, false),array('modifier', 'escape', 'index.tpl', 131, false),array('function', 'html_options', 'index.tpl', 202, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 132, false),array('modifier', 'escape', 'index.tpl', 132, false),array('function', 'html_options', 'index.tpl', 203, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -17,7 +17,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-        
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -57,69 +57,38 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                                         </ul>
                                     </li>
                                 </ul>
-                            </div><!-- /.navbar-collapse -->
+                                                            </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  
 
- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-     <div class="modal-dialog modal-sm">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                 <h4 class="modal-title" id="gridSystemModalLabel">Ууупс....!</h4>
-             </div>
+                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="gridSystemModalLabel">Ууупс....!</h4>
+                                </div>
 
 
-             Еще не реализовал.<br> Сделаю завтра.
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-             </div>
-         </div>
-     </div>
- </div>                    
+                                Еще не реализовал.<br> Сделаю завтра.
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
 
                     <?php if (count ( $this->_tpl_vars['ads'] ) > 0 && $this->_tpl_vars['ad_flag'] <> 1): ?> 
 
-                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <?php echo $this->_tpl_vars['SliderIndicators']; ?>
+                                                <a name="Ads"></a>
 
-                        </ol>
-
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                            <?php echo $this->_tpl_vars['SliderItems']; ?>
-
-                        </div>
-
-                        <!-- Controls -->
-                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>                    
-
-                    <a name="Ads"></a>
-
-<div class="well">                        
-
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Перечень объявлений</button>
-                        <div class="collapse" id="collapseAds" aria-expanded="true">
-                            <?php $_smarty_tpl_vars = $this->_tpl_vars;
+                                <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => 'table.tpl.html', 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
-                        </div>  
-                        
-                        </div>
                     <?php endif; ?>  
-                                        <a name="NewAd"></a>
+                                                            <a name="NewAd"></a>
                     <form  class="form-horizontal" method="post">
                         <div class="form-group">
                             <div class="col-sm-offset-2">

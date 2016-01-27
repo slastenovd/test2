@@ -17,13 +17,24 @@ class Ads{
     protected $date_change;
     
     public function __construct( $ad=Array() ) {
-        foreach ($ad as $key => $value) {
 
-            $this->$key = $value;
-        }
-        if (!isset($this->allow_mails)) {
-            $this->allow_mails = 0;
-        }
+        if ( isset($ad['ad_id']) )          $this->ad_id = $ad['ad_id'];
+        if ( isset($ad['seller_name']) )    $this->seller_name = $ad['seller_name'];
+        if ( isset($ad['manager']) )        $this->manager = $ad['manager'];
+        if ( isset($ad['allow_mails']) )    $this->allow_mails = $ad['allow_mails']; else $this->allow_mails = 0;
+        if ( isset($ad['phone']) )          $this->phone = $ad['phone'];
+        if ( isset($ad['location_id']) )    $this->location_id = $ad['location_id'];
+        if ( isset($ad['metro_id']) )       $this->metro_id = $ad['metro_id'];
+        if ( isset($ad['category_id']) )    $this->category_id = $ad['category_id'];
+        if ( isset($ad['title']) )          $this->title = $ad['title'];
+        if ( isset($ad['description']) )    $this->description = $ad['description'];
+        if ( isset($ad['price']) )          $this->price = $ad['price'];
+        if ( isset($ad['date_change']) )    $this->date_change = $ad['date_change'];
+
+//        foreach ($ad as $key => $value) {
+//
+//            $this->$key = $value;
+//        }
     }
 
     public function save() {
