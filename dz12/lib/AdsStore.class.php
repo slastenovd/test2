@@ -21,13 +21,12 @@ class AdsStore{
         global $db;
         $all = $db->select('select * from ads order by date_change desc');
         foreach ($all as $value){
-            if( $value['private'] == 1 ){ //помещаем объекты в хранилище
+            if( $value['private'] == 1 ){ 
                 $ad = new AdsCompany($value);
-                self::addAds($ad); // Если компания
             } else {
                 $ad = new AdsPrivatePerson($value);
-                self::addAds($ad); // Если частное лицо
             }
+            self::addAds($ad);//помещаем объект в хранилище
         }
         return self::$instance;
     }
@@ -62,8 +61,6 @@ class AdsStore{
         // $param является объектом класса ad : отредактировать объявление
         
         $ad_flag = 0;
-        
-
 
         if( isset($param) and ($param instanceof Ads) ){ // Если в качестве параметра передано объявление 
             $ad = $param;
@@ -74,17 +71,10 @@ class AdsStore{
         } else {
             $ad = new Ads(Array());
         }
-
-        $priv = 0;
-//        if($ad instanceof AdsPrivatePerson)  $priv = 0;
-//        if($ad instanceof AdsCompany)        $priv = 1;
-        
         if( !isset($this->ads) ) $this->ads = Array();
-        
-        
+
         global $smarty;
         $smarty->assign('href_self',$_SERVER['PHP_SELF']);
-//        $smarty->assign('private',$priv);
 
         $row='';
         $SliderIndicators='';
@@ -94,18 +84,17 @@ class AdsStore{
             $smarty->assign('ad',$value);
             $row.=$smarty->fetch('table_row.tpl.html');
 
-            if( ($value instanceof AdsCompany) and $SliderItemNumber < 4){
-            // так компании - классные ребята и платят много денег, поместим объявления компаний в слайдер
-                $smarty->assign('SliderItemNumber',$SliderItemNumber);
-                $smarty->assign('CarouselMsg',$value->getTitle().' за '.$value->getPrice().' руб');
-                $smarty->assign('ad',$value);
-                
-                $SliderIndicators.=$smarty->fetch('carousel_indicators.tpl.html');
-                $SliderItems.=$smarty->fetch('carousel_items.tpl.html');
-                $SliderItemNumber++;
-            }
+//            if( ($value->getPrivate() == 1 and $SliderItemNumber < 4){
+//            // так компании - классные ребята и платят много денег, поместим объявления компаний в слайдер
+//                $smarty->assign('SliderItemNumber',$SliderItemNumber);
+//                $smarty->assign('CarouselMsg',$value->getTitle().' за '.$value->getPrice().' руб');
+//                $smarty->assign('ad',$value);
+//                
+//                $SliderIndicators.=$smarty->fetch('carousel_indicators.tpl.html');
+//                $SliderItems.=$smarty->fetch('carousel_items.tpl.html');
+//                $SliderItemNumber++;
+//            }
         }
-        
         
         $smarty->assign('ads_rows',$row);
         $smarty->assign('SliderIndicators',$SliderIndicators);
