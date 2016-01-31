@@ -148,7 +148,7 @@
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input type="radio" 
-                                                  {if $ad->getPrivate() eq 1} 
+                                                  {if $ad->getPrivate()  eq 1} 
                                                       checked="" 
                                                   {/if}
                                                   value="1" name="private">Компания</label> 
