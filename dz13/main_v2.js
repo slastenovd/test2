@@ -47,27 +47,46 @@ if (typeof CITY !=="undefined"){
 
 CITY = 'Нью Йорк'; // с константами беда ))
 
-var book = new Array();
-book['title']='PHP объекты';
-book['author']='Мэтт Зандстра';
-book['pages']=528;
+function Book(title, author, pages){
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+}
 
-console.log('Недавно я прочитал книгу '+book['title']+', написанную автором '+book['author']+', я осилил все '+book['pages']+' страниц, мне она очень понравилась');
+Book.prototype.out = function(){
+    return 'Недавно я прочитал книгу '+this.title+', написанную автором '+this.author+', я осилил все '+this.pages+' страниц, мне она очень понравилась';
+};
 
-//var books = new Array();
-//var book1 = new Array();
-//var book2 = new Array();
-//
-var books = [];
-var book1 = [];
-var book2 = [];
+var book1 = new Book('PHP объекты','Мэтт Зандстра',528);
+var book2 = new Book('Алиса в стране чудес','Льюис Кэролл',310);
 
-book1['title']='PHP объекты';
-book1['author']='Мэтт Зандстра';
-book1['pages']=528;
+console.log(book1.out());
 
-book2['title']='Алиса в стране чудес';
-book2['author']='Льюис Кэролл';
-book2['pages']=310;
+function BooksStore(){
+    this.books = new Array();
+}
 
-console.log('Недавно я прочитал книги '+book1['title']+' и '+book2['title']+', написанные соответственно авторами '+book1['author']+' и '+book2['author']+', я осилил в сумме  '+(book1['pages']+book2['pages'])+' страниц, не ожидал от себя подобного');
+BooksStore.prototype.addNewBook = function(book){
+    this.books.push(book);
+};
+
+BooksStore.prototype.out = function(){
+    titles='';
+    authors = '';
+    pages = 0;
+    if (this.books.length) {
+        this.books.forEach(function (book) {
+            titles  += book.title + ' и ';
+            authors += book.author + ' и ';
+            pages   += book.pages;
+        });
+        return 'Недавно я прочитал книги ' + titles.slice(0,-3) + ', написанные соответственно авторами ' + authors.slice(0,-3) + ', я осилил в сумме  ' + pages + ' страниц, не ожидал от себя подобного.';
+    } else
+        return '';
+};
+
+var books1 = new BooksStore();
+books1.addNewBook(book1);
+books1.addNewBook(book2);
+
+console.log(books1.out());
