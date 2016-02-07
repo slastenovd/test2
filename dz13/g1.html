@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style type='text/css'>
+            .someDiv{
+                width: 150px;
+                height: 150px;
+                display: inline-block;
+                cursor: pointer;
+            }
+            #div1{background-color: red;}
+            #div2{background-color: blue;}
+            #div3{background-color: yellow;}
+            #div4{background-color: magenta;}
+            #div5{background-color: gray;}
+            #div6{background-color: green;}
+            #ModalDiv{width: 400px;height: 400px;background-color: orange;position: absolute;}
+        </style>
+
+    </head>
+    <body>
+
+        <div id='div1' class='someDiv'></div>
+        <div id='div2' class='someDiv'></div>
+        <div id='div3' class='someDiv'></div>
+        <div id='div4' class='someDiv'></div>
+        <div id='div5' class='someDiv'></div>
+        <div id='div6' class='someDiv'></div>
+        <div id='ModalDiv'></div>
+
+        <form class="form-horizontal" method="POST" role="form" id="aaa">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Название</label>
+                <div class="col-sm-10">
+                    <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="Название">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Описание</label>
+                <div class="col-sm-10">
+                    <textarea name="desc" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="type" id="optionsRadios1" value="частное лицо" checked>
+                            Частное объявление
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="type" id="optionsRadios2" value="компания">
+                            Объявление Компании
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Отправить</button>
+                </div>
+            </div>
+        </form>
+
+        <script src="jquery-2.2.0.js"></script>
+        <script>
+            var animTime = 600;
+            $('.someDiv').on('click', function (e) {
+                var modal = $('#ModalDiv');
+                modal.css('top', (window.innerHeight - modal.height()) / 2);
+                modal.css('left', (window.innerWidth - modal.width()) / 2);
+                modal.css('background-color', $(e.target).css('background-color'));
+                modal.fadeIn(animTime);
+            })
+            $('#ModalDiv').on('click', function () {
+                $(this).fadeOut(animTime);
+                $(this).hide()
+            })
+        </script>
+    </body>
+</html>
