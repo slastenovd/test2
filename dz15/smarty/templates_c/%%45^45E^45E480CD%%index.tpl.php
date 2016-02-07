@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-07 22:42:10
+<?php /* Smarty version 2.6.28, created on 2016-02-08 01:24:35
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 135, false),array('modifier', 'escape', 'index.tpl', 135, false),array('function', 'html_options', 'index.tpl', 206, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 135, false),array('modifier', 'escape', 'index.tpl', 135, false),array('function', 'html_options', 'index.tpl', 207, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -70,7 +70,6 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                                 </div>
 
 
-                                Еще не реализовал.<br> Сделаю завтра.
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                 </div>
@@ -92,10 +91,11 @@ unset($_smarty_tpl_vars);
  ?>
                     <?php endif; ?>  
                                                             <a name="NewAd"></a>
-                    <form  class="form-horizontal" method="post">
+                    <form  class="form-horizontal" method="post" id="ad_form">
                         <div class="form-group">
                             <div class="col-sm-offset-2">
                                 <h2>
+                                    <div  id="ad_descr">
                                     <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
                                         Новое объявление
                                     <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
@@ -109,6 +109,7 @@ unset($_smarty_tpl_vars);
                                     <?php else: ?>
                                         Обнаружена неконсистентность данных
                                     <?php endif; ?>
+                                    </div>
                                 </h2>
                             </div>
                         </div>
@@ -116,7 +117,7 @@ unset($_smarty_tpl_vars);
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
-                                    <label><input type="radio" 
+                                    <label><input id="radio_private" type="radio" 
                                                   <?php if ($this->_tpl_vars['ad']->getPrivate() == 0): ?> 
                                                       checked="" 
                                                   <?php endif; ?>
@@ -135,7 +136,7 @@ unset($_smarty_tpl_vars);
                         <div class="form-group">
                             <label for="fld_seller_name" id="your-name" class="col-sm-2 control-label">Ваше имя</label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control"  value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getSeller_name())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+                                <input type="text" maxlength="40" defaultValue="" class="form-control"  value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getSeller_name())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 " name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
                             </div>            
                         </div>            
@@ -236,12 +237,12 @@ unset($_smarty_tpl_vars);
 
                         <?php if (isset ( $_GET['id'] )): ?>
                             <input type="hidden" value="<?php echo $_GET['id']; ?>
-" name="ad_id">
+" name="ad_id" id="ad_id">
                         <?php endif; ?>
                         
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-success" value="<?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?>" id="form_submit">
+<button type="submit" class="btn btn-success" id="form_submit"><?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?></button>
                             </div>            
                         </div>            
 
@@ -250,7 +251,9 @@ unset($_smarty_tpl_vars);
                     <div class="well well-lg">
                         <h3 class="text-center">Лаба #15 'Объекты'</h3>
                         <p class="text-center">Введение в AJAX</p>
-                    </div>
+                                    <input type="text" maxlength="9" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getPrice())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
+" name="price1" id="fld_price" placeholder="00">
+                                            </div>
 
                 </div>
             </div>
