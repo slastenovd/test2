@@ -14,12 +14,12 @@ if (isset($_POST['seller_name']) and isset($_POST['price'])) {     // Кнопк
         $adStore->prepareForOut($ad, $CheckResult); // Если не пройдена - на корректировку
     } else {
         $ad->save();              // Иначе - сохранение
-        $adStore->prepareForOut(); // Если не пройдена - на корректировку
+        $adStore->prepareForOut(); 
     }
 } elseif (isset($_GET['id'])) {         // Ссылка на объявление нажата?
-    $adStore->prepareForOut($_GET['id']); // Если не пройдена - на корректировку
+    $adStore->prepareForOut($_GET['id']); 
 } else {                                // Ничего не нажато - значит новое объявление
-    $adStore->prepareForOut(); // Если не пройдена - на корректировку
+    $adStore->prepareForOut(); 
 }
 
-$adStore->display(); // Если не пройдена - на корректировку
+$adStore->display(); 
