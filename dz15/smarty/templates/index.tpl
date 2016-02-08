@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Лаба №12</title>
+        <title>Лаба №15</title>
 
 
         <!-- Latest compiled and minified CSS -->
@@ -34,7 +34,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="#">Лаба #12</a>
+                                <a class="navbar-brand" href="#">Лаба #15</a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,13 +73,15 @@
                                 </div>
 
 
-                                Еще не реализовал.<br> Сделаю завтра.
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                                 </div>
                             </div>
                         </div>
                     </div>                    
+                            
+                    <div id="container">
+                    </div>
 
                     {if count($ads)>0 and $ad_flag <> 1} 
 
@@ -120,10 +122,11 @@
                     {*<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Block level button</button>*}
                     {*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">123</button>*}
                     <a name="NewAd"></a>
-                    <form  class="form-horizontal" method="post">
+                    <form  class="form-horizontal" method="post" id="ad_form">
                         <div class="form-group">
                             <div class="col-sm-offset-2">
                                 <h2>
+                                    <div  id="ad_descr">
                                     {if     $ad_flag eq 0}
                                         Новое объявление
                                     {elseif $ad_flag eq 1}
@@ -133,6 +136,7 @@
                                     {else}
                                         Обнаружена неконсистентность данных
                                     {/if}
+                                    </div>
                                 </h2>
                             </div>
                         </div>
@@ -140,7 +144,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
-                                    <label><input type="radio" 
+                                    <label><input id="radio_private" type="radio" 
                                                   {if $ad->getPrivate() eq 0} 
                                                       checked="" 
                                                   {/if}
@@ -159,7 +163,7 @@
                         <div class="form-group">
                             <label for="fld_seller_name" id="your-name" class="col-sm-2 control-label">Ваше имя</label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control"  value="{$ad->getSeller_name()|escape}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
+                                <input type="text" maxlength="40" defaultValue="" class="form-control"  value="{$ad->getSeller_name()|escape}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
                             </div>            
                         </div>            
 
@@ -249,25 +253,27 @@
                         </div>            
 
                         {if isset($smarty.get.id)}
-                            <input type="hidden" value="{$smarty.get.id}" name="ad_id">
+                            <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
                         {/if}
                         {*                            <input type="hidden" value="{$ad->date_change}" name="date_change">                                *}
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit">
+{*                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit">*}
+<button type="submit" class="btn btn-success" id="form_submit">{if $ad_flag eq 2}Сохранить{else}Отправить{/if}</button>
                             </div>            
                         </div>            
 
                     </form>
 
                     <div class="well well-lg">
-                        <h3 class="text-center">Лаба #12 'Объекты'</h3>
-                        <p class="text-center">Синглтон. Наследование. Бутстрап.</p>
-                        <p class="text-center">
+                        <h3 class="text-center">Лаба #15 'Объекты'</h3>
+                        <p class="text-center">Введение в AJAX</p>
+                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price1" id="fld_price" placeholder="00">
+                        {*                        <p class="text-center">
                             <a href='../dz11' class='btn btn-success'>Предыдущая лаба</a>
                         </p>
-
+*}
                     </div>
 
                 </div>
@@ -280,5 +286,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>    
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <!--<script src="js/bootstrap.min.js"></script>-->
+        <script src="js/common.js"></script>
     </body>
 </html>
