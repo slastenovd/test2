@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Лаба №15</title>
+        <title>Лаба №16</title>
 
 
         <!-- Latest compiled and minified CSS -->
@@ -287,8 +287,8 @@
                     </form>
 
                     <div class="well well-lg">
-                        <h3 class="text-center">Лаба #15 'Объекты'</h3>
-                        <p class="text-center">Введение в AJAX</p>
+                        <h3 class="text-center">Лаба #16</h3>
+                        <p class="text-center">AJAX</p>
 {*                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price1" id="fld_price" placeholder="00">*}
                         {*                        <p class="text-center">
                             <a href='../dz11' class='btn btn-success'>Предыдущая лаба</a>
