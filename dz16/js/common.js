@@ -70,11 +70,10 @@ $(document).ready(function () {
     
     function clear_form(){ // Очистить форму
         $('#ad_descr').html('Новое объявление');
-        $('#ad_form input').val('');
-        $('#ad_form select').val('');
-        $('#ad_form textarea').val('');
+        $('#ad_form input, #ad_form select, #ad_form textarea').val('');
         $('#ad_form :checkbox').prop("checked", false);
         $('#ad_form #radio_private').prop("checked", true);
+        $('#container, #container1, #container_form_msg').fadeOut('slow');
     }
 
     $('#href-new-ad').on('click', function () { // Новое объявление
@@ -105,9 +104,7 @@ $(document).ready(function () {
     }
     
     $('#form_submit').on('click', function () { // Сохранить объявление
-        $('#container').fadeOut('slow');
-        $('#container1').fadeOut('slow');
-        $('#container_form_msg').fadeOut('slow');
+        $('#container, #container1, #container_form_msg').fadeOut('slow');
         
         $.post('ajax_ads.php?action=store_ad',
             $("#ad_form").serialize(),
