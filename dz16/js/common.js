@@ -76,9 +76,6 @@ $(document).ready(function () {
         $('#ad_form textarea').val('');
         $('#ad_form :checkbox').prop("checked", false);
         $('#ad_form #radio_private').prop("checked", true);
-        $('#container').fadeOut('slow');
-        $('#container1').fadeOut('slow');
-        $('#container_form_msg').fadeOut('slow');
     }
 
     $('#href-new-ad').on('click', function () { // Новое объявление
@@ -113,7 +110,10 @@ $(document).ready(function () {
     }
     
     $('#form_submit').on('click', function () { // Сохранить объявление
-        clear_form();
+        $('#container').fadeOut('slow');
+        $('#container1').fadeOut('slow');
+        $('#container_form_msg').fadeOut('slow');
+        
         var param = $("#ad_form").serialize(); 
         $.post('ajax_ads.php?action=store_ad',
         param,
