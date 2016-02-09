@@ -33,7 +33,7 @@ $(document).ready(function () {
                     $('#container').fadeIn('slow');
                 }
         });
-    }
+    };
 
 
     show_ad = function () { // Показать объявление
@@ -63,7 +63,7 @@ $(document).ready(function () {
             $('#ad_descr').html('Просмотр объявления от '+response[0].date_change+'<br>о продаже '+response[0].title+' за '+response[0].price+' руб.');
         });        
         return false; 
-    }
+    };
 
     $('a.ad-href').on('click', show_ad);        // Показать объявление
     $('a.delete').on('click', delete_function); // Удалить объявление
