@@ -43,7 +43,7 @@ class Ads{
         foreach ($vars as $key => $value) {
             if( is_null($value) ) unset($vars[$key]);
         }
-        $db->query('REPLACE INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
+        return $db->query('REPLACE INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
     }
     
     public function getAdArray(){

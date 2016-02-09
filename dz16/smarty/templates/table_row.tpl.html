@@ -1,11 +1,10 @@
 <tr>
-    <td style="display: none;">{$ad->getId()}</td>
+    <td style="display: none;" class="ad_row">{$ad->getId()}</td>
     <td>{$ad->getDate_change()|date_format:"%H:%M %d.%m.%Y"}</td>
-    <td><a href="{$href_self}?id={$ad->getId()}">{$ad->getTitle()|escape}</a></td>
+    <td><a class="ad-href" href="{$href_self}?id={$ad->getId()}">{$ad->getTitle()|escape}</a></td>
     <td>{$ad->getPrice()|escape} руб.</td>
     <td>{$ad->getSeller_name()|escape}</td>
     <td>{$ad->getPhone()|escape}</td>
     <!--<td><a href="{$href_self}?del_id={$ad->getId}">удалить</a></td>-->
     <td><a class="delete btn btn-warning"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td>
-    <div class="ad_row"></div>
 </tr>

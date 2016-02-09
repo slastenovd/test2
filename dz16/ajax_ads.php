@@ -1,17 +1,44 @@
 <?php
 require_once "prepare.php";
-
+$adStore =  AdsStore::instance();
 
 switch ($_REQUEST['action']) {
-    case "delete":
-        if(AdsStore::instance()->deleteAds($_REQUEST['id'])){
+    case "get_ad":
+        echo $adStore->getAdJSON($_REQUEST['id']);
+        break;
+    
+    case "get_ads":
+        echo $adStore->getAdsJSON();
+        break;
+    
+    case "store_ad":
+        if( $_POST['private'] ){
+            $ad = new AdsCompany($_POST);    
+        }else{
+            $ad = new AdsPrivatePerson($_POST);    
+        }
+        $CheckResult = AdChecker::check($ad);
+        if ( $CheckResult ){    // Проверка на заполнение полей
+            $result['status']='error';
+            $result['message'] = $CheckResult;
+        } else {
+            $ad->save();              // Иначе - сохранение
             $result['status']='success';
-            $result['message'] = "Tovar ".$_REQUEST['id']." udalen uspeshno";
+            $result['message'] = "Объявление ".$_POST["title"]." успешно сохранено.";
+        }
+      
+        echo json_encode($result);
+
+        break;
+    
+    case "delete":
+        if($adStore->deleteAds($_REQUEST['id'])){
+            $result['status']='success';
+            $result['message'] = "Объявление о продаже ".$_REQUEST['id']." удалено успешно";
         }else{
             $result['status']='error';
             $result['message'] = "Ошибка выполнения запроса на удаление";
         }
-//        $result['server'] = $_SERVER;    
         echo json_encode($result);
 
         break;
@@ -19,10 +46,5 @@ switch ($_REQUEST['action']) {
     default:
         break;
 }
-//
-//
-//if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' && isset($_REQUEST['id'])) {     // Кнопка "удалить" нажата?
-//    AdsStore::instance()->deleteAds($_REQUEST['id']); 
-//    echo 'Объявление успешно удалено';
-//}
+
 ?>

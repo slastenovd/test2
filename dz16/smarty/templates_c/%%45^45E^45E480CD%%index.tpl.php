@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-09 00:21:33
+<?php /* Smarty version 2.6.28, created on 2016-02-09 17:46:43
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 147, false),array('modifier', 'escape', 'index.tpl', 147, false),array('function', 'html_options', 'index.tpl', 219, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 147, false),array('modifier', 'escape', 'index.tpl', 147, false),array('function', 'html_options', 'index.tpl', 225, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -38,13 +38,13 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="#">Лаба #15</a>
+                                <a class="navbar-brand" href="#">Лаба #16</a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
-                                    <li ><a href="<?php echo $this->_tpl_vars['href_self']; ?>
+                                    <li ><a id="href-new-ad" href="<?php echo $this->_tpl_vars['href_self']; ?>
 #NewAd">Новое объявление <span class="sr-only">(current)</span></a></li>
                                     <li><a data-toggle="collapse" data-target="#collapseAds" aria-expanded="true" aria-controls="collapseAds">Перечень объявлений</a></li>
                                     <li class="dropdown">
@@ -98,7 +98,7 @@ unset($_smarty_tpl_vars);
       <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
           <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');return false;" class="btn btn-danger btn-sm">
               <span aria-hidden="true">&times;</span></button>
-          <div id="container1_info"></div>
+          <div id="container1_info">В базе данных нет ни одного объявления. <br> Все объявления удалены.</div>
       </div>
 
 
@@ -126,6 +126,12 @@ unset($_smarty_tpl_vars);
                             </div>
                         </div>
 
+                          <div id="container_form_msg" class="alert alert alert-success alert-dismissible" style="display: none" role="alert">
+                              <button type="button" style="float: right;" onclick="$('#container_form_msg').fadeOut('slow');return false;" class="btn btn-warning btn-sm">
+                                  <span aria-hidden="true">&times;</span></button>
+                              <div id="container_info_form_msg"></div>
+                          </div>
+
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
@@ -136,7 +142,7 @@ unset($_smarty_tpl_vars);
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
-                                    <label><input type="radio" 
+                                    <label><input id="radio_company" type="radio" 
                                                   <?php if ($this->_tpl_vars['ad']->getPrivate() == 1): ?> 
                                                       checked="" 
                                                   <?php endif; ?>
@@ -247,11 +253,10 @@ unset($_smarty_tpl_vars);
                             </div>            
                         </div>            
 
-                        <?php if (isset ( $_GET['id'] )): ?>
                             <input type="hidden" value="<?php echo $_GET['id']; ?>
 " name="ad_id" id="ad_id">
-                        <?php endif; ?>
                         
+
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
 <button type="submit" class="btn btn-success" id="form_submit"><?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?></button>
@@ -263,8 +268,6 @@ unset($_smarty_tpl_vars);
                     <div class="well well-lg">
                         <h3 class="text-center">Лаба #15 'Объекты'</h3>
                         <p class="text-center">Введение в AJAX</p>
-                                    <input type="text" maxlength="9" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getPrice())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="price1" id="fld_price" placeholder="00">
                                             </div>
 
                 </div>

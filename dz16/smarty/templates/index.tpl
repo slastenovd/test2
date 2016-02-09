@@ -34,13 +34,13 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="#">Лаба #15</a>
+                                <a class="navbar-brand" href="#">Лаба #16</a>
                             </div>
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
-                                    <li ><a href="{$href_self}#NewAd">Новое объявление <span class="sr-only">(current)</span></a></li>
+                                    <li ><a id="href-new-ad" href="{$href_self}#NewAd">Новое объявление <span class="sr-only">(current)</span></a></li>
                                     <li><a data-toggle="collapse" data-target="#collapseAds" aria-expanded="true" aria-controls="collapseAds">Перечень объявлений</a></li>
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Еще <span class="caret"></span></a>
@@ -127,7 +127,7 @@
       <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
           <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');return false;" class="btn btn-danger btn-sm">
               <span aria-hidden="true">&times;</span></button>
-          <div id="container1_info"></div>
+          <div id="container1_info">В базе данных нет ни одного объявления. <br> Все объявления удалены.</div>
       </div>
 
 
@@ -153,6 +153,12 @@
                             </div>
                         </div>
 
+                          <div id="container_form_msg" class="alert alert alert-success alert-dismissible" style="display: none" role="alert">
+                              <button type="button" style="float: right;" onclick="$('#container_form_msg').fadeOut('slow');return false;" class="btn btn-warning btn-sm">
+                                  <span aria-hidden="true">&times;</span></button>
+                              <div id="container_info_form_msg"></div>
+                          </div>
+
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
@@ -163,7 +169,7 @@
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
-                                    <label><input type="radio" 
+                                    <label><input id="radio_company" type="radio" 
                                                   {if $ad->getPrivate()  eq 1} 
                                                       checked="" 
                                                   {/if}
@@ -264,10 +270,12 @@
                             </div>            
                         </div>            
 
-                        {if isset($smarty.get.id)}
+                            <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
+{*                        {if isset($smarty.get.id)}
                             <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
                         {/if}
-                        {*                            <input type="hidden" value="{$ad->date_change}" name="date_change">                                *}
+*}                        
+{*                            <input type="hidden" value="{$ad->date_change}" name="date_change">                                *}
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -281,7 +289,7 @@
                     <div class="well well-lg">
                         <h3 class="text-center">Лаба #15 'Объекты'</h3>
                         <p class="text-center">Введение в AJAX</p>
-                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price1" id="fld_price" placeholder="00">
+{*                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price1" id="fld_price" placeholder="00">*}
                         {*                        <p class="text-center">
                             <a href='../dz11' class='btn btn-success'>Предыдущая лаба</a>
                         </p>

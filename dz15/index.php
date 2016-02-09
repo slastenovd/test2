@@ -14,7 +14,7 @@ if (isset($_POST['seller_name']) and isset($_POST['price'])) {     // Кнопк
         $adStore->prepareForOut($ad, $CheckResult); // Если не пройдена - на корректировку
     } else {
         $ad->save();              // Иначе - сохранение
-        $adStore->prepareForOut(); 
+        $adStore->getAllAdsFromDb()->prepareForOut(); 
     }
 } elseif (isset($_GET['id'])) {         // Ссылка на объявление нажата?
     $adStore->prepareForOut($_GET['id']); 

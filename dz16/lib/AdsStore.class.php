@@ -17,6 +17,16 @@ class AdsStore{
         $this->ads[$ad->getId()]=$ad;
     }
     
+    public function getAdJSON($ad_id) {
+        global $db;
+        return json_encode($db->select("SELECT * FROM ads WHERE ad_id=?",(int)$ad_id));
+    }
+    
+    public function getAdsJSON() {
+        global $db;
+        return json_encode($db->select("SELECT * FROM ads ORDER BY date_change DESC"));
+    }
+    
     public function getAllAdsFromDb() {
         global $db;
         $all = $db->select('select * from ads order by date_change desc');

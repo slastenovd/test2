@@ -1,6 +1,6 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-08 00:21:31
+<?php /* Smarty version 2.6.28, created on 2016-02-09 16:09:01
          compiled from table.tpl.html */ ?>
-<table class="table table-striped">
+<table class="table table-striped" id="table-ads">
     <thead>
         <tr>
             <th style="display: none;">#</th>
