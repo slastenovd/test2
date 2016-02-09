@@ -48,7 +48,6 @@ $(document).ready(function () {
 
             $('#ad_form #radio_private').prop("checked", (response[0].private == 0) ? true : false );
             $('#ad_form #radio_company').prop("checked", (response[0].private == 1) ? true : false );
-            
             $('#fld_seller_name').val(response[0].seller_name);
             $('#fld_manager').val(response[0].manager);
             $('#fld_email').val(response[0].email);
@@ -86,22 +85,18 @@ $(document).ready(function () {
     function refresh_table(){ // Заполнить таблицу
         $.getJSON('ajax_ads.php?action=get_ads',
         function(response) {
-//            $('#rable-ads').fadeOut();
             $('tbody>tr').remove();
-            var tr = "";
-
-                $.each(response, function (i,val) {
-                        
-                            $('tbody').append(  '<tr>'+
-                                                '<td style="display: none;" class="ad_row">'+val.ad_id+'</td>'+
-                                                '<td>'+val.date_change+'</td>'+
-                                                '<td><a class="ad-href" href=index.php?id='+val.ad_id+'>'+val.title+'</a></td>'+
-                                                '<td>'+val.price+'</td>'+
-                                                '<td>'+val.seller_name+'</td>'+
-                                                '<td>'+val.phone+'</td>'+
-                                                '<td><a class="delete btn btn-warning"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td>'+
-                                                '</tr>');
-                });
+            $.each(response, function (i,val) {
+                        $('tbody').append(  '<tr>'+
+                                            '<td style="display: none;" class="ad_row">'+val.ad_id+'</td>'+
+                                            '<td>'+val.date_change+'</td>'+
+                                            '<td><a class="ad-href" href=index.php?id='+val.ad_id+'>'+val.title+'</a></td>'+
+                                            '<td>'+val.price+'</td>'+
+                                            '<td>'+val.seller_name+'</td>'+
+                                            '<td>'+val.phone+'</td>'+
+                                            '<td><a class="delete btn btn-warning"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td>'+
+                                            '</tr>');
+            });
             $('a.delete').on('click', delete_function);
             $('a.ad-href').on('click', show_ad);
             $('#rable-ads').fadeIn();
@@ -114,21 +109,20 @@ $(document).ready(function () {
         $('#container1').fadeOut('slow');
         $('#container_form_msg').fadeOut('slow');
         
-        var param = $("#ad_form").serialize(); 
         $.post('ajax_ads.php?action=store_ad',
-        param,
-        function(response) {
-            if(response.status=='success'){
-                $('#container_form_msg').removeClass('alert-danger').addClass('alert-success');
-                refresh_table();
-                clear_form();
-            }
-            if(response.status=='error'){
-                $('#container_form_msg').removeClass('alert-success').addClass('alert-danger');
-            }
-            $('#container_info_form_msg').html(response.message);
-            $('#container_form_msg').fadeIn('slow');              
-        },'json');        
+            $("#ad_form").serialize(),
+            function(response) {
+                if(response.status=='success'){
+                    $('#container_form_msg').removeClass('alert-danger').addClass('alert-success');
+                    refresh_table();
+                    clear_form();
+                }
+                if(response.status=='error'){
+                    $('#container_form_msg').removeClass('alert-success').addClass('alert-danger');
+                }
+                $('#container_info_form_msg').html(response.message);
+                $('#container_form_msg').fadeIn('slow');              
+            },'json');        
         return false;         
     });
 
