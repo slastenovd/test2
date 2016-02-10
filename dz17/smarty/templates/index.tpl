@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Лаба №16</title>
+        <title>Лаба №17</title>
 
 
         <!-- Latest compiled and minified CSS -->
@@ -52,14 +52,6 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                {*                                <form class="navbar-form navbar-left" role="search">
-                                <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Найти объявление...">
-                                </div>
-                                <button  class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Поиск</button>
-                                <button  type='submit'>Поиск</button>
-                                </form>
-                                *}
                             </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  
@@ -86,42 +78,10 @@
           <div id="container_info"></div>
       </div>
 
-
                     {if count($ads)>0 and $ad_flag <> 1} 
-
-                        {*                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                        {$SliderIndicators}
-                        </ol>
-
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                        {$SliderItems}
-                        </div>
-
-                        <!-- Controls -->
-                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                        </a>
-                        </div>                    
-                        *}
+  
                         <a name="Ads"></a>
-
-{*                        <div class="well">                        
-
-                            <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Перечень объявлений</button>
-                            <div class="collapse" id="collapseAds" aria-expanded="true">
                                 {include file='table.tpl.html'}
-                            </div>  
-
-                        </div>
-*}                                {include file='table.tpl.html'}
                     {/if}  
 
       <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
@@ -131,8 +91,6 @@
       </div>
 
 
-                    {*<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">Block level button</button>*}
-                    {*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">123</button>*}
                     <a name="NewAd"></a>
                     <form  class="form-horizontal" method="post" id="ad_form">
                         <div class="form-group">
@@ -271,15 +229,9 @@
                         </div>            
 
                             <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
-{*                        {if isset($smarty.get.id)}
-                            <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
-                        {/if}
-*}                        
-{*                            <input type="hidden" value="{$ad->date_change}" name="date_change">                                *}
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-{*                                <input type="submit" class="btn btn-success" value="{if $ad_flag eq 2}Сохранить{else}Отправить{/if}" id="form_submit">*}
 <button type="submit" class="btn btn-success" id="form_submit">{if $ad_flag eq 2}Сохранить{else}Отправить{/if}</button>
                             </div>            
                         </div>            
@@ -289,11 +241,6 @@
                     <div class="well well-lg">
                         <h3 class="text-center">Лаба #16</h3>
                         <p class="text-center">AJAX</p>
-{*                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price1" id="fld_price" placeholder="00">*}
-                        {*                        <p class="text-center">
-                            <a href='../dz11' class='btn btn-success'>Предыдущая лаба</a>
-                        </p>
-*}
                     </div>
 
                 </div>

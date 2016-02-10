@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-09 17:58:05
+<?php /* Smarty version 2.6.28, created on 2016-02-11 00:15:55
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 147, false),array('modifier', 'escape', 'index.tpl', 147, false),array('function', 'html_options', 'index.tpl', 225, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 105, false),array('modifier', 'escape', 'index.tpl', 105, false),array('function', 'html_options', 'index.tpl', 183, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -9,7 +9,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Лаба №16</title>
+        <title>Лаба №17</title>
 
 
         <!-- Latest compiled and minified CSS -->
@@ -57,7 +57,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                                         </ul>
                                     </li>
                                 </ul>
-                                                            </div><!-- /.navbar-collapse -->
+                            </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  
 
@@ -83,11 +83,9 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
           <div id="container_info"></div>
       </div>
 
-
                     <?php if (count ( $this->_tpl_vars['ads'] ) > 0 && $this->_tpl_vars['ad_flag'] <> 1): ?> 
-
-                                                <a name="Ads"></a>
-
+  
+                        <a name="Ads"></a>
                                 <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => 'table.tpl.html', 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -102,7 +100,7 @@ unset($_smarty_tpl_vars);
       </div>
 
 
-                                                            <a name="NewAd"></a>
+                    <a name="NewAd"></a>
                     <form  class="form-horizontal" method="post" id="ad_form">
                         <div class="form-group">
                             <div class="col-sm-offset-2">
@@ -255,7 +253,6 @@ unset($_smarty_tpl_vars);
 
                             <input type="hidden" value="<?php echo $_GET['id']; ?>
 " name="ad_id" id="ad_id">
-                        
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -268,7 +265,7 @@ unset($_smarty_tpl_vars);
                     <div class="well well-lg">
                         <h3 class="text-center">Лаба #16</h3>
                         <p class="text-center">AJAX</p>
-                                            </div>
+                    </div>
 
                 </div>
             </div>
@@ -281,5 +278,6 @@ unset($_smarty_tpl_vars);
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <!--<script src="js/bootstrap.min.js"></script>-->
         <script src="js/common.js"></script>
+        <script src="js/jquery.form.min.js"></script>
     </body>
 </html>
