@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-09 17:46:43
+<?php /* Smarty version 2.6.28, created on 2016-02-09 06:56:21
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 147, false),array('modifier', 'escape', 'index.tpl', 147, false),array('function', 'html_options', 'index.tpl', 225, false),)), $this); ?>
@@ -9,7 +9,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Лаба №15</title>
+        <title>Лаба №16</title>
 
 
         <!-- Latest compiled and minified CSS -->
@@ -266,8 +266,8 @@ unset($_smarty_tpl_vars);
                     </form>
 
                     <div class="well well-lg">
-                        <h3 class="text-center">Лаба #15 'Объекты'</h3>
-                        <p class="text-center">Введение в AJAX</p>
+                        <h3 class="text-center">Лаба #16</h3>
+                        <p class="text-center">AJAX</p>
                                             </div>
 
                 </div>
@@ -282,4 +282,4 @@ unset($_smarty_tpl_vars);
         <!--<script src="js/bootstrap.min.js"></script>-->
         <script src="js/common.js"></script>
     </body>
-</html>
+</html>
