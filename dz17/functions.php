@@ -20,9 +20,9 @@ function databaseErrorHandler($message, $info)
 
 function myLogger($db, $sql, $caller) {
     global $firePHP;
-    if (isset($caller['file']))  $firePHP->group("at " . @$caller['file'] . 'line' . @$caller['line']);
-    $firePHP->log($sql);
-    $firePHP->groupEnd();
+//    if (isset($caller['file']))  $firePHP->group("at " . @$caller['file'] . 'line' . @$caller['line']);
+//    $firePHP->log($sql);
+//    $firePHP->groupEnd();
 }
 
 spl_autoload_register(function ($class) { // автолоадер для классов 

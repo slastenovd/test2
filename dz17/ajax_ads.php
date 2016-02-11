@@ -17,18 +17,20 @@ switch ($_REQUEST['action']) {
         }else{
             $ad = new AdsPrivatePerson($_POST);    
         }
+        
         $CheckResult = AdChecker::check($ad);
         if ( $CheckResult ){    // Проверка на заполнение полей
             $result['status']='error';
             $result['message'] = $CheckResult;
         } else {
-            $ad->save();              // Иначе - сохранение
-            $result['status']='success';
-            $result['message'] = "Объявление ".$_POST["title"]." успешно сохранено.";
-        }
-      
-        echo json_encode($result);
+            $ad->save()->refresh();              // Иначе - сохранение и обновление из БД
 
+            $smarty->assign('ad',$ad);
+            $result['ad_row']=$smarty->fetch('table_row.tpl.html');
+            $result['status']='success';
+            $result['message'] = "Объявление ".$ad->getTitle()." успешно сохранено.";
+        }
+        echo json_encode($result);
         break;
     
     case "delete":

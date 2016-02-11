@@ -30,11 +30,6 @@ class Ads{
         if ( isset($ad['description']) )    $this->description = $ad['description'];
         if ( isset($ad['price']) )          $this->price = $ad['price'];
         if ( isset($ad['date_change']) )    $this->date_change = $ad['date_change'];
-
-//        foreach ($ad as $key => $value) {
-//
-//            $this->$key = $value;
-//        }
     }
 
     public function save() {
@@ -43,9 +38,19 @@ class Ads{
         foreach ($vars as $key => $value) {
             if( is_null($value) ) unset($vars[$key]);
         }
-        return $db->query('REPLACE INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
+        if ( $this->getId() > 0){
+            $db->query('REPLACE INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
+        } else {
+            $this->ad_id = $db->query('INSERT INTO ads(?#) VALUES(?a)',  array_keys($vars),  array_values($vars));
+        }
+        return $this;
     }
     
+    public function refresh($id=0) {
+        global $db;
+        if ( $id === 0 ) $id=$this->getId();
+        $this->__construct($db->selectRow('SELECT * FROM ads WHERE ad_id=?',$id));
+    }
     public function getAdArray(){
         return get_class_vars($this);
     }

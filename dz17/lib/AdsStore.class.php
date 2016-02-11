@@ -93,17 +93,6 @@ class AdsStore{
         foreach ($this->ads as $value) {
             $smarty->assign('ad',$value);
             $row.=$smarty->fetch('table_row.tpl.html');
-
-//            if( ($value->getPrivate() == 1 and $SliderItemNumber < 4){
-//            // так компании - классные ребята и платят много денег, поместим объявления компаний в слайдер
-//                $smarty->assign('SliderItemNumber',$SliderItemNumber);
-//                $smarty->assign('CarouselMsg',$value->getTitle().' за '.$value->getPrice().' руб');
-//                $smarty->assign('ad',$value);
-//                
-//                $SliderIndicators.=$smarty->fetch('carousel_indicators.tpl.html');
-//                $SliderItems.=$smarty->fetch('carousel_items.tpl.html');
-//                $SliderItemNumber++;
-//            }
         }
         
         $smarty->assign('ads_rows',$row);
