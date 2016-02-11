@@ -1,7 +1,3 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-09 17:58:05
-         compiled from index.tpl */ ?>
-<?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 147, false),array('modifier', 'escape', 'index.tpl', 147, false),array('function', 'html_options', 'index.tpl', 225, false),)), $this); ?>
 <!DOCTYPE html>
 <html lang="RU">
     <head>
@@ -9,7 +5,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Лаба №16</title>
+        <title>Лаба №17</title>
 
 
         <!-- Latest compiled and minified CSS -->
@@ -44,8 +40,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
-                                    <li ><a id="href-new-ad" href="<?php echo $this->_tpl_vars['href_self']; ?>
-#NewAd">Новое объявление <span class="sr-only">(current)</span></a></li>
+                                    <li ><a id="href-new-ad" href="{$href_self}#NewAd">Новое объявление <span class="sr-only">(current)</span></a></li>
                                     <li><a data-toggle="collapse" data-target="#collapseAds" aria-expanded="true" aria-controls="collapseAds">Перечень объявлений</a></li>
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Еще <span class="caret"></span></a>
@@ -57,7 +52,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                                         </ul>
                                     </li>
                                 </ul>
-                                                            </div><!-- /.navbar-collapse -->
+                            </div><!-- /.navbar-collapse -->
                         </div><!-- /.container-fluid -->
                     </nav>  
 
@@ -83,17 +78,11 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
           <div id="container_info"></div>
       </div>
 
-
-                    <?php if (count ( $this->_tpl_vars['ads'] ) > 0 && $this->_tpl_vars['ad_flag'] <> 1): ?> 
-
-                                                <a name="Ads"></a>
-
-                                <?php $_smarty_tpl_vars = $this->_tpl_vars;
-$this->_smarty_include(array('smarty_include_tpl_file' => 'table.tpl.html', 'smarty_include_vars' => array()));
-$this->_tpl_vars = $_smarty_tpl_vars;
-unset($_smarty_tpl_vars);
- ?>
-                    <?php endif; ?>  
+                    {if count($ads)>0 and $ad_flag <> 1} 
+  
+                        <a name="Ads"></a>
+                                {include file='table.tpl.html'}
+                    {/if}  
 
       <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
           <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');return false;" class="btn btn-danger btn-sm">
@@ -102,25 +91,21 @@ unset($_smarty_tpl_vars);
       </div>
 
 
-                                                            <a name="NewAd"></a>
+                    <a name="NewAd"></a>
                     <form  class="form-horizontal" method="post" id="ad_form">
                         <div class="form-group">
                             <div class="col-sm-offset-2">
                                 <h2>
                                     <div  id="ad_descr">
-                                    <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
+                                    {if     $ad_flag eq 0}
                                         Новое объявление
-                                    <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
-                                        Откорректируйте объявление<blockquote><?php echo $this->_tpl_vars['err_msg']; ?>
-</blockquote>
-                                    <?php elseif ($this->_tpl_vars['ad_flag'] == 2): ?>
-                                        Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getDate_change())) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
-<br>о продаже <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getTitle())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
- за <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getPrice())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
- руб.
-                                    <?php else: ?>
+                                    {elseif $ad_flag eq 1}
+                                        Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
+                                    {elseif $ad_flag eq 2}
+                                        Просмотр объявления от {$ad->getDate_change()|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->getTitle()|escape} за {$ad->getPrice()|escape} руб.
+                                    {else}
                                         Обнаружена неконсистентность данных
-                                    <?php endif; ?>
+                                    {/if}
                                     </div>
                                 </h2>
                             </div>
@@ -136,16 +121,16 @@ unset($_smarty_tpl_vars);
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="radio-inline">
                                     <label><input id="radio_private" type="radio" 
-                                                  <?php if ($this->_tpl_vars['ad']->getPrivate() == 0): ?> 
+                                                  {if $ad->getPrivate() eq 0} 
                                                       checked="" 
-                                                  <?php endif; ?>
+                                                  {/if}
                                                   value="0" name="private">Частное лицо</label> 
                                 </div>            
                                 <div class="radio-inline">
                                     <label><input id="radio_company" type="radio" 
-                                                  <?php if ($this->_tpl_vars['ad']->getPrivate() == 1): ?> 
+                                                  {if $ad->getPrivate()  eq 1} 
                                                       checked="" 
-                                                  <?php endif; ?>
+                                                  {/if}
                                                   value="1" name="private">Компания</label> 
                                 </div>            
                             </div>            
@@ -154,32 +139,29 @@ unset($_smarty_tpl_vars);
                         <div class="form-group">
                             <label for="fld_seller_name" id="your-name" class="col-sm-2 control-label">Ваше имя</label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" defaultValue="" class="form-control"  value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getSeller_name())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
+                                <input type="text" maxlength="40" defaultValue="" class="form-control"  value="{$ad->getSeller_name()|escape}" name="seller_name" id="fld_seller_name" placeholder = "Иван Петров">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_manager" class="col-sm-2 control-label"><b>Контактное лицо</b></label>
                             <div class="col-sm-10">
-                                <input type="text" maxlength="40" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getManager())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="manager" placeholder = "Петр Иванов" id="fld_manager">
+                                <input type="text" maxlength="40" class="form-control" value="{$ad->getManager()|escape}" name="manager" placeholder = "Петр Иванов" id="fld_manager">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_email" class="col-sm-2 control-label">Электронная почта</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getEmail())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
+                                <input type="email" class="form-control" value="{$ad->getEmail()|escape}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
 
                             <div class="checkbox col-sm-offset-2 col-sm-10">
                                 <label for="allow_mails"  class=" control-label">
                                     <input type="checkbox" value="1" 
-                                           <?php if ($this->_tpl_vars['ad']->getAllow_mails() > 0): ?> 
+                                           {if $ad->getAllow_mails() gt 0} 
                                                checked="" 
-                                           <?php endif; ?>
+                                           {/if}
                                            name="allow_mails" id="allow_mails">
                                     Я не хочу получать вопросы по объявлению по e-mail</label>
                             </div>
@@ -188,8 +170,7 @@ unset($_smarty_tpl_vars);
                         <div class="form-group">
                             <label id="fld_phone_label"  class="col-sm-2 control-label" for="fld_phone">Номер телефона</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getPhone())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
+                                <input type="text" class="form-control" value="{$ad->getPhone()|escape}" name="phone" id="fld_phone" size="30"  placeholder = "+7 999 888 77-77">
                             </div>            
                         </div>            
 
@@ -199,8 +180,7 @@ unset($_smarty_tpl_vars);
                                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-control"> 
                                     <option value="">-- Выберите город --</option>
                                     <option disabled="disabled">-- Города --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['cities'],'selected' => $this->_tpl_vars['ad']->getLocation_id()), $this);?>
-
+                                    {html_options options=$cities selected=$ad->getLocation_id()}
                                     <option id="select-region" value="0">Выбрать другой...</option> </select> 
                             </div>            
                         </div>            
@@ -209,8 +189,7 @@ unset($_smarty_tpl_vars);
                             <label for="fld_metro_id" class="col-sm-2 control-label">Метро</label>
                             <div class="col-sm-10">
                                 <select title="Выберите станцию метро" name="metro_id" class="form-control" id="fld_metro_id"> <option value="">-- Выберите станцию метро --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['metro_stations'],'selected' => $this->_tpl_vars['ad']->getMetro_id()), $this);?>
-
+                                    {html_options options=$metro_stations selected=$ad->getMetro_id()}
                                 </select> 
                             </div>            
                         </div>            
@@ -219,8 +198,7 @@ unset($_smarty_tpl_vars);
                             <label for="fld_category_id" class="col-sm-2 control-label">Категория</label> 
                             <div class="col-sm-10">
                                 <select title="Выберите категорию объявления" class="form-control" name="category_id" id="fld_category_id"> <option value="">-- Выберите категорию --</option>
-                                    <?php echo smarty_function_html_options(array('options' => $this->_tpl_vars['categories'],'selected' => $this->_tpl_vars['ad']->getCategory_id()), $this);?>
-
+                                    {html_options options=$categories selected=$ad->getCategory_id()}
                                 </select>
                             </div>            
                         </div>            
@@ -228,16 +206,14 @@ unset($_smarty_tpl_vars);
                         <div class="form-group">
                             <label for="fld_title" class="col-sm-2 control-label">Название объявления</label> 
                             <div class="col-sm-10">
-                                <input type="text" maxlength="50" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getTitle())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="title" id="fld_title" placeholder="Porsche Cayenne">
+                                <input type="text" maxlength="50" class="form-control" value="{$ad->getTitle()|escape}" name="title" id="fld_title" placeholder="Porsche Cayenne">
                             </div>            
                         </div>            
 
                         <div class="form-group">
                             <label for="fld_description" id="js-description-label" class="col-sm-2 control-label">Описание объявления</label> 
                             <div class="col-sm-10">
-                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description"><?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getDescription())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-</textarea> 
+                                <textarea maxle rows="5" ngth="3000" class="form-control" name="description" placeholder="Отличный автомобиль в полной комплектации" id="fld_description">{$ad->getDescription()|escape}</textarea> 
                             </div>            
                         </div>            
 
@@ -246,20 +222,17 @@ unset($_smarty_tpl_vars);
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <div class="input-group-addon">руб.</div>
-                                    <input type="text" maxlength="9" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getPrice())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
-" name="price" id="fld_price" placeholder="00">
+                                    <input type="text" maxlength="9" class="form-control" value="{$ad->getPrice()|escape}" name="price" id="fld_price" placeholder="00">
                                     <div class="input-group-addon">.00</div>
                                 </div>            
                             </div>            
                         </div>            
 
-                            <input type="hidden" value="<?php echo $_GET['id']; ?>
-" name="ad_id" id="ad_id">
-                        
+                            <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-<button type="submit" class="btn btn-success" id="form_submit"><?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?></button>
+<button type="submit" class="btn btn-success" id="form_submit">{if $ad_flag eq 2}Сохранить{else}Отправить{/if}</button>
                             </div>            
                         </div>            
 
@@ -268,7 +241,7 @@ unset($_smarty_tpl_vars);
                     <div class="well well-lg">
                         <h3 class="text-center">Лаба #16</h3>
                         <p class="text-center">AJAX</p>
-                                            </div>
+                    </div>
 
                 </div>
             </div>
@@ -281,5 +254,6 @@ unset($_smarty_tpl_vars);
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <!--<script src="js/bootstrap.min.js"></script>-->
         <script src="js/common.js"></script>
+        <script src="js/jquery.form.min.js"></script>
     </body>
 </html>

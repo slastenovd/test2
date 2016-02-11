@@ -1,5 +1,44 @@
 $(document).ready(function () {
     
+    function showResponse(response){
+        $('#container, #container1, #container_form_msg').fadeOut('slow');
+        if(response.status=='success'){
+            $('#container_form_msg').removeClass('alert-danger').addClass('alert-success');
+            if ($('#ad_id').val() > 0){
+                $('.ad_row:contains('+$('#ad_id').val()+')').closest('tr').remove();
+            }
+            $('tbody').prepend(response.ad_row);
+            clear_form();
+        }
+        if(response.status=='error'){
+            $('#container_form_msg').removeClass('alert-success').addClass('alert-danger');
+        }
+        $('#container_info_form_msg').html(response.message);
+        $('#container_form_msg').fadeIn('slow');              
+            
+        setTimeout("$('#container_form_msg').fadeOut('slow')", 5000);            
+        return false;   
+    };
+    
+    var options = { 
+        target:        '#output1',     // target element(s) to be updated with server response 
+//        beforeSubmit:  showRequest,  // pre-submit callback 
+        success:       showResponse,   // post-submit callback 
+ 
+        // other available options: 
+        url:       'ajax_ads.php?action=store_ad',         // override for form's 'action' attribute 
+        //type:      type         // 'get' or 'post', override for form's 'method' attribute 
+        dataType:  'json',        // 'xml', 'script', or 'json' (expected server response type) 
+        clearForm: true           // clear all form fields after successful submit 
+        //resetForm: true         // reset the form after successful submit 
+ 
+        // $.ajax options can be used here too, for example: 
+        //timeout:   3000 
+    }; 
+ 
+    // bind form using 'ajaxForm' 
+    $('#ad_form').ajaxForm(options);
+    
     var delete_function = function () {
         var tr = $(this).closest('tr');
         var id = tr.children('td:first').html();
@@ -17,7 +56,7 @@ $(document).ready(function () {
                     
                     tr.fadeOut('slow', function () {
                         tr.remove();
-                        if(  $('tbody > tr').size() ===0 ){
+                        if( $('tbody > tr').size() ===0 ){
                             $('#container1').fadeIn('slow');
                             $('#rable-ads').fadeOut();
                         }
@@ -33,8 +72,8 @@ $(document).ready(function () {
                     $('#container').fadeIn('slow');
                 }
         });
+       setTimeout("$('#container, #container1').fadeOut('slow')", 5000);
     };
-
 
     show_ad = function () { // Показать объявление
         var tr = $(this).closest('tr');
@@ -65,8 +104,8 @@ $(document).ready(function () {
         return false; 
     };
 
-    $('a.ad-href').on('click', show_ad);        // Показать объявление
-    $('a.delete').on('click', delete_function); // Удалить объявление
+    $(document).on('click','a.ad-href', show_ad);         // Показать объявление
+    $(document).on('click','a.delete',  delete_function); // Удалить объявление
     
     function clear_form(){ // Очистить форму
         $('#ad_descr').html('Новое объявление');
@@ -80,47 +119,4 @@ $(document).ready(function () {
         clear_form();
         return false; 
     });
-
-    function refresh_table(){ // Заполнить таблицу
-        $.getJSON('ajax_ads.php?action=get_ads',
-        function(response) {
-            $('tbody>tr').remove();
-            $.each(response, function (i,val) {
-                        $('tbody').append(  '<tr>'+
-                                            '<td style="display: none;" class="ad_row">'+val.ad_id+'</td>'+
-                                            '<td>'+val.date_change+'</td>'+
-                                            '<td><a class="ad-href" href=index.php?id='+val.ad_id+'>'+val.title+'</a></td>'+
-                                            '<td>'+val.price+'</td>'+
-                                            '<td>'+val.seller_name+'</td>'+
-                                            '<td>'+val.phone+'</td>'+
-                                            '<td><a class="delete btn btn-warning"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td>'+
-                                            '</tr>');
-            });
-            $('a.delete').on('click', delete_function);
-            $('a.ad-href').on('click', show_ad);
-            $('#rable-ads').fadeIn();
-        });        
-        return false; 
-    }
-    
-    $('#form_submit').on('click', function () { // Сохранить объявление
-        $('#container, #container1, #container_form_msg').fadeOut('slow');
-        
-        $.post('ajax_ads.php?action=store_ad',
-            $("#ad_form").serialize(),
-            function(response) {
-                if(response.status=='success'){
-                    $('#container_form_msg').removeClass('alert-danger').addClass('alert-success');
-                    refresh_table();
-                    clear_form();
-                }
-                if(response.status=='error'){
-                    $('#container_form_msg').removeClass('alert-success').addClass('alert-danger');
-                }
-                $('#container_info_form_msg').html(response.message);
-                $('#container_form_msg').fadeIn('slow');              
-            },'json');        
-        return false;         
-    });
-}
-);
+});
