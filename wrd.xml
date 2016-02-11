@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CATALOG>
+  <PRM>
+    <TXM>19</TXM>
+    <TYM>23</TYM>
+    <COMMENT1>Это кроссворд для тех, кто любит и читает Ф. М. Достоевского. По горизонтали  - вопросы по  произведениям писателя, по вертикали – по персонажам произведений Ф.М. Достоевского</COMMENT1>
+  </PRM>
+	<WRD>
+		<WRDOTV>ИГРОК</WRDOTV>
+		<WRDQST>Роман, написанный за 28 дней</WRDQST>
+		<WRDX>2</WRDX>
+		<WRDY>2</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ЗАПИСКИ</WRDOTV>
+		<WRDQST> Эпистолы из 'Подполья' и 'Мёртвого дома'</WRDQST>
+		<WRDX>2</WRDX>
+		<WRDY>4</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ПОДРОСТОК</WRDOTV>
+		<WRDQST>Откровения Аркадия Долгорукого о юности</WRDQST>
+		<WRDX>8</WRDX>
+		<WRDY>5</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>БЕСЫ</WRDOTV>
+		<WRDQST>Роман о революционной пятёрке</WRDQST>
+		<WRDX>1</WRDX>
+		<WRDY>7</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>КАРАМАЗОВЫ</WRDOTV>
+		<WRDQST>Главные персонажи последнего романа Достоевского</WRDQST>
+		<WRDX>4</WRDX>
+		<WRDY>9</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ИДИОТ</WRDOTV>
+		<WRDQST>Произведение о положительно прекрасном человеке</WRDQST>
+		<WRDX>10</WRDX>
+		<WRDY>12</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>БОБОК</WRDOTV>
+		<WRDQST>Фантастический рассказ Ф. Достоевского</WRDQST>
+		<WRDX>3</WRDX>
+		<WRDY>13</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ДВОЙНИК</WRDOTV>
+		<WRDQST>Приключения г-на Голядкина</WRDQST>
+		<WRDX>8</WRDX>
+		<WRDY>16</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>КРОКОДИЛ</WRDOTV>
+		<WRDQST>'Необыкновенное событие, или Пассаж в Пассаже…'</WRDQST>
+		<WRDX>6</WRDX>
+		<WRDY>19</WRDY>
+		<WRDV>0</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ЛОБОВ</WRDOTV>
+		<WRDQST>'жених' Нади Захлебиной ('Вечный муж')</WRDQST>
+		<WRDX>1</WRDX>
+		<WRDY>5</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ОБНОСКИН</WRDOTV>
+		<WRDQST>Сын Анфисы Петровны ('Село Степанчиково и его обитатели')</WRDQST>
+		<WRDX>3</WRDX>
+		<WRDY>12</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>МЫШКИН</WRDOTV>
+		<WRDQST>Князь Лев Николаевич</WRDQST>
+		<WRDX>4</WRDX>
+		<WRDY>6</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ИОСИФ</WRDOTV>
+		<WRDQST>Иеромонах, монастырский библиотекарь ('Братья Карамазовы')</WRDQST>
+		<WRDX>5</WRDX>
+		<WRDY>1</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>КИРИЛЛОВ</WRDOTV>
+		<WRDQST>Один из главных героев-самоубийц в мире Достоевского</WRDQST>
+		<WRDX>6</WRDX>
+		<WRDY>7</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ЛУЧКА</WRDOTV>
+		<WRDQST>Прозвище Луки Кузьмича в 'Мёртвом доме'</WRDQST>
+		<WRDX>6</WRDX>
+		<WRDY>16</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ОСИП</WRDOTV>
+		<WRDQST>Арестант, повар из 'Мёртвого дома'</WRDQST>
+		<WRDX>8</WRDX>
+		<WRDY>2</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ЛЕМБКЕ</WRDOTV>
+		<WRDQST>Новый губернатор города ('Бесы')</WRDQST>
+		<WRDX>8</WRDX>
+		<WRDY>7</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>НЕЛЮДОВ</WRDOTV>
+		<WRDQST>Судебный следователь по делу Карамазова</WRDQST>
+		<WRDX>10</WRDX>
+		<WRDY>1</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ЗОСИМА</WRDOTV>
+		<WRDQST>Духовный наставник Алёши Карамазова</WRDQST>
+		<WRDX>10</WRDX>
+		<WRDY>9</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ОРЛОВ</WRDOTV>
+		<WRDQST>С ним Горянчиков познакомился в госпитале 'Мёртвого Дома'</WRDQST>
+		<WRDX>10</WRDX>
+		<WRDY>16</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>МАСЛОБОЕВ</WRDOTV>
+		<WRDQST>Школьный товарищ Ивана Петровича ('Униженные и оскорблённые')</WRDQST>
+		<WRDX>12</WRDX>
+		<WRDY>1</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ВИРГИНСКИЙ</WRDOTV>
+		<WRDQST>Член революционной пятёрки</WRDQST>
+		<WRDX>12</WRDX>
+		<WRDY>11</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ЛИПУТИН</WRDOTV>
+		<WRDQST>'Золотая середина' пятёрки революционеров</WRDQST>
+		<WRDX>14</WRDX>
+		<WRDY>1</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ШАТОВ</WRDOTV>
+		<WRDQST>Жертва политических репрессий ('Бесы')</WRDQST>
+		<WRDX>14</WRDX>
+		<WRDY>10</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>КОХ</WRDOTV>
+		<WRDQST>Самый первый свидетель преступления Раскольникова</WRDQST>
+		<WRDX>14</WRDX>
+		<WRDY>16</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+	<WRD>
+		<WRDOTV>ВАЛКОВСКИЙ</WRDOTV>
+		<WRDQST>Антагонист романа 'Униженные и оскорблённые'</WRDQST>
+		<WRDX>16</WRDX>
+		<WRDY>2</WRDY>
+		<WRDV>1</WRDV>
+	</WRD>
+</CATALOG>

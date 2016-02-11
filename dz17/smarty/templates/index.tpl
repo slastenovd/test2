@@ -71,24 +71,24 @@
                             </div>
                         </div>
                     </div>                    
-                            
-      <div id="container" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
-          <button type="button" style="float: right;" onclick="$('#container').fadeOut('slow');return false;" class="btn btn-warning btn-sm">
-              <span aria-hidden="true">&times;</span></button>
-          <div id="container_info"></div>
-      </div>
 
-                    {if count($ads)>0 and $ad_flag <> 1} 
-  
-                        <a name="Ads"></a>
-                                {include file='table.tpl.html'}
-                    {/if}  
+                    <div id="container" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
+                        <button type="button" style="float: right;" onclick="$('#container').fadeOut('slow');
+                  return false;" class="btn btn-warning btn-sm">
+                            <span aria-hidden="true">&times;</span></button>
+                        <div id="container_info"></div>
+                    </div>
 
-      <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
-          <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');return false;" class="btn btn-danger btn-sm">
-              <span aria-hidden="true">&times;</span></button>
-          <div id="container1_info">В базе данных нет ни одного объявления. <br> Все объявления удалены.</div>
-      </div>
+                    <a name="Ads"></a>
+                    {include file='table.tpl.html'}
+
+
+                    <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
+                        <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');
+                  return false;" class="btn btn-danger btn-sm">
+                            <span aria-hidden="true">&times;</span></button>
+                        <div id="container1_info">В базе данных нет ни одного объявления. <br> Все объявления удалены.</div>
+                    </div>
 
 
                     <a name="NewAd"></a>
@@ -97,25 +97,26 @@
                             <div class="col-sm-offset-2">
                                 <h2>
                                     <div  id="ad_descr">
-                                    {if     $ad_flag eq 0}
-                                        Новое объявление
-                                    {elseif $ad_flag eq 1}
-                                        Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
-                                    {elseif $ad_flag eq 2}
-                                        Просмотр объявления от {$ad->getDate_change()|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->getTitle()|escape} за {$ad->getPrice()|escape} руб.
-                                    {else}
-                                        Обнаружена неконсистентность данных
-                                    {/if}
+                                        {if     $ad_flag eq 0}
+                                            Новое объявление
+                                        {elseif $ad_flag eq 1}
+                                            Откорректируйте объявление<blockquote>{$err_msg}</blockquote>
+                                        {elseif $ad_flag eq 2}
+                                            Просмотр объявления от {$ad->getDate_change()|date_format:"%H:%M:%S %d.%m.%Y"}<br>о продаже {$ad->getTitle()|escape} за {$ad->getPrice()|escape} руб.
+                                        {else}
+                                            Обнаружена неконсистентность данных
+                                        {/if}
                                     </div>
                                 </h2>
                             </div>
                         </div>
 
-                          <div id="container_form_msg" class="alert alert alert-success alert-dismissible" style="display: none" role="alert">
-                              <button type="button" style="float: right;" onclick="$('#container_form_msg').fadeOut('slow');return false;" class="btn btn-warning btn-sm">
-                                  <span aria-hidden="true">&times;</span></button>
-                              <div id="container_info_form_msg"></div>
-                          </div>
+                        <div id="container_form_msg" class="alert alert alert-success alert-dismissible" style="display: none" role="alert">
+                            <button type="button" style="float: right;" onclick="$('#container_form_msg').fadeOut('slow');
+                                      return false;" class="btn btn-warning btn-sm">
+                                <span aria-hidden="true">&times;</span></button>
+                            <div id="container_info_form_msg"></div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -155,7 +156,6 @@
                             <div class="col-sm-10">
                                 <input type="email" class="form-control" value="{$ad->getEmail()|escape}" name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
-
                             <div class="checkbox col-sm-offset-2 col-sm-10">
                                 <label for="allow_mails"  class=" control-label">
                                     <input type="checkbox" value="1" 
@@ -228,11 +228,11 @@
                             </div>            
                         </div>            
 
-                            <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
+                        <input type="hidden" value="{$smarty.get.id}" name="ad_id" id="ad_id">
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-<button type="submit" class="btn btn-success" id="form_submit">{if $ad_flag eq 2}Сохранить{else}Отправить{/if}</button>
+                                <button type="submit" class="btn btn-success" id="form_submit">{if $ad_flag eq 2}Сохранить{else}Отправить{/if}</button>
                             </div>            
                         </div>            
 

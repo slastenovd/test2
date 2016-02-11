@@ -8,20 +8,20 @@ $(document).ready(function () {
                 $('.ad_row:contains('+$('#ad_id').val()+')').closest('tr').remove();
             }
             $('tbody').prepend(response.ad_row);
-            clear_form();
         }
         if(response.status=='error'){
             $('#container_form_msg').removeClass('alert-success').addClass('alert-danger');
         }
         $('#container_info_form_msg').html(response.message);
-        $('#container_form_msg').fadeIn('slow');              
-            
-        setTimeout("$('#container_form_msg').fadeOut('slow')", 5000);            
-        return false;   
+        $('#container_form_msg').fadeIn('slow', function(){
+            setTimeout("$('#container_form_msg').fadeOut('slow')", 5000);            
+            $('#ad_descr').html('Новое объявление');
+        });              
+        
     };
     
     var options = { 
-        target:        '#output1',     // target element(s) to be updated with server response 
+//        target:        '#output1',     // target element(s) to be updated with server response 
 //        beforeSubmit:  showRequest,  // pre-submit callback 
         success:       showResponse,   // post-submit callback 
  
@@ -29,8 +29,8 @@ $(document).ready(function () {
         url:       'ajax_ads.php?action=store_ad',         // override for form's 'action' attribute 
         //type:      type         // 'get' or 'post', override for form's 'method' attribute 
         dataType:  'json',        // 'xml', 'script', or 'json' (expected server response type) 
-        clearForm: true           // clear all form fields after successful submit 
-        //resetForm: true         // reset the form after successful submit 
+        clearForm: true,           // clear all form fields after successful submit 
+        resetForm: true         // reset the form after successful submit 
  
         // $.ajax options can be used here too, for example: 
         //timeout:   3000 

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2016-02-11 00:15:55
+<?php /* Smarty version 2.6.28, created on 2016-02-12 00:06:16
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'index.tpl', 105, false),array('modifier', 'escape', 'index.tpl', 105, false),array('function', 'html_options', 'index.tpl', 183, false),)), $this); ?>
@@ -76,28 +76,28 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
                             </div>
                         </div>
                     </div>                    
-                            
-      <div id="container" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
-          <button type="button" style="float: right;" onclick="$('#container').fadeOut('slow');return false;" class="btn btn-warning btn-sm">
-              <span aria-hidden="true">&times;</span></button>
-          <div id="container_info"></div>
-      </div>
 
-                    <?php if (count ( $this->_tpl_vars['ads'] ) > 0 && $this->_tpl_vars['ad_flag'] <> 1): ?> 
-  
-                        <a name="Ads"></a>
-                                <?php $_smarty_tpl_vars = $this->_tpl_vars;
+                    <div id="container" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
+                        <button type="button" style="float: right;" onclick="$('#container').fadeOut('slow');
+                  return false;" class="btn btn-warning btn-sm">
+                            <span aria-hidden="true">&times;</span></button>
+                        <div id="container_info"></div>
+                    </div>
+
+                    <a name="Ads"></a>
+                    <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => 'table.tpl.html', 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
-                    <?php endif; ?>  
 
-      <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
-          <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');return false;" class="btn btn-danger btn-sm">
-              <span aria-hidden="true">&times;</span></button>
-          <div id="container1_info">В базе данных нет ни одного объявления. <br> Все объявления удалены.</div>
-      </div>
+
+                    <div id="container1" class="alert alert-warning alert-dismissible" style="display: none" role="alert">
+                        <button type="button" style="float: right;" onclick="$('#container1').fadeOut('slow');
+                  return false;" class="btn btn-danger btn-sm">
+                            <span aria-hidden="true">&times;</span></button>
+                        <div id="container1_info">В базе данных нет ни одного объявления. <br> Все объявления удалены.</div>
+                    </div>
 
 
                     <a name="NewAd"></a>
@@ -106,29 +106,30 @@ unset($_smarty_tpl_vars);
                             <div class="col-sm-offset-2">
                                 <h2>
                                     <div  id="ad_descr">
-                                    <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
-                                        Новое объявление
-                                    <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
-                                        Откорректируйте объявление<blockquote><?php echo $this->_tpl_vars['err_msg']; ?>
+                                        <?php if ($this->_tpl_vars['ad_flag'] == 0): ?>
+                                            Новое объявление
+                                        <?php elseif ($this->_tpl_vars['ad_flag'] == 1): ?>
+                                            Откорректируйте объявление<blockquote><?php echo $this->_tpl_vars['err_msg']; ?>
 </blockquote>
-                                    <?php elseif ($this->_tpl_vars['ad_flag'] == 2): ?>
-                                        Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getDate_change())) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
+                                        <?php elseif ($this->_tpl_vars['ad_flag'] == 2): ?>
+                                            Просмотр объявления от <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getDate_change())) ? $this->_run_mod_handler('date_format', true, $_tmp, "%H:%M:%S %d.%m.%Y") : smarty_modifier_date_format($_tmp, "%H:%M:%S %d.%m.%Y")); ?>
 <br>о продаже <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getTitle())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
  за <?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getPrice())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
  руб.
-                                    <?php else: ?>
-                                        Обнаружена неконсистентность данных
-                                    <?php endif; ?>
+                                        <?php else: ?>
+                                            Обнаружена неконсистентность данных
+                                        <?php endif; ?>
                                     </div>
                                 </h2>
                             </div>
                         </div>
 
-                          <div id="container_form_msg" class="alert alert alert-success alert-dismissible" style="display: none" role="alert">
-                              <button type="button" style="float: right;" onclick="$('#container_form_msg').fadeOut('slow');return false;" class="btn btn-warning btn-sm">
-                                  <span aria-hidden="true">&times;</span></button>
-                              <div id="container_info_form_msg"></div>
-                          </div>
+                        <div id="container_form_msg" class="alert alert alert-success alert-dismissible" style="display: none" role="alert">
+                            <button type="button" style="float: right;" onclick="$('#container_form_msg').fadeOut('slow');
+                                      return false;" class="btn btn-warning btn-sm">
+                                <span aria-hidden="true">&times;</span></button>
+                            <div id="container_info_form_msg"></div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -171,7 +172,6 @@ unset($_smarty_tpl_vars);
                                 <input type="email" class="form-control" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['ad']->getEmail())) ? $this->_run_mod_handler('escape', true, $_tmp) : smarty_modifier_escape($_tmp)); ?>
 " name="email" id="fld_email"  placeholder="Ivan@Petrov.net">
                             </div>
-
                             <div class="checkbox col-sm-offset-2 col-sm-10">
                                 <label for="allow_mails"  class=" control-label">
                                     <input type="checkbox" value="1" 
@@ -251,12 +251,12 @@ unset($_smarty_tpl_vars);
                             </div>            
                         </div>            
 
-                            <input type="hidden" value="<?php echo $_GET['id']; ?>
+                        <input type="hidden" value="<?php echo $_GET['id']; ?>
 " name="ad_id" id="ad_id">
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-<button type="submit" class="btn btn-success" id="form_submit"><?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?></button>
+                                <button type="submit" class="btn btn-success" id="form_submit"><?php if ($this->_tpl_vars['ad_flag'] == 2): ?>Сохранить<?php else: ?>Отправить<?php endif; ?></button>
                             </div>            
                         </div>            
 
