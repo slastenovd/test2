@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)http://www.kmslib.ru/sites/default/files/crossWord/game.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<style>
+td.s0
+{
+  width:30px;
+  height:30px;
+  text-align: center;
+  background-color: #FFFFFF;
+  font-size: 24px;
+}
+td.s1
+{
+  width:30px;
+  height:30px;
+  text-align: center;
+  background-color: #d0e4fe;
+  font-size: 24px;
+}
+td.s2
+{
+  width:30px;
+  height:30px;
+  text-align: center;
+  background-color: #00ff00;
+  font-size: 24px;
+}
+
+
+</style>
+<meta http-equiv="Content-Language" content="ru">
+
+
+<script>
+
+var x=0, y=0, i, j, txm = 20, tym=20, curW=0, wm=3;
+var ttable, words, comment1="";
+var wrdf, wprm;
+
+//-------------------------------------
+function fkey(e) 
+{
+  if(ttable[x][y][0]!=1)return;
+  s = e.charCode || e.keyCode;
+  s = String.fromCharCode(s);
+  s = s.toUpperCase();
+  ttable[x][y][1] = s;
+  el = document.getElementById("tx"+x+"ty"+y);
+  el.innerHTML = s;
+  rr=0;
+  if(words[curW][4]==0)
+  {
+    rr = x - words[curW][2];
+  }else
+  {
+    rr = y - words[curW][3];
+  }
+  
+  for(ii=0;ii<words[curW][0].length-rr;ii++)
+  {
+    if(words[curW][4]==0)
+    {
+      xx = x+1+ii;
+      yy = y;
+    }else
+    {
+      xx = x;
+      yy = y+1+ii;
+    }
+    if(tXY(xx,yy)){chkWrd();break};
+    chkWrd();
+  }
+
+}
+//-------------------------------------
+function chkWrd()
+{
+  flg=0;
+  for(i=0;i<words[curW][0].length;i++)
+  {
+    if(words[curW][4]==0)
+    {
+      xx = words[curW][2]+i;
+      yy = words[curW][3];
+    }
+    else
+    {
+      xx = words[curW][2];
+      yy = words[curW][3]+i;
+    }
+    if(ttable[xx][yy][1]==words[curW][0].charAt(i))flg++;
+    
+  }
+  if(words[curW][0].length==flg)
+  {
+    for(i=0;i<words[curW][0].length;i++)
+    {
+      if(words[curW][4]==0)
+      {
+        xx = words[curW][2]+i;
+        yy = words[curW][3];
+      }
+      else
+      {
+        xx = words[curW][2];
+        yy = words[curW][3]+i;
+      }
+      ttable[xx][yy][0]=2;
+      el = document.getElementById("tx"+xx+"ty"+yy);
+      el.class="s2";
+      el.style.backgroundColor="#00ff00";
+    }
+    
+  }
+}
+//-------------------------------------
+function checkW(id,xx,yy)
+{
+  if(id<0||id>=wm)return false;
+  if(words[id][4]==0)
+  {
+    if(words[id][3]==yy && xx>=words[id][2] && xx<=words[id][2]+words[id][0].length)return true;
+  }else
+  {
+    if(words[id][2]==xx && yy>=words[id][3] && yy<=words[id][3]+words[id][0].length)return true;
+  }
+  return false;
+}
+//-------------------------------------
+function tXY(xx,yy)
+{
+  if(xx<0||xx>=txm||yy<0||yy>=tym)return false;
+  if(ttable[xx][yy][0]!=1)return false;
+  el = document.getElementById("tx"+x+"ty"+y);
+  if(ttable[x][y][0]!=2)el.style.backgroundColor="";
+  x = xx;
+  y = yy;
+  el = document.getElementById("tx"+x+"ty"+y);
+  el.style.backgroundColor="#ff0000";
+  if(!checkW(curW, x, y))
+  {
+    for(i=0;i<wm;i++)
+    {
+      if(checkW(i, x, y))curW = i;
+    }
+  }
+  return true;
+}
+//-------------------------------------
+function initWw()
+{
+  wm = wrdf.length;
+  words = new Array(wm);
+
+  var tt;
+  tt = wprm[0].getElementsByTagName("TXM");
+  txm = parseInt(tt[0].firstChild.nodeValue);
+  tt = wprm[0].getElementsByTagName("TYM");
+  tym = parseInt(tt[0].firstChild.nodeValue);
+  tt = wprm[0].getElementsByTagName("COMMENT1");
+  comment1 = tt[0].firstChild.nodeValue;
+
+  for (i=0;i<wm;i++)
+  {
+    words[i] = new Array(5);
+    tt = wrdf[i].getElementsByTagName("WRDOTV");
+    words[i][0] = tt[0].firstChild.nodeValue;
+    tt = wrdf[i].getElementsByTagName("WRDQST");
+    words[i][1] = tt[0].firstChild.nodeValue;
+    tt = wrdf[i].getElementsByTagName("WRDX");
+    words[i][2] = parseInt(tt[0].firstChild.nodeValue);
+    tt = wrdf[i].getElementsByTagName("WRDY");
+    words[i][3] = parseInt(tt[0].firstChild.nodeValue);
+    tt = wrdf[i].getElementsByTagName("WRDV");
+    words[i][4] = parseInt(tt[0].firstChild.nodeValue);
+  }
+}
+//-------------------------------------
+function initTt()
+{
+  ttable = new Array(txm);
+  for(i=0;i<tym;i++)
+  {
+    ttable[i] = new Array(tym);
+  }
+
+  for(i=0;i<txm;i++)
+  {
+    for(j=0;j<tym;j++)
+    {
+      ttable[i][j] = new Array(3);
+      ttable[i][j][0] = 0;       //Math.round(Math.random());
+      ttable[i][j][1] = "";
+      ttable[i][j][2] = 1;
+    }
+  }
+  for(i=0;i<wm;i++)
+  {
+    for(j=0;j<words[i][0].length;j++)
+    {
+      if(words[i][4]==0)
+      {
+        xx = words[i][2]+j;
+        yy = words[i][3];
+      }
+      else
+      {
+        xx = words[i][2];
+        yy = words[i][3]+j;
+      }
+      ttable[xx][yy][0] = 1;
+//      ttable[xx][yy][1] = words[i][0].charAt(j);
+      if(j==0)ttable[xx][yy][1] = i+1;
+    }
+  }
+}
+//-------------------------------------
+function showTt()
+{
+  el = document.getElementById("comment1");
+  el.innerHTML = comment1;
+
+  el = document.getElementById("ttable");
+  iTxt = "<table border=0>";
+  for(j=0;j<tym;j++)
+  {
+    iTxt += "<tr>";
+    for(i=0;i<txm;i++)
+    {
+      iTxt += "<td id='tx"+i+"ty"+j+"' class='s"+ttable[i][j][0];
+      if(ttable[i][j][0]==1)
+        iTxt += "' onclick='tXY("+i+","+j+");";
+      iTxt += "'>";
+      iTxt += ttable[i][j][1];
+      iTxt += "</td>";
+    }
+    iTxt += "</tr>";
+  }
+  
+  iTxt += "</table>";
+  el.innerHTML = iTxt;
+  tXY(x,y);
+}
+//-------------------------------------
+function ww1(id)
+{
+  if(id<0||id>=wm)return;
+  curW = id;
+  for(i=0;i<words[id][0].length;i++)
+  {
+    if(words[id][4]==0)
+    {
+      if(tXY(words[id][2]+i, words[id][3]))return;
+    }else
+    {
+      if(tXY(words[id][2], words[id][3]+i))return;
+    }
+  }
+  
+}
+//-------------------------------------
+function showWw()
+{
+  el = document.getElementById("wg");
+  iTxt = "<table border=0>";
+  iTxt += "<tr><th align='left'>ПО ГОРИЗОНТАЛИ</th></tr>";
+  for(i=0;i<wm;i++)
+  {
+    if(words[i][4]==0)
+    {
+      iTxt += "<tr><td id='ww"+i;
+      iTxt += "' onclick='ww1("+i+");'>" +(i+1)+ ". " +words[i][1];
+      iTxt += "</td></tr>";
+    }
+  }
+  
+  iTxt += "</table>";
+  el.innerHTML = iTxt;
+
+  el = document.getElementById("wv");
+  iTxt = "<table border=0>";
+  iTxt += "<tr><th align='left'>ПО ВЕРТИКАЛИ</th></tr>";
+  for(i=0;i<wm;i++)
+  {
+    if(words[i][4]==1)
+    {
+      iTxt += "<tr><td id='ww"+i;
+      iTxt += "' onclick='ww1("+i+");'>" +(i+1)+ ". " +words[i][1];
+      iTxt += "</td></tr>";
+    }
+  }
+  
+  iTxt += "</table>";
+  el.innerHTML = iTxt;
+}
+//-------------------------------------
+function loadXMLDoc()
+{
+  var xmlhttp;
+  if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  }else
+  {// code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+      wprm=xmlhttp.responseXML.getElementsByTagName("PRM");
+      wrdf=xmlhttp.responseXML.documentElement.getElementsByTagName("WRD");
+      initWw();
+      initTt();
+      showTt();
+      showWw()
+    }
+  }
+  xmlhttp.open("GET","wrd.xml",true);
+  xmlhttp.send();
+}
+
+</script>
+
+</head> 
+<body onkeypress="fkey(event);">
+
+<h2 id="comment1">Это кроссворд для тех, кто любит и читает Ф. М. Достоевского. По горизонтали  - вопросы по  произведениям писателя, по вертикали – по персонажам произведений Ф.М. Достоевского</h2>
+<div id="ttable"><table border="0"><tbody><tr><td id="tx0ty0" class="s0"></td><td id="tx1ty0" class="s0"></td><td id="tx2ty0" class="s0"></td><td id="tx3ty0" class="s0"></td><td id="tx4ty0" class="s0"></td><td id="tx5ty0" class="s0"></td><td id="tx6ty0" class="s0"></td><td id="tx7ty0" class="s0"></td><td id="tx8ty0" class="s0"></td><td id="tx9ty0" class="s0"></td><td id="tx10ty0" class="s0"></td><td id="tx11ty0" class="s0"></td><td id="tx12ty0" class="s0"></td><td id="tx13ty0" class="s0"></td><td id="tx14ty0" class="s0"></td><td id="tx15ty0" class="s0"></td><td id="tx16ty0" class="s0"></td><td id="tx17ty0" class="s0"></td><td id="tx18ty0" class="s0"></td></tr><tr><td id="tx0ty1" class="s0"></td><td id="tx1ty1" class="s0"></td><td id="tx2ty1" class="s0"></td><td id="tx3ty1" class="s0"></td><td id="tx4ty1" class="s0"></td><td id="tx5ty1" class="s1" onclick="tXY(5,1);">13</td><td id="tx6ty1" class="s0"></td><td id="tx7ty1" class="s0"></td><td id="tx8ty1" class="s0"></td><td id="tx9ty1" class="s0"></td><td id="tx10ty1" class="s1" onclick="tXY(10,1);">18</td><td id="tx11ty1" class="s0"></td><td id="tx12ty1" class="s1" onclick="tXY(12,1);">21</td><td id="tx13ty1" class="s0"></td><td id="tx14ty1" class="s1" onclick="tXY(14,1);">23</td><td id="tx15ty1" class="s0"></td><td id="tx16ty1" class="s0"></td><td id="tx17ty1" class="s0"></td><td id="tx18ty1" class="s0"></td></tr><tr><td id="tx0ty2" class="s0"></td><td id="tx1ty2" class="s0"></td><td id="tx2ty2" class="s1" onclick="tXY(2,2);">1</td><td id="tx3ty2" class="s1" onclick="tXY(3,2);"></td><td id="tx4ty2" class="s1" onclick="tXY(4,2);"></td><td id="tx5ty2" class="s1" onclick="tXY(5,2);"></td><td id="tx6ty2" class="s1" onclick="tXY(6,2);"></td><td id="tx7ty2" class="s0"></td><td id="tx8ty2" class="s1" onclick="tXY(8,2);">16</td><td id="tx9ty2" class="s0"></td><td id="tx10ty2" class="s1" onclick="tXY(10,2);"></td><td id="tx11ty2" class="s0"></td><td id="tx12ty2" class="s1" onclick="tXY(12,2);"></td><td id="tx13ty2" class="s0"></td><td id="tx14ty2" class="s1" onclick="tXY(14,2);"></td><td id="tx15ty2" class="s0"></td><td id="tx16ty2" class="s1" onclick="tXY(16,2);">26</td><td id="tx17ty2" class="s0"></td><td id="tx18ty2" class="s0"></td></tr><tr><td id="tx0ty3" class="s0"></td><td id="tx1ty3" class="s0"></td><td id="tx2ty3" class="s0"></td><td id="tx3ty3" class="s0"></td><td id="tx4ty3" class="s0"></td><td id="tx5ty3" class="s1" onclick="tXY(5,3);"></td><td id="tx6ty3" class="s0"></td><td id="tx7ty3" class="s0"></td><td id="tx8ty3" class="s1" onclick="tXY(8,3);"></td><td id="tx9ty3" class="s0"></td><td id="tx10ty3" class="s1" onclick="tXY(10,3);"></td><td id="tx11ty3" class="s0"></td><td id="tx12ty3" class="s1" onclick="tXY(12,3);"></td><td id="tx13ty3" class="s0"></td><td id="tx14ty3" class="s1" onclick="tXY(14,3);"></td><td id="tx15ty3" class="s0"></td><td id="tx16ty3" class="s1" onclick="tXY(16,3);"></td><td id="tx17ty3" class="s0"></td><td id="tx18ty3" class="s0"></td></tr><tr><td id="tx0ty4" class="s0"></td><td id="tx1ty4" class="s0"></td><td id="tx2ty4" class="s1" onclick="tXY(2,4);">2</td><td id="tx3ty4" class="s1" onclick="tXY(3,4);"></td><td id="tx4ty4" class="s1" onclick="tXY(4,4);"></td><td id="tx5ty4" class="s1" onclick="tXY(5,4);"></td><td id="tx6ty4" class="s1" onclick="tXY(6,4);"></td><td id="tx7ty4" class="s1" onclick="tXY(7,4);"></td><td id="tx8ty4" class="s1" onclick="tXY(8,4);"></td><td id="tx9ty4" class="s0"></td><td id="tx10ty4" class="s1" onclick="tXY(10,4);"></td><td id="tx11ty4" class="s0"></td><td id="tx12ty4" class="s1" onclick="tXY(12,4);"></td><td id="tx13ty4" class="s0"></td><td id="tx14ty4" class="s1" onclick="tXY(14,4);"></td><td id="tx15ty4" class="s0"></td><td id="tx16ty4" class="s1" onclick="tXY(16,4);"></td><td id="tx17ty4" class="s0"></td><td id="tx18ty4" class="s0"></td></tr><tr><td id="tx0ty5" class="s0"></td><td id="tx1ty5" class="s1" onclick="tXY(1,5);">10</td><td id="tx2ty5" class="s0"></td><td id="tx3ty5" class="s0"></td><td id="tx4ty5" class="s0"></td><td id="tx5ty5" class="s1" onclick="tXY(5,5);"></td><td id="tx6ty5" class="s0"></td><td id="tx7ty5" class="s0"></td><td id="tx8ty5" class="s1" onclick="tXY(8,5);">3</td><td id="tx9ty5" class="s1" onclick="tXY(9,5);"></td><td id="tx10ty5" class="s1" onclick="tXY(10,5);"></td><td id="tx11ty5" class="s1" onclick="tXY(11,5);"></td><td id="tx12ty5" class="s1" onclick="tXY(12,5);"></td><td id="tx13ty5" class="s1" onclick="tXY(13,5);"></td><td id="tx14ty5" class="s1" onclick="tXY(14,5);"></td><td id="tx15ty5" class="s1" onclick="tXY(15,5);"></td><td id="tx16ty5" class="s1" onclick="tXY(16,5);"></td><td id="tx17ty5" class="s0"></td><td id="tx18ty5" class="s0"></td></tr><tr><td id="tx0ty6" class="s0"></td><td id="tx1ty6" class="s1" onclick="tXY(1,6);"></td><td id="tx2ty6" class="s0"></td><td id="tx3ty6" class="s0"></td><td id="tx4ty6" class="s1" onclick="tXY(4,6);">12</td><td id="tx5ty6" class="s0"></td><td id="tx6ty6" class="s0"></td><td id="tx7ty6" class="s0"></td><td id="tx8ty6" class="s0"></td><td id="tx9ty6" class="s0"></td><td id="tx10ty6" class="s1" onclick="tXY(10,6);"></td><td id="tx11ty6" class="s0"></td><td id="tx12ty6" class="s1" onclick="tXY(12,6);"></td><td id="tx13ty6" class="s0"></td><td id="tx14ty6" class="s1" onclick="tXY(14,6);"></td><td id="tx15ty6" class="s0"></td><td id="tx16ty6" class="s1" onclick="tXY(16,6);"></td><td id="tx17ty6" class="s0"></td><td id="tx18ty6" class="s0"></td></tr><tr><td id="tx0ty7" class="s0"></td><td id="tx1ty7" class="s1" onclick="tXY(1,7);">4</td><td id="tx2ty7" class="s1" onclick="tXY(2,7);"></td><td id="tx3ty7" class="s1" onclick="tXY(3,7);"></td><td id="tx4ty7" class="s1" onclick="tXY(4,7);"></td><td id="tx5ty7" class="s0"></td><td id="tx6ty7" class="s1" onclick="tXY(6,7);">14</td><td id="tx7ty7" class="s0"></td><td id="tx8ty7" class="s1" onclick="tXY(8,7);">17</td><td id="tx9ty7" class="s0"></td><td id="tx10ty7" class="s1" onclick="tXY(10,7);"></td><td id="tx11ty7" class="s0"></td><td id="tx12ty7" class="s1" onclick="tXY(12,7);"></td><td id="tx13ty7" class="s0"></td><td id="tx14ty7" class="s1" onclick="tXY(14,7);"></td><td id="tx15ty7" class="s0"></td><td id="tx16ty7" class="s1" onclick="tXY(16,7);"></td><td id="tx17ty7" class="s0"></td><td id="tx18ty7" class="s0"></td></tr><tr><td id="tx0ty8" class="s0"></td><td id="tx1ty8" class="s1" onclick="tXY(1,8);"></td><td id="tx2ty8" class="s0"></td><td id="tx3ty8" class="s0"></td><td id="tx4ty8" class="s1" onclick="tXY(4,8);"></td><td id="tx5ty8" class="s0"></td><td id="tx6ty8" class="s1" onclick="tXY(6,8);"></td><td id="tx7ty8" class="s0"></td><td id="tx8ty8" class="s1" onclick="tXY(8,8);"></td><td id="tx9ty8" class="s0"></td><td id="tx10ty8" class="s0"></td><td id="tx11ty8" class="s0"></td><td id="tx12ty8" class="s1" onclick="tXY(12,8);"></td><td id="tx13ty8" class="s0"></td><td id="tx14ty8" class="s0"></td><td id="tx15ty8" class="s0"></td><td id="tx16ty8" class="s1" onclick="tXY(16,8);"></td><td id="tx17ty8" class="s0"></td><td id="tx18ty8" class="s0"></td></tr><tr><td id="tx0ty9" class="s0"></td><td id="tx1ty9" class="s1" onclick="tXY(1,9);"></td><td id="tx2ty9" class="s0"></td><td id="tx3ty9" class="s0"></td><td id="tx4ty9" class="s1" onclick="tXY(4,9);">5</td><td id="tx5ty9" class="s1" onclick="tXY(5,9);"></td><td id="tx6ty9" class="s1" onclick="tXY(6,9);"></td><td id="tx7ty9" class="s1" onclick="tXY(7,9);"></td><td id="tx8ty9" class="s1" onclick="tXY(8,9);"></td><td id="tx9ty9" class="s1" onclick="tXY(9,9);"></td><td id="tx10ty9" class="s1" onclick="tXY(10,9);">19</td><td id="tx11ty9" class="s1" onclick="tXY(11,9);"></td><td id="tx12ty9" class="s1" onclick="tXY(12,9);"></td><td id="tx13ty9" class="s1" onclick="tXY(13,9);"></td><td id="tx14ty9" class="s0"></td><td id="tx15ty9" class="s0"></td><td id="tx16ty9" class="s1" onclick="tXY(16,9);"></td><td id="tx17ty9" class="s0"></td><td id="tx18ty9" class="s0"></td></tr><tr><td id="tx0ty10" class="s0"></td><td id="tx1ty10" class="s0"></td><td id="tx2ty10" class="s0"></td><td id="tx3ty10" class="s0"></td><td id="tx4ty10" class="s1" onclick="tXY(4,10);"></td><td id="tx5ty10" class="s0"></td><td id="tx6ty10" class="s1" onclick="tXY(6,10);"></td><td id="tx7ty10" class="s0"></td><td id="tx8ty10" class="s1" onclick="tXY(8,10);"></td><td id="tx9ty10" class="s0"></td><td id="tx10ty10" class="s1" onclick="tXY(10,10);"></td><td id="tx11ty10" class="s0"></td><td id="tx12ty10" class="s0"></td><td id="tx13ty10" class="s0"></td><td id="tx14ty10" class="s1" onclick="tXY(14,10);">24</td><td id="tx15ty10" class="s0"></td><td id="tx16ty10" class="s1" onclick="tXY(16,10);"></td><td id="tx17ty10" class="s0"></td><td id="tx18ty10" class="s0"></td></tr><tr><td id="tx0ty11" class="s0"></td><td id="tx1ty11" class="s0"></td><td id="tx2ty11" class="s0"></td><td id="tx3ty11" class="s0"></td><td id="tx4ty11" class="s1" onclick="tXY(4,11);"></td><td id="tx5ty11" class="s0"></td><td id="tx6ty11" class="s1" onclick="tXY(6,11);"></td><td id="tx7ty11" class="s0"></td><td id="tx8ty11" class="s1" onclick="tXY(8,11);"></td><td id="tx9ty11" class="s0"></td><td id="tx10ty11" class="s1" onclick="tXY(10,11);"></td><td id="tx11ty11" class="s0"></td><td id="tx12ty11" class="s1" onclick="tXY(12,11);">22</td><td id="tx13ty11" class="s0"></td><td id="tx14ty11" class="s1" onclick="tXY(14,11);"></td><td id="tx15ty11" class="s0"></td><td id="tx16ty11" class="s1" onclick="tXY(16,11);"></td><td id="tx17ty11" class="s0"></td><td id="tx18ty11" class="s0"></td></tr><tr><td id="tx0ty12" class="s0"></td><td id="tx1ty12" class="s0"></td><td id="tx2ty12" class="s0"></td><td id="tx3ty12" class="s1" onclick="tXY(3,12);">11</td><td id="tx4ty12" class="s0"></td><td id="tx5ty12" class="s0"></td><td id="tx6ty12" class="s1" onclick="tXY(6,12);"></td><td id="tx7ty12" class="s0"></td><td id="tx8ty12" class="s1" onclick="tXY(8,12);"></td><td id="tx9ty12" class="s0"></td><td id="tx10ty12" class="s1" onclick="tXY(10,12);">6</td><td id="tx11ty12" class="s1" onclick="tXY(11,12);"></td><td id="tx12ty12" class="s1" onclick="tXY(12,12);"></td><td id="tx13ty12" class="s1" onclick="tXY(13,12);"></td><td id="tx14ty12" class="s1" onclick="tXY(14,12);"></td><td id="tx15ty12" class="s0"></td><td id="tx16ty12" class="s0"></td><td id="tx17ty12" class="s0"></td><td id="tx18ty12" class="s0"></td></tr><tr><td id="tx0ty13" class="s0"></td><td id="tx1ty13" class="s0"></td><td id="tx2ty13" class="s0"></td><td id="tx3ty13" class="s1" onclick="tXY(3,13);">7</td><td id="tx4ty13" class="s1" onclick="tXY(4,13);"></td><td id="tx5ty13" class="s1" onclick="tXY(5,13);"></td><td id="tx6ty13" class="s1" onclick="tXY(6,13);"></td><td id="tx7ty13" class="s1" onclick="tXY(7,13);"></td><td id="tx8ty13" class="s0"></td><td id="tx9ty13" class="s0"></td><td id="tx10ty13" class="s1" onclick="tXY(10,13);"></td><td id="tx11ty13" class="s0"></td><td id="tx12ty13" class="s1" onclick="tXY(12,13);"></td><td id="tx13ty13" class="s0"></td><td id="tx14ty13" class="s1" onclick="tXY(14,13);"></td><td id="tx15ty13" class="s0"></td><td id="tx16ty13" class="s0"></td><td id="tx17ty13" class="s0"></td><td id="tx18ty13" class="s0"></td></tr><tr><td id="tx0ty14" class="s0"></td><td id="tx1ty14" class="s0"></td><td id="tx2ty14" class="s0"></td><td id="tx3ty14" class="s1" onclick="tXY(3,14);"></td><td id="tx4ty14" class="s0"></td><td id="tx5ty14" class="s0"></td><td id="tx6ty14" class="s1" onclick="tXY(6,14);"></td><td id="tx7ty14" class="s0"></td><td id="tx8ty14" class="s0"></td><td id="tx9ty14" class="s0"></td><td id="tx10ty14" class="s1" onclick="tXY(10,14);"></td><td id="tx11ty14" class="s0"></td><td id="tx12ty14" class="s1" onclick="tXY(12,14);"></td><td id="tx13ty14" class="s0"></td><td id="tx14ty14" class="s1" onclick="tXY(14,14);"></td><td id="tx15ty14" class="s0"></td><td id="tx16ty14" class="s0"></td><td id="tx17ty14" class="s0"></td><td id="tx18ty14" class="s0"></td></tr><tr><td id="tx0ty15" class="s0"></td><td id="tx1ty15" class="s0"></td><td id="tx2ty15" class="s0"></td><td id="tx3ty15" class="s1" onclick="tXY(3,15);"></td><td id="tx4ty15" class="s0"></td><td id="tx5ty15" class="s0"></td><td id="tx6ty15" class="s0"></td><td id="tx7ty15" class="s0"></td><td id="tx8ty15" class="s0"></td><td id="tx9ty15" class="s0"></td><td id="tx10ty15" class="s0"></td><td id="tx11ty15" class="s0"></td><td id="tx12ty15" class="s1" onclick="tXY(12,15);"></td><td id="tx13ty15" class="s0"></td><td id="tx14ty15" class="s0"></td><td id="tx15ty15" class="s0"></td><td id="tx16ty15" class="s0"></td><td id="tx17ty15" class="s0"></td><td id="tx18ty15" class="s0"></td></tr><tr><td id="tx0ty16" class="s0"></td><td id="tx1ty16" class="s0"></td><td id="tx2ty16" class="s0"></td><td id="tx3ty16" class="s1" onclick="tXY(3,16);"></td><td id="tx4ty16" class="s0"></td><td id="tx5ty16" class="s0"></td><td id="tx6ty16" class="s1" onclick="tXY(6,16);">15</td><td id="tx7ty16" class="s0"></td><td id="tx8ty16" class="s1" onclick="tXY(8,16);">8</td><td id="tx9ty16" class="s1" onclick="tXY(9,16);"></td><td id="tx10ty16" class="s1" onclick="tXY(10,16);">20</td><td id="tx11ty16" class="s1" onclick="tXY(11,16);"></td><td id="tx12ty16" class="s1" onclick="tXY(12,16);"></td><td id="tx13ty16" class="s1" onclick="tXY(13,16);"></td><td id="tx14ty16" class="s1" onclick="tXY(14,16);">25</td><td id="tx15ty16" class="s0"></td><td id="tx16ty16" class="s0"></td><td id="tx17ty16" class="s0"></td><td id="tx18ty16" class="s0"></td></tr><tr><td id="tx0ty17" class="s0"></td><td id="tx1ty17" class="s0"></td><td id="tx2ty17" class="s0"></td><td id="tx3ty17" class="s1" onclick="tXY(3,17);"></td><td id="tx4ty17" class="s0"></td><td id="tx5ty17" class="s0"></td><td id="tx6ty17" class="s1" onclick="tXY(6,17);"></td><td id="tx7ty17" class="s0"></td><td id="tx8ty17" class="s0"></td><td id="tx9ty17" class="s0"></td><td id="tx10ty17" class="s1" onclick="tXY(10,17);"></td><td id="tx11ty17" class="s0"></td><td id="tx12ty17" class="s1" onclick="tXY(12,17);"></td><td id="tx13ty17" class="s0"></td><td id="tx14ty17" class="s1" onclick="tXY(14,17);"></td><td id="tx15ty17" class="s0"></td><td id="tx16ty17" class="s0"></td><td id="tx17ty17" class="s0"></td><td id="tx18ty17" class="s0"></td></tr><tr><td id="tx0ty18" class="s0"></td><td id="tx1ty18" class="s0"></td><td id="tx2ty18" class="s0"></td><td id="tx3ty18" class="s1" onclick="tXY(3,18);"></td><td id="tx4ty18" class="s0"></td><td id="tx5ty18" class="s0"></td><td id="tx6ty18" class="s1" onclick="tXY(6,18);"></td><td id="tx7ty18" class="s0"></td><td id="tx8ty18" class="s0"></td><td id="tx9ty18" class="s0"></td><td id="tx10ty18" class="s1" onclick="tXY(10,18);"></td><td id="tx11ty18" class="s0"></td><td id="tx12ty18" class="s1" onclick="tXY(12,18);"></td><td id="tx13ty18" class="s0"></td><td id="tx14ty18" class="s1" onclick="tXY(14,18);"></td><td id="tx15ty18" class="s0"></td><td id="tx16ty18" class="s0"></td><td id="tx17ty18" class="s0"></td><td id="tx18ty18" class="s0"></td></tr><tr><td id="tx0ty19" class="s0"></td><td id="tx1ty19" class="s0"></td><td id="tx2ty19" class="s0"></td><td id="tx3ty19" class="s1" onclick="tXY(3,19);"></td><td id="tx4ty19" class="s0"></td><td id="tx5ty19" class="s0"></td><td id="tx6ty19" class="s1" onclick="tXY(6,19);">9</td><td id="tx7ty19" class="s1" onclick="tXY(7,19);"></td><td id="tx8ty19" class="s1" onclick="tXY(8,19);"></td><td id="tx9ty19" class="s1" onclick="tXY(9,19);"></td><td id="tx10ty19" class="s1" onclick="tXY(10,19);"></td><td id="tx11ty19" class="s1" onclick="tXY(11,19);"></td><td id="tx12ty19" class="s1" onclick="tXY(12,19);"></td><td id="tx13ty19" class="s1" onclick="tXY(13,19);"></td><td id="tx14ty19" class="s0"></td><td id="tx15ty19" class="s0"></td><td id="tx16ty19" class="s0"></td><td id="tx17ty19" class="s0"></td><td id="tx18ty19" class="s0"></td></tr><tr><td id="tx0ty20" class="s0"></td><td id="tx1ty20" class="s0"></td><td id="tx2ty20" class="s0"></td><td id="tx3ty20" class="s0"></td><td id="tx4ty20" class="s0"></td><td id="tx5ty20" class="s0"></td><td id="tx6ty20" class="s1" onclick="tXY(6,20);"></td><td id="tx7ty20" class="s0"></td><td id="tx8ty20" class="s0"></td><td id="tx9ty20" class="s0"></td><td id="tx10ty20" class="s1" onclick="tXY(10,20);"></td><td id="tx11ty20" class="s0"></td><td id="tx12ty20" class="s1" onclick="tXY(12,20);"></td><td id="tx13ty20" class="s0"></td><td id="tx14ty20" class="s0"></td><td id="tx15ty20" class="s0"></td><td id="tx16ty20" class="s0"></td><td id="tx17ty20" class="s0"></td><td id="tx18ty20" class="s0"></td></tr><tr><td id="tx0ty21" class="s0"></td><td id="tx1ty21" class="s0"></td><td id="tx2ty21" class="s0"></td><td id="tx3ty21" class="s0"></td><td id="tx4ty21" class="s0"></td><td id="tx5ty21" class="s0"></td><td id="tx6ty21" class="s0"></td><td id="tx7ty21" class="s0"></td><td id="tx8ty21" class="s0"></td><td id="tx9ty21" class="s0"></td><td id="tx10ty21" class="s0"></td><td id="tx11ty21" class="s0"></td><td id="tx12ty21" class="s0"></td><td id="tx13ty21" class="s0"></td><td id="tx14ty21" class="s0"></td><td id="tx15ty21" class="s0"></td><td id="tx16ty21" class="s0"></td><td id="tx17ty21" class="s0"></td><td id="tx18ty21" class="s0"></td></tr><tr><td id="tx0ty22" class="s0"></td><td id="tx1ty22" class="s0"></td><td id="tx2ty22" class="s0"></td><td id="tx3ty22" class="s0"></td><td id="tx4ty22" class="s0"></td><td id="tx5ty22" class="s0"></td><td id="tx6ty22" class="s0"></td><td id="tx7ty22" class="s0"></td><td id="tx8ty22" class="s0"></td><td id="tx9ty22" class="s0"></td><td id="tx10ty22" class="s0"></td><td id="tx11ty22" class="s0"></td><td id="tx12ty22" class="s0"></td><td id="tx13ty22" class="s0"></td><td id="tx14ty22" class="s0"></td><td id="tx15ty22" class="s0"></td><td id="tx16ty22" class="s0"></td><td id="tx17ty22" class="s0"></td><td id="tx18ty22" class="s0"></td></tr></tbody></table></div>
+(щелчок устанавливает курсор в первую доступную позицию слова)<br>
+<div id="wg"><table border="0"><tbody><tr><th align="left">ПО ГОРИЗОНТАЛИ</th></tr><tr><td id="ww0" onclick="ww1(0);">1. Роман, написанный за 28 дней</td></tr><tr><td id="ww1" onclick="ww1(1);">2.  Эпистолы из 'Подполья' и 'Мёртвого дома'</td></tr><tr><td id="ww2" onclick="ww1(2);">3. Откровения Аркадия Долгорукого о юности</td></tr><tr><td id="ww3" onclick="ww1(3);">4. Роман о революционной пятёрке</td></tr><tr><td id="ww4" onclick="ww1(4);">5. Главные персонажи последнего романа Достоевского</td></tr><tr><td id="ww5" onclick="ww1(5);">6. Произведение о положительно прекрасном человеке</td></tr><tr><td id="ww6" onclick="ww1(6);">7. Фантастический рассказ Ф. Достоевского</td></tr><tr><td id="ww7" onclick="ww1(7);">8. Приключения г-на Голядкина</td></tr><tr><td id="ww8" onclick="ww1(8);">9. 'Необыкновенное событие, или Пассаж в Пассаже…'</td></tr></tbody></table></div>
+<div id="wv"><table border="0"><tbody><tr><th align="left">ПО ВЕРТИКАЛИ</th></tr><tr><td id="ww9" onclick="ww1(9);">10. 'жених' Нади Захлебиной ('Вечный муж')</td></tr><tr><td id="ww10" onclick="ww1(10);">11. Сын Анфисы Петровны ('Село Степанчиково и его обитатели')</td></tr><tr><td id="ww11" onclick="ww1(11);">12. Князь Лев Николаевич</td></tr><tr><td id="ww12" onclick="ww1(12);">13. Иеромонах, монастырский библиотекарь ('Братья Карамазовы')</td></tr><tr><td id="ww13" onclick="ww1(13);">14. Один из главных героев-самоубийц в мире Достоевского</td></tr><tr><td id="ww14" onclick="ww1(14);">15. Прозвище Луки Кузьмича в 'Мёртвом доме'</td></tr><tr><td id="ww15" onclick="ww1(15);">16. Арестант, повар из 'Мёртвого дома'</td></tr><tr><td id="ww16" onclick="ww1(16);">17. Новый губернатор города ('Бесы')</td></tr><tr><td id="ww17" onclick="ww1(17);">18. Судебный следователь по делу Карамазова</td></tr><tr><td id="ww18" onclick="ww1(18);">19. Духовный наставник Алёши Карамазова</td></tr><tr><td id="ww19" onclick="ww1(19);">20. С ним Горянчиков познакомился в госпитале 'Мёртвого Дома'</td></tr><tr><td id="ww20" onclick="ww1(20);">21. Школьный товарищ Ивана Петровича ('Униженные и оскорблённые')</td></tr><tr><td id="ww21" onclick="ww1(21);">22. Член революционной пятёрки</td></tr><tr><td id="ww22" onclick="ww1(22);">23. 'Золотая середина' пятёрки революционеров</td></tr><tr><td id="ww23" onclick="ww1(23);">24. Жертва политических репрессий ('Бесы')</td></tr><tr><td id="ww24" onclick="ww1(24);">25. Самый первый свидетель преступления Раскольникова</td></tr><tr><td id="ww25" onclick="ww1(25);">26. Антагонист романа 'Униженные и оскорблённые'</td></tr></tbody></table></div>
+
+<script>
+  loadXMLDoc();
+</script>
+
+
+
+</body></html>
